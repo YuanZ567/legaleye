@@ -1,0 +1,12 @@
+# 统一行尾：文本文件用 LF（跨 Windows/macOS/Linux/Docker/CI 一致）
+* text=auto eol=lf
+
+# 明确声明二进制
+*.png binary
+*.jpg binary
+*.pdf binary
+*.ttf binary
+
+# 脚本强制 LF（Docker/CI 在 Linux 下执行，CRLF 会导致 shebang 报错）
+*.sh text eol=lf
+Dockerfile text eol=lf

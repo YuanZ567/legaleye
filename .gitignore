@@ -1,0 +1,36 @@
+# ── 环境与密钥 ──────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Python ─────────────────────────────────
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# ── Node / 前端 ────────────────────────────
+node_modules/
+frontend/dist/
+.vite/
+*.local
+
+# ── 数据（版权/敏感，禁止入库）───────────────
+data/raw_laws/
+
+# ── IDE / 系统 ─────────────────────────────
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
+
+# ── 工作区记忆（不入库）──────────────────────
+.workbuddy/
