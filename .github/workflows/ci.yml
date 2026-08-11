@@ -57,5 +57,8 @@ jobs:
       - name: Lint (eslint)
         run: pnpm lint
 
+      - name: Typecheck (tsc)
+        run: pnpm typecheck
+
       - name: Build
         run: pnpm build

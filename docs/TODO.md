@@ -57,7 +57,7 @@
 - [x] **M0-4 后端最小服务**：FastAPI 骨架 + /health + Alembic 初始化；联调验证 `/health → {"status":"ok","database":"ok","redis":"ok"}`
 - [x] **M0-5 前端最小壳**（commit 63b6f7c）：Vite+React+TS+Tailwind+shadcn，应用壳布局 + DESIGN token，build/lint/format 全绿
 - [x] **M0-6 CI**（commit 4cf7f87）：GitHub Actions（后端 lint+test / 前端 lint+build）；真实运行待推送 GitHub
-- [ ] **M0-7 一键验收（进行中）**：backend/frontend 镜像构建中 → up 全部 → /health + 前端页验收 → git 存档
+- [x] **M0-7 一键验收**：5 容器全部 running（postgres/redis/minio/backend/frontend），/health → ok/ok/ok，前端 http://localhost:5173 可访问。**git commit 待提交**
 
 ## 2. 进行中
 
