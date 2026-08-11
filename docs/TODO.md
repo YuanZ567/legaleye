@@ -53,9 +53,11 @@
 - [x] 本 TODO 文档
 - [x] **M0-1 目录骨架**（commit 624e9a2）：git init + Monorepo 结构 + .gitignore/.gitattributes + README
 - [x] **M0-2 工具链**（commit 5c4888e）：uv 0.12.3（用户 Python 3.14）+ pnpm 11.21.0（用户 Node 24）+ ruff/black/pytest + eslint/prettier 全绿
-- [x] **M0-4 后端最小服务**（代码完成，本地验证通过）：FastAPI 骨架 + /health（degraded 预期）+ Alembic 初始化；**容器内验证待 Docker**
+- [x] **M0-3 基础设施**：Postgres(pgvector)/Redis/MinIO 三容器 healthy；镜像源已替换 DaoCloud+dockerproxy（USTC/网易已失效）
+- [x] **M0-4 后端最小服务**：FastAPI 骨架 + /health + Alembic 初始化；联调验证 `/health → {"status":"ok","database":"ok","redis":"ok"}`
 - [x] **M0-5 前端最小壳**（commit 63b6f7c）：Vite+React+TS+Tailwind+shadcn，应用壳布局 + DESIGN token，build/lint/format 全绿
 - [x] **M0-6 CI**（commit 4cf7f87）：GitHub Actions（后端 lint+test / 前端 lint+build）；真实运行待推送 GitHub
+- [ ] **M0-7 一键验收（进行中）**：backend/frontend 镜像构建中 → up 全部 → /health + 前端页验收 → git 存档
 
 ## 2. 进行中
 
@@ -67,9 +69,7 @@
 
 ## 3. 阻塞
 
-- [ ] **Docker daemon 未就绪**（阻塞 M0-3 容器启动 / M0-7 一键验收）：Docker Desktop 启动后引擎（WSL2 后端）未就绪。需手动打开 Docker Desktop 确认，或检查 WSL2 是否启用。恢复后执行：
-  - `cd infra && docker compose up -d postgres redis minio`（M0-3 验收）
-  - `docker compose build backend frontend && docker compose up -d`（M0-7 一键验收）
+- （已解除：Docker daemon 经"启用虚拟机平台 + wsl --update + 镜像源替换"修复，见 2026-08-11 工作日志）
 
 ---
 
