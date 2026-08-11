@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* DESIGN.md 14.2：shadcn/ui CSS 变量映射（法眼靛蓝品牌色） */
+@layer base {
+  :root {
+    --background: #f7f7f5;
+    --foreground: #0e1526;
+    --card: #ffffff;
+    --card-foreground: #0e1526;
+    --primary: #4055e0;
+    --primary-foreground: #ffffff;
+    --secondary: #eef1fd;
+    --secondary-foreground: #3346c4;
+    --muted: #f2f4f7;
+    --muted-foreground: #8a93a6;
+    --border: #e3e7ef;
+    --input: #e3e7ef;
+    --destructive: #d92d20;
+    --destructive-foreground: #ffffff;
+    --ring: #4055e0;
+    --radius: 0.5rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+}
