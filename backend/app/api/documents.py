@@ -15,6 +15,7 @@ from app.services.document_service import (
     create_document_from_upload,
     create_document_from_url,
 )
+from app.utils.parsers import infer_doc_type_from_filename
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 
@@ -40,19 +41,22 @@ async def upload_document(
     db: Session = Depends(get_db),  # noqa: B008 (FastAPI 注入)
 ) -> dict:
     """上传合规文档并落库（PRD F3）。"""
-    # 校验必填：docType 未选择时由前端/后端启发式推断（推断失败提示手动选择）
+    filename = file.filename or ""
+    file_bytes = await file.read()
+
+    # docType 未选择时按文件名启发式推断（PRD F3）；推断失败提示手动选择
     parsed_type = _parse_doc_type(doc_type)
     if parsed_type is None:
-        # M1-4 接入文件名启发式推断；当前要求显式选择
+        parsed_type = infer_doc_type_from_filename(filename)
+    if parsed_type is None:
         raise ValidationError(
-            "请选择文档类型（privacyPolicy / userAgreement / dpa / scc）",
+            "无法自动识别文档类型，请手动选择（privacyPolicy / userAgreement / dpa / scc）",
             code="doc_type_required",
         )
 
-    file_bytes = await file.read()
     document = create_document_from_upload(
         db=db,
-        filename=file.filename or "",
+        filename=filename,
         file_bytes=file_bytes,
         doc_type=parsed_type,
         sensitive_mode=sensitive_mode,

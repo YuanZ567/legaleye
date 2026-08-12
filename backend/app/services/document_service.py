@@ -27,7 +27,15 @@ from app.core.constants import (
 from app.core.enums import DocType
 from app.core.exceptions import ValidationError
 from app.models import Document
-from app.utils.parsers import count_pdf_pages, get_file_extension, html_to_text, is_pdf
+from app.utils.parsers import (
+    ScannedPdfError,
+    count_pdf_pages,
+    extract_docx_text,
+    extract_pdf_text,
+    get_file_extension,
+    html_to_text,
+    is_pdf,
+)
 
 
 def _validate_upload(filename: str, file_bytes: bytes) -> None:
@@ -54,6 +62,33 @@ def _validate_upload(filename: str, file_bytes: bytes) -> None:
             ) from None
         if page_count > MAX_PDF_PAGES:
             raise ValidationError("文件页数超过 200 页，请拆分为多份后上传", code="too_many_pages")
+
+
+def _extract_text(filename: str, file_bytes: bytes) -> str:
+    """按扩展名提取纯文本；扫描版 PDF 抛 ValidationError（E2）。
+
+    解析失败（文件损坏/空内容）统一抛 parse_failed。
+    """
+    ext = get_file_extension(filename)
+    try:
+        if ext == ".pdf":
+            text = extract_pdf_text(file_bytes)
+        elif ext == ".docx":
+            text = extract_docx_text(file_bytes)
+        else:  # 已在 _validate_upload 拦截，防御性兜底
+            raise ValidationError("不支持的文件格式", code="unsupported_format")
+    except ScannedPdfError:
+        raise ValidationError(
+            "未检测到文字层，MVP 不支持 OCR，请提供文字版 PDF", code="scanned_pdf"
+        ) from None
+    except ValidationError:
+        raise
+    except Exception:
+        raise ValidationError("文件内容为空或无法解析", code="parse_failed") from None
+
+    if not text.strip():
+        raise ValidationError("文件内容为空或无法解析", code="parse_failed")
+    return text
 
 
 def _persist_document(
@@ -108,19 +143,19 @@ def create_document_from_upload(
     sensitive_mode: bool,
     user_id: uuid.UUID | None,
 ) -> Document:
-    """上传文档用例：校验 → 落库 → 返回 ORM 实体。
+    """上传文档用例：校验 → 提取全文 → 落库 → 返回 ORM 实体（PRD F3）。
 
-    注：文本全文提取（PyMuPDF/python-docx）在 M1-4 接入；
-      当前仅校验并落库元数据，raw_text/text_preview 留待解析后回填。
+    提取的全文写入 raw_text；敏感模式下由 _persist_document 置 None（原文不持久化）。
     """
     _validate_upload(filename, file_bytes)
+    text = _extract_text(filename, file_bytes)
     return _persist_document(
         db=db,
         filename=filename,
         doc_type=doc_type,
         sensitive_mode=sensitive_mode,
         user_id=user_id,
-        raw_text=None,  # M1-4 接入全文解析后回填
+        raw_text=text,
         fingerprint_source=file_bytes,
     )
 
