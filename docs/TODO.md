@@ -132,7 +132,7 @@
 - [x] M3-1 graph 模块（networkx）骨架（commit a4cce0b）：`DataFlowEntity`/`DataFlowEdge` ORM（对齐 GraphPayload 4.7，去重唯一约束 document+name+role / document+from+to+type）+ Alembic `20260812_0004` 已对真实 PG 执行；`EntityRole`/`EdgeType`/`RiskLevel`/`PathType` 枚举补充；`graph/builder.py`（networkx DiGraph 构建 + 实体/边去重 + GraphPayload 契约序列化）；单测 4 项（图构建/去重/契约）；全量 64 passed
 - [x] M3-2 规则抽取通道（词典+正则）（commit e109e5c）：`graph/rule_extractor.py` 词典识别实体角色（controller/processor/trustee/overseasReceiver/dataCategory + 敏感标记）+ 关系正则（委托/跨境/共享语义优先于收集/存储/匿名化）+ 句子切分抽取源/目标实体生成 EdgeSpec；真实 demo 隐私政策文本验证：手机号敏感标记、collect/entrust/crossBorder 边、跨境 is_risk=True；单测 4 项；全量 68 passed
 - [x] M3-3 LLM 抽取通道 + 双通道合并（冲突保留 LLM + 低置信度标记）（commit fab6b39）：`graph/llm_extractor.py` ExtractionLLM 协议 + JSON 解析（非法枚举丢弃）+ MockExtractionLLM（记录调用路径）；`graph/merger.py` 双通道合并（冲突保留 LLM + 低置信度标记，绝不静默覆盖规则）；单测 7 项（mock 调用路径/JSON 解析/非法丢弃/歧义案例保留 LLM 标低置信/冲突边/双独有保留/无冲突不标记）；全量 75 passed
-- [ ] M3-4 R1 出境可达路径 / R2 未获单独同意出境 / R3 声明-图谱矛盾 / R4 路径判定建议
+- [x] M3-4 R1 出境可达路径 / R2 未获单独同意出境 / R3 声明-图谱矛盾 / R4 路径判定建议（commit 778c9e5）：`graph/reasoning.py`——R1 networkx 无向连通性枚举含 crossBorder 的敏感出境路径 / R2 crossBorder 边缺单独同意（CONSENT_KEYWORDS 检查）标记高风险 / R3 declares_no_outbound 与图谱 crossBorder 对比出矛盾 / R4 按敏感出境给 securityAssessment/certification/scc 建议；单测 6 项；真实 demo 图谱跑通：敏感路径[手机号→境外] high、未同意出境、声明矛盾、建议安全评估；全量 81 passed
 - [ ] M3-5 图谱 API + 前端 React Flow 渲染（节点/边/风险高亮）
 - [ ] M3-6 金标样例识别 ≥1 条出境路径；单测通过，**git 存档**
 
