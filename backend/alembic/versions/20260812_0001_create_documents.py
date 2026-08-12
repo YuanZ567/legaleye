@@ -5,9 +5,8 @@ Revises:
 Create Date: 2026-08-12
 """
 
-from alembic import op
 import sqlalchemy as sa
-
+from alembic import op
 from app.core.enums import DocType
 
 # revision identifiers, used by Alembic.

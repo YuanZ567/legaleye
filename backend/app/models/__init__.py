@@ -3,5 +3,6 @@
 from sqlmodel import SQLModel
 
 from app.models.document import Document
+from app.models.law_baseline import LawBaseline
 
-__all__ = ["Document", "SQLModel"]
+__all__ = ["Document", "LawBaseline", "SQLModel"]

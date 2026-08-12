@@ -5,8 +5,8 @@ Revises: 20260812_0001
 Create Date: 2026-08-12
 """
 
-from alembic import op
 import sqlalchemy as sa
+from alembic import op
 
 # revision identifiers, used by Alembic.
 revision: str = "20260812_0002"
@@ -17,9 +17,7 @@ depends_on = None
 
 def upgrade() -> None:
     """给 documents 增加原始文件 MinIO 对象 key（敏感模式为 NULL）。"""
-    op.add_column(
-        "documents", sa.Column("minio_object_key", sa.String(length=255), nullable=True)
-    )
+    op.add_column("documents", sa.Column("minio_object_key", sa.String(length=255), nullable=True))
 
 
 def downgrade() -> None:
