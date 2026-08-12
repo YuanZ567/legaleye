@@ -58,6 +58,7 @@
 - [x] **M0-5 前端最小壳**（commit 63b6f7c）：Vite+React+TS+Tailwind+shadcn，应用壳布局 + DESIGN token，build/lint/format 全绿
 - [x] **M0-6 CI**（commit 4cf7f87）：GitHub Actions（后端 lint+test / 前端 lint+build）；真实运行待推送 GitHub
 - [x] **M0-7 一键验收**：5 容器全部 running（postgres/redis/minio/backend/frontend），/health → ok/ok/ok，前端 http://localhost:5173 可访问。**git commit 待提交**
+- [x] **M1-1 Document ORM + Alembic 迁移**（commit eabcb7f）：SQLModel `Document` 表模型（documents 10 字段，敏感模式 `raw_text` 不入库）+ 首版 Alembic 迁移 `20260812_0001` 已对真实 PG 执行；顺带修复 alembic.ini 中文编码/重复配置、env.py 连接串双源、config `env_file` 优先级（本地 `backend/.env` 可覆盖基础设施默认）；模型单测 3 项通过
 
 ## 2. 进行中
 
@@ -93,7 +94,7 @@
 **允许修改范围**：`backend/app/api/documents.py`、`services/`、`models/`、`alembic/`、前端上传组件。
 **不允许破坏**：`Document` 契约字段（DATA_CONTRACT 4.3）；文件限制（≤20MB/≤200 页）；敏感模式"原文不持久化"；异常 E1-E3 语义。
 **验收标准**：
-- [ ] M1-1 Document ORM + Alembic 迁移
+- [x] M1-1 Document ORM + Alembic 迁移
 - [ ] M1-2 上传 API（multipart）格式/大小/页数校验，超限返回 400
 - [ ] M1-3 URL 解析 API（10s 超时 + 重试 1 次）
 - [ ] M1-4 解析服务：PyMuPDF/python-docx/html→text，扫描版 PDF 明确提示
