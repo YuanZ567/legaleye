@@ -130,7 +130,7 @@
 **不允许破坏**：`GraphPayload` 契约（DATA_CONTRACT 4.7）；`EntityRole`/`EdgeType` 枚举；R1-R4 推理语义；LLM 调用必须记账（ARCHITECTURE 红线 10）。
 **验收标准**：
 - [x] M3-1 graph 模块（networkx）骨架（commit a4cce0b）：`DataFlowEntity`/`DataFlowEdge` ORM（对齐 GraphPayload 4.7，去重唯一约束 document+name+role / document+from+to+type）+ Alembic `20260812_0004` 已对真实 PG 执行；`EntityRole`/`EdgeType`/`RiskLevel`/`PathType` 枚举补充；`graph/builder.py`（networkx DiGraph 构建 + 实体/边去重 + GraphPayload 契约序列化）；单测 4 项（图构建/去重/契约）；全量 64 passed
-- [ ] M3-2 规则抽取通道（词典+正则）
+- [x] M3-2 规则抽取通道（词典+正则）（commit e109e5c）：`graph/rule_extractor.py` 词典识别实体角色（controller/processor/trustee/overseasReceiver/dataCategory + 敏感标记）+ 关系正则（委托/跨境/共享语义优先于收集/存储/匿名化）+ 句子切分抽取源/目标实体生成 EdgeSpec；真实 demo 隐私政策文本验证：手机号敏感标记、collect/entrust/crossBorder 边、跨境 is_risk=True；单测 4 项；全量 68 passed
 - [ ] M3-3 LLM 抽取通道 + 双通道合并（冲突保留 LLM + 低置信度标记）
 - [ ] M3-4 R1 出境可达路径 / R2 未获单独同意出境 / R3 声明-图谱矛盾 / R4 路径判定建议
 - [ ] M3-5 图谱 API + 前端 React Flow 渲染（节点/边/风险高亮）
