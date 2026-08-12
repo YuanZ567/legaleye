@@ -25,3 +25,18 @@ def count_pdf_pages(file_bytes: bytes) -> int:
 
     with pymupdf.open(stream=file_bytes, filetype="pdf") as doc:
         return doc.page_count
+
+
+def html_to_text(html: str) -> str:
+    """将 HTML 转为纯文本（URL 解析用，PRD F3：抓取 html 转文本）。
+
+    保留脚本/样式外的正文文字，多空白归一化为单空格。
+    """
+    from bs4 import BeautifulSoup
+
+    soup = BeautifulSoup(html, "html.parser")
+    # 移除脚本与样式，避免混入非正文内容
+    for node in soup(["script", "style", "noscript"]):
+        node.decompose()
+    text = soup.get_text(separator=" ")
+    return " ".join(text.split())

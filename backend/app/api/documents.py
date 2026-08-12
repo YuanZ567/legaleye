@@ -10,8 +10,11 @@ from sqlalchemy.orm import Session
 from app.core.db import get_db
 from app.core.enums import DocType
 from app.core.exceptions import ValidationError
-from app.schemas.document import DocumentOut
-from app.services.document_service import create_document_from_upload
+from app.schemas.document import DocumentOut, UrlDocumentIn
+from app.services.document_service import (
+    create_document_from_upload,
+    create_document_from_url,
+)
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 
@@ -53,6 +56,23 @@ async def upload_document(
         file_bytes=file_bytes,
         doc_type=parsed_type,
         sensitive_mode=sensitive_mode,
+        user_id=None,  # M8 接入 auth 后注入当前用户
+    )
+    return {
+        "data": DocumentOut.model_validate(document, from_attributes=True).model_dump(by_alias=True)
+    }
+
+
+@router.post("/from-url")
+async def upload_document_from_url(
+    payload: UrlDocumentIn,
+    db: Session = Depends(get_db),  # noqa: B008 (FastAPI 注入)
+) -> dict:
+    """从 URL 抓取并解析文档（PRD F3 / E3：10s 超时 + 重试 1 次）。"""
+    document = await create_document_from_url(
+        db=db,
+        url=payload.url,
+        doc_type=payload.doc_type,
         user_id=None,  # M8 接入 auth 后注入当前用户
     )
     return {
