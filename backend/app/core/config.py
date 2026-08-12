@@ -12,7 +12,9 @@ class Settings(BaseSettings):
     """
 
     model_config = SettingsConfigDict(
-        env_file=(".env", "../infra/.env"),
+        # 读取顺序（后者优先级更高）：基础设施默认 < 本地开发覆盖。
+        # 容器内由 compose env_file 注入环境变量（优先于所有 .env 文件），不受此顺序影响。
+        env_file=("../infra/.env", ".env"),
         env_file_encoding="utf-8",
         extra="ignore",
     )
@@ -22,7 +24,9 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
 
     # 数据 / 队列
-    database_url: str = "postgresql+psycopg://legaleye:legaleye_dev_password@localhost:5432/legaleye"
+    database_url: str = (
+        "postgresql+psycopg://legaleye:legaleye_dev_password@localhost:5432/legaleye"
+    )
     redis_url: str = "redis://localhost:6379/0"
 
     # 安全（必填，来自 .env）
