@@ -65,6 +65,7 @@
 - [x] **M1-5 敏感模式专项**（commit 0407c7b）：新增 `core/storage.py`（MinIO 封装：bucket 保障/`save_document_raw` 原文落盘/`list_raw_objects` 列举验证）+ `Document.minio_object_key` 内部字段（响应契约不暴露）+ Alembic `20260812_0002` 迁移已执行；上传默认模式存 MinIO 原文、敏感模式跳过（`raw_text`/`minio_object_key` 均 NULL，仅存 sha256 指纹）；`config` 补 MinIO 配置 + `.env` 本地 `localhost:9000` 覆盖；`tests/conftest.py` autouse 禁用真实 MinIO（单测不依赖外部服务）；M1-5 单测 2 项（敏感模式不落盘/默认模式落盘）；全量 24 passed；真实验证：敏感模式上传后 MinIO 空 + 库中 raw_text NULL/仅指纹/无对象 key，默认模式上传后 MinIO 有对象
 - [x] **M1-6 收尾验收**（commit 2d3ea57）：新增 `test_m1_exceptions.py` 专项覆盖 E1（损坏 PDF `parse_failed`/非法 docType `invalid_doc_type`/非支持格式 `unsupported_format`）、E2（扫描版 `scanned_pdf` 提示不支持 OCR）、E3（URL 连接失败重试 1 次后 `url_fetch_failed`、非 2xx 如 404 重试后仍失败）；全量 30 passed + ruff/black 全绿；**M1 里程碑完成（6 子任务全部勾选）**
 - **M1 里程碑状态**：文件上传与解析完成——PDF/docx/URL 三类输入均可解析为文本落地 Document 表；文件限制/敏感模式原文不落盘/E1-E3 异常语义全部达标；12 条红线遵守（api 薄层走 services、业务异常统一 DomainError、MinIO 仅经 core/storage）。
+- [x] **M2-1 LawBaseline ORM + pgvector**（commit 47132bb）：`LawBaseline` 表模型（对齐 DATA_CONTRACT 4.10 六字段 + `embedding vector(1536)` + 唯一约束 `statute+article_no+version`）+ Alembic `20260812_0003` 已对真实 PG 执行（表结构/扩展启用均验证）+ 依赖 pgvector 0.5.0；单测 4 项通过（字段契约/插入回读/同版本唯一约束冲突/不同版本共存）；全量 34 passed
 
 ## 2. 进行中
 
@@ -112,7 +113,7 @@
 **允许修改范围**：`backend/app/knowledge/`、`rag/`、`models/`、`scripts/ingest_laws.py`、`data/raw_laws/`（私有）。
 **不允许破坏**：`LawBaseline` 唯一约束（statute+article_no+version）；**版权文本（GB/T）不得提交 git**；`clauseRef` 正则（DATA_CONTRACT 3.2）。
 **验收标准**：
-- [ ] M2-1 LawBaseline ORM + pgvector 扩展迁移
+- [x] M2-1 LawBaseline ORM + pgvector 扩展迁移（commit 47132bb）：`LawBaseline` 表模型对齐 DATA_CONTRACT 4.10（statute/articleNo/articleText/effectiveDate/version/source）+ pgvector `embedding vector(1536)` + 唯一约束 `statute+article_no+version`；Alembic `20260812_0003` 已对真实 PG 执行并验证表结构/扩展启用；单测 4 项（字段契约/插入回读/唯一约束/版本化共存）；全量 34 passed
 - [ ] M2-2 条款结构化解析器：`第X章第X条第X款` 解析正确率（金标法条抽查 100%）
 - [ ] M2-3 ingest_laws.py 幂等：重复运行不产生重复记录
 - [ ] M2-4 版本化：修订新增版本而非覆盖；`effectiveDate` 生效
