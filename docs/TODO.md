@@ -66,6 +66,7 @@
 - [x] **M1-6 收尾验收**（commit 2d3ea57）：新增 `test_m1_exceptions.py` 专项覆盖 E1（损坏 PDF `parse_failed`/非法 docType `invalid_doc_type`/非支持格式 `unsupported_format`）、E2（扫描版 `scanned_pdf` 提示不支持 OCR）、E3（URL 连接失败重试 1 次后 `url_fetch_failed`、非 2xx 如 404 重试后仍失败）；全量 30 passed + ruff/black 全绿；**M1 里程碑完成（6 子任务全部勾选）**
 - **M1 里程碑状态**：文件上传与解析完成——PDF/docx/URL 三类输入均可解析为文本落地 Document 表；文件限制/敏感模式原文不落盘/E1-E3 异常语义全部达标；12 条红线遵守（api 薄层走 services、业务异常统一 DomainError、MinIO 仅经 core/storage）。
 - [x] **M2-1 LawBaseline ORM + pgvector**（commit 47132bb）：`LawBaseline` 表模型（对齐 DATA_CONTRACT 4.10 六字段 + `embedding vector(1536)` + 唯一约束 `statute+article_no+version`）+ Alembic `20260812_0003` 已对真实 PG 执行（表结构/扩展启用均验证）+ 依赖 pgvector 0.5.0；单测 4 项通过（字段契约/插入回读/同版本唯一约束冲突/不同版本共存）；全量 34 passed
+- [x] **M2-6 收尾验收**（commit 3b22597）：新增 `test_m2_acceptance.py` 抽查（检索命中契约字段 + LawBaseline camelCase 契约）；清理 backend/ 全部 `_tmp*` 临时文件（Python pathlib）；全量 60 passed + ruff/black 全绿；**M2 里程碑完成（6 子任务全部勾选）**
 - [x] **M2-2 条款结构化解析器**（commit 07213ad）：`knowledge/clause_parser.py`——章节（第X章）/条（第X条）/款（第X款）识别支持中文与阿拉伯数字混用、`cn_to_int`/`cn_to_int_inv` 中文数字转换、clauseRef 输出兼容 DATA_CONTRACT 3.2 正则；修复款子句 ref 重复追加 bug；金标《个人信息保护法》结构样例条号/款号/章节 100% 解析正确；单测 11 项；全量 45 passed
 - [x] **M2-3 幂等入库**（commit f998fb9）：`knowledge/law_service.py` 幂等 upsert（按 statute+article_no+version 判重，已存在跳过）；`scripts/ingest_laws.py` 内置 5 部公开法规条款（个人信息保护法 26/网络安全法 9/数据安全法 7/出境安全评估办法 5/出境标准合同办法 4，条款号准确）+ GB/T 35273 仅"待补"占位（不包含版权文本，符合 gitignore 纪律）；真实 PG 验证幂等：首次插入 52、重复运行 inserted=0/skipped=52、distinct=52 无重复；单测 4 项（首次全插/重复跳过/版本共存/GB/T 占位）；全量 49 passed
 
@@ -120,7 +121,8 @@
 - [x] M2-3 ingest_laws.py 幂等：重复运行不产生重复记录（commit f998fb9）：`knowledge/law_service.py` 按 statute+article_no+version 唯一约束 upsert（存在跳过）；`scripts/ingest_laws.py` 内置 5 部公开法规（个人信息保护法 26/网络安全法 9/数据安全法 7/出境安全评估办法 5/出境标准合同办法 4）+ GB/T 35273 "待补"占位（无版权文本）；真实 PG 验证：首次插入 52、重复运行 inserted=0 skipped=52、distinct=52 无重复；单测 4 项；全量 49 passed
 - [x] M2-4 版本化：修订新增版本而非覆盖；`effectiveDate` 生效（commit c2acf4a）：`law_service.py` 新增 `get_active_article`（按 effectiveDate 查询时点返回生效版本）与 `get_article_version`（按报告锁定 version 精确追溯，不受新版本影响）；`ingest_laws.py` 支持 `--version`/`--effective-date`（新版本入库不覆盖旧版本）；真实 PG 验证：v1.0+v1.2 共存、2026 生效 v1.0 / 2027 生效 v1.2、v1.0 追溯不受新版本影响；单测 5 项；全量 54 passed
 - [x] M2-5 检索 API：Top-5 命中相关条款；无命中返回空而非幻觉（commit 517cf5a）：`llm/embeddings.py` embedding 工厂（百炼 OpenAI 兼容，Key 读 OPENAI_API_KEY，支持测试注入 mock）；`knowledge/retrieval.py` pgvector 余弦相似度 Top-5（无向量数据短路返回空，不编造）+ embedding 回填；`api/knowledge.py` GET /knowledge/laws + POST /knowledge/laws/search；schemas/law.py 契约模型；真实百炼验证：跨境提供 query 命中第四十条(0.796)/第二条/第三十九条/第四十二条/第三条，HTTP 200，GET 列表 52 条契约完整；单测 4 项（mock embedding）；全量 58 passed
-- [ ] M2-6 单测通过 + 抽查通过，**git 存档**
+- [x] M2-6 单测通过 + 抽查通过，**git 存档**（commit 3b22597）：新增 `test_m2_acceptance.py` 抽查（检索命中返回契约字段 clauseRef/statuteVersion/articleText/score 且按 score 降序 + LawBaseline 契约 camelCase）；清理 backend/ 下全部 `_tmp*` 临时文件；全量 60 passed + ruff/black 全绿；**M2 里程碑完成（6 子任务全部勾选）**
+- **M2 里程碑状态**：法条基线入库与检索完成——52 条公开法规条款入库（PIPL 26/网安 9/数安 7/出境评估 5/出境标准合同 4 + GB/T 占位），幂等 + 版本化（effectiveDate 生效 + 旧报告追溯）；pgvector 语义检索 Top-5 命中准确、无命中返回空；embedding 工厂（百炼 OpenAI 兼容，Key 读 OPENAI_API_KEY，支持 mock 注入）。产出：52 条法条 / 测试 54→60 / 真实 PG 验证（幂等/版本/检索）/ 真实百炼回填 52 条 + Top-5 准确命中
 
 ### M3 数据流提取与图谱
 **目标**：规则+LLM 双通道抽取实体/关系，构建图谱并执行 R1-R4 推理（PRD F6）。
