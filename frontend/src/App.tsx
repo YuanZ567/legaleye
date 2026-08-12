@@ -1,16 +1,22 @@
-import { BookOpen, FileText, PlusCircle, Settings, ShieldCheck } from "lucide-react";
+import { useState } from "react";
+import { BookOpen, FileText, GitFork, PlusCircle, Settings, ShieldCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import GraphPreview from "@/pages/GraphPreview";
 
-const navItems = [
-  { label: "任务列表", icon: FileText, active: true },
-  { label: "新建审查", icon: PlusCircle },
-  { label: "模型配置", icon: Settings },
-  { label: "知识库", icon: BookOpen },
+type View = "tasks" | "graph";
+
+const navItems: { label: string; icon: typeof FileText; view: View }[] = [
+  { label: "任务列表", icon: FileText, view: "tasks" },
+  { label: "新建审查", icon: PlusCircle, view: "tasks" },
+  { label: "数据流图谱", icon: GitFork, view: "graph" },
+  { label: "模型配置", icon: Settings, view: "tasks" },
+  { label: "知识库", icon: BookOpen, view: "tasks" },
 ];
 
-/** M0 应用壳：侧边栏 + 顶栏 + 内容区占位（DESIGN.md 7.1 布局）。 */
+/** M0 应用壳：侧边栏 + 顶栏 + 内容区（M3-5 接入数据流图谱 React Flow）。 */
 export default function App() {
+  const [view, setView] = useState<View>("graph");
   return (
     <div className="flex h-screen bg-paper text-ink-900">
       {/* 侧边栏 */}
@@ -23,18 +29,19 @@ export default function App() {
         </div>
         <nav className="flex flex-col gap-1">
           {navItems.map((item) => (
-            <a
+            <button
               key={item.label}
-              href="#"
-              className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm ${
-                item.active
+              type="button"
+              onClick={() => setView(item.view)}
+              className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm text-left ${
+                view === item.view
                   ? "bg-brand-50 font-medium text-brand-700"
                   : "text-ink-600 hover:bg-muted"
               }`}
             >
               <item.icon className="h-4 w-4" />
               {item.label}
-            </a>
+            </button>
           ))}
         </nav>
         <div className="mt-auto flex items-center gap-2 rounded-md bg-muted px-3 py-2 text-xs text-ink-400">
@@ -54,10 +61,12 @@ export default function App() {
             <Button size="sm">登录</Button>
           </div>
         </header>
-        <main className="flex-1 p-6">
-          <div className="flex h-full items-center justify-center rounded-lg border border-dashed border-line-200">
-            <p className="text-sm text-ink-400">M0 应用壳占位 — M1 起填充任务列表与审查工作台</p>
-          </div>
+        <main className="flex-1 overflow-auto p-6">
+          {view === "graph" ? <GraphPreview /> : (
+            <div className="flex h-full items-center justify-center rounded-lg border border-dashed border-line-200">
+              <p className="text-sm text-ink-400">该视图占位 — 数据流图谱已接入</p>
+            </div>
+          )}
         </main>
       </div>
     </div>
