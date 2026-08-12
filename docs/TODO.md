@@ -61,6 +61,7 @@
 - [x] **M1-1 Document ORM + Alembic 迁移**（commit eabcb7f）：SQLModel `Document` 表模型（documents 10 字段，敏感模式 `raw_text` 不入库）+ 首版 Alembic 迁移 `20260812_0001` 已对真实 PG 执行；顺带修复 alembic.ini 中文编码/重复配置、env.py 连接串双源、config `env_file` 优先级（本地 `backend/.env` 可覆盖基础设施默认）；模型单测 3 项通过
 - [x] **M1-2 上传 API**（commit d81ecb0）：`POST /documents` multipart 上传，格式（.pdf/.docx）/大小（≤20MB）/页数（PDF ≤200 页）校验超限 400；新建 schemas（APIModel camelCase 契约 + DocumentOut）、core/exceptions（DomainError 体系 + 统一 400/404/403/429 处理器）、core/constants、utils/parsers、services/document_service（校验+落库）、api/documents（薄层）+ 依赖 python-multipart/pymupdf/python-docx/beautifulsoup4；单测 6 项 + 真实 curl 验证成功/非支持格式/缺 docType 均通过
 - [x] **M1-3 URL 解析 API**（commit 3cc6c82）：`POST /documents/from-url`，httpx 抓取 html 转文本（BeautifulSoup），10s 超时 + 失败重试 1 次（指数退避），仍失败 400（E3）；协议白名单（http/https）校验；URL 内容为空 400；`UrlDocumentIn` 请求契约 + 公共 `_persist_document`（敏感模式原文不落库，存 sha256 指纹 + 前 500 字预览）；服务层单测（MockTransport 注入）4 项 + API 层（monkeypatch）2 项 + 真实 curl 验证成功/无效协议 400 均通过
+- [x] **M1-4 解析服务完整接入**（commit 1b8a150）：`extract_pdf_text`（PyMuPDF，无文字层抛 ScannedPdfError→400 `scanned_pdf` 明确提示 E2）/`extract_docx_text`（python-docx，含表格文本）写入 `raw_text`+`text_preview`+`charCount`；`docType` 文件名启发式推断（privacyPolicy/userAgreement/dpa/scc 关键词），推断失败 400 `doc_type_required`；`_extract_text` 按扩展名分发；敏感模式 `raw_text` 不落库；新增 parse 单测 6 项 + 修正 M1-2 旧断言 2 处；全量 22 passed；真实 curl 验证中文 docx 解析/扫描版 400/推断失败 400 均通过
 
 ## 2. 进行中
 
@@ -99,7 +100,7 @@
 - [x] M1-1 Document ORM + Alembic 迁移
 - [x] M1-2 上传 API（multipart）格式/大小/页数校验，超限返回 400
 - [x] M1-3 URL 解析 API（10s 超时 + 重试 1 次）
-- [ ] M1-4 解析服务：PyMuPDF/python-docx/html→text，扫描版 PDF 明确提示
+- [x] M1-4 解析服务：PyMuPDF/python-docx/html→text，扫描版 PDF 明确提示
 - [ ] M1-5 敏感模式：原文不落盘（存储目录验证为空）
 - [ ] M1-6 单测 + 异常用例（E1-E3）通过，**git 存档**
 
