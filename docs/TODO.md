@@ -118,7 +118,7 @@
 - [x] M2-1 LawBaseline ORM + pgvector 扩展迁移（commit 47132bb）：`LawBaseline` 表模型对齐 DATA_CONTRACT 4.10（statute/articleNo/articleText/effectiveDate/version/source）+ pgvector `embedding vector(1536)` + 唯一约束 `statute+article_no+version`；Alembic `20260812_0003` 已对真实 PG 执行并验证表结构/扩展启用；单测 4 项（字段契约/插入回读/唯一约束/版本化共存）；全量 34 passed
 - [x] M2-2 条款结构化解析器：`第X章第X条第X款` 解析正确率（金标法条抽查 100%）（commit 07213ad）：`knowledge/clause_parser.py` 支持中文/阿拉伯数字的 第X章/第X条/第X款 识别、`cn_to_int` 中文数字转换、clauseRef 输出兼容契约正则；金标《个人信息保护法》结构样例条号/款号/章节 100% 解析正确；单测 11 项；全量 45 passed
 - [x] M2-3 ingest_laws.py 幂等：重复运行不产生重复记录（commit f998fb9）：`knowledge/law_service.py` 按 statute+article_no+version 唯一约束 upsert（存在跳过）；`scripts/ingest_laws.py` 内置 5 部公开法规（个人信息保护法 26/网络安全法 9/数据安全法 7/出境安全评估办法 5/出境标准合同办法 4）+ GB/T 35273 "待补"占位（无版权文本）；真实 PG 验证：首次插入 52、重复运行 inserted=0 skipped=52、distinct=52 无重复；单测 4 项；全量 49 passed
-- [ ] M2-4 版本化：修订新增版本而非覆盖；`effectiveDate` 生效
+- [x] M2-4 版本化：修订新增版本而非覆盖；`effectiveDate` 生效（commit c2acf4a）：`law_service.py` 新增 `get_active_article`（按 effectiveDate 查询时点返回生效版本）与 `get_article_version`（按报告锁定 version 精确追溯，不受新版本影响）；`ingest_laws.py` 支持 `--version`/`--effective-date`（新版本入库不覆盖旧版本）；真实 PG 验证：v1.0+v1.2 共存、2026 生效 v1.0 / 2027 生效 v1.2、v1.0 追溯不受新版本影响；单测 5 项；全量 54 passed
 - [ ] M2-5 检索 API：Top-5 命中相关条款；无命中返回空而非幻觉
 - [ ] M2-6 单测通过 + 抽查通过，**git 存档**
 
