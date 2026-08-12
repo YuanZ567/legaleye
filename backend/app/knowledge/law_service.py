@@ -104,6 +104,24 @@ def get_article_version(
     ).scalar_one_or_none()
 
 
+def list_laws(
+    *,
+    db: Session,
+    statute: str | None = None,
+    version: str | None = None,
+) -> list[LawBaseline]:
+    """列出法条基线（GET /knowledge/laws 服务）；支持 statute/version 过滤。
+
+    未指定 version 时，返回所有版本（由前端/调用方决定是否只取生效版）。
+    """
+    stmt = select(LawBaseline)
+    if statute:
+        stmt = stmt.where(LawBaseline.statute == statute)
+    if version:
+        stmt = stmt.where(LawBaseline.version == version)
+    return list(db.scalars(stmt).all())
+
+
 def ingest_laws(db: Session, laws: list[dict[str, Any]]) -> dict[str, int]:
     """批量幂等入库。
 

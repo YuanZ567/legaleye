@@ -49,6 +49,12 @@ class Settings(BaseSettings):
     bailian_model: str = "qwen-plus"
     demo_daily_limit: int = 5
 
+    # Embedding（M2-5 语义检索用；百炼 OpenAI 兼容接口，Key 从 OPENAI_API_KEY 读取）
+    openai_api_key: str = ""  # 对应环境变量 OPENAI_API_KEY（百炼 DashScope 兼容模式）
+    bailian_embedding_base_url: str = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    bailian_embedding_model: str = "text-embedding-v1"  # 1536 维，与 LawBaseline.embedding 对齐
+    embedding_dimension: int = 1536
+
     # 任务（Celery / 熔断）
     celery_worker_concurrency: int = 2
     task_timeout_seconds: int = 600
