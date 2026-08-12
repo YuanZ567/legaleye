@@ -26,6 +26,7 @@ from app.core.constants import (
 )
 from app.core.enums import DocType
 from app.core.exceptions import ValidationError
+from app.core.storage import build_object_key, save_document_raw
 from app.models import Document
 from app.utils.parsers import (
     ScannedPdfError,
@@ -100,6 +101,7 @@ def _persist_document(
     user_id: uuid.UUID | None,
     raw_text: str | None,
     fingerprint_source: bytes | str,
+    minio_object_key: str | None = None,
 ) -> Document:
     """公共落库逻辑：敏感模式原文绝不持久化。
 
@@ -113,8 +115,9 @@ def _persist_document(
     )
     text_fingerprint = hashlib.sha256(source_bytes).hexdigest()
 
-    # 敏感模式：仅存指纹摘要；否则存解析文本 + 前 500 字预览
+    # 敏感模式：仅存指纹摘要，原文/解析文本/MinIO 对象 key 一律 NULL（PRD 第 6 章）
     stored_raw = None if sensitive_mode else raw_text
+    stored_object_key = None if sensitive_mode else minio_object_key
     char_count = len(raw_text) if raw_text else 0
     text_preview = raw_text[:TEXT_PREVIEW_LENGTH] if raw_text else None
 
@@ -127,6 +130,7 @@ def _persist_document(
         text_fingerprint=text_fingerprint,
         char_count=char_count,
         text_preview=text_preview,
+        minio_object_key=stored_object_key,
     )
     db.add(doc)
     db.commit()
@@ -145,10 +149,18 @@ def create_document_from_upload(
 ) -> Document:
     """上传文档用例：校验 → 提取全文 → 落库 → 返回 ORM 实体（PRD F3）。
 
-    提取的全文写入 raw_text；敏感模式下由 _persist_document 置 None（原文不持久化）。
+    - 默认模式：原始文件落 MinIO（minio_object_key 记录对象位置）；
+    - 敏感模式：原文不落盘（不写 MinIO，raw_text/minio_object_key 均 NULL），仅存指纹。
     """
     _validate_upload(filename, file_bytes)
     text = _extract_text(filename, file_bytes)
+
+    # 敏感模式不落盘：跳过 MinIO，仅存指纹；默认模式存原文对象
+    object_key = None
+    if not sensitive_mode:
+        object_key = build_object_key(filename)
+        save_document_raw(file_bytes, object_key)
+
     return _persist_document(
         db=db,
         filename=filename,
@@ -157,6 +169,7 @@ def create_document_from_upload(
         user_id=user_id,
         raw_text=text,
         fingerprint_source=file_bytes,
+        minio_object_key=object_key,
     )
 
 

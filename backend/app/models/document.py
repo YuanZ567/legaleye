@@ -51,6 +51,8 @@ class Document(SQLModel, table=True):
     text_fingerprint: str | None = Field(  # 敏感模式下存 sha256 摘要（64 字符）
         default=None, max_length=64
     )
+    # 原始文件在 MinIO 的对象 key（默认模式存原文；敏感模式为 NULL，内部字段不对外暴露）
+    minio_object_key: str | None = Field(default=None, max_length=255)
 
     # ── 审计 ──
     created_at: datetime = Field(

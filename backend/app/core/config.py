@@ -29,6 +29,12 @@ class Settings(BaseSettings):
     )
     redis_url: str = "redis://localhost:6379/0"
 
+    # MinIO 文件存储（.env 覆盖；本地直连用 localhost:9000）
+    minio_endpoint: str = "localhost:9000"
+    minio_root_user: str = "legaleye_minio"
+    minio_root_password: str = "legaleye_minio_password"
+    minio_bucket: str = "legaleye-docs"
+
     # 安全（必填，来自 .env）
     legaleye_secret_key: str = ""
     jwt_secret: str = ""
