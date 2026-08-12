@@ -14,3 +14,41 @@ class DocType(StrEnum):
     USER_AGREEMENT = "userAgreement"
     DPA = "dpa"
     SCC = "scc"
+
+
+class EntityRole(StrEnum):
+    """图谱实体角色（DATA_CONTRACT 3.1 EntityRole 字典）。"""
+
+    CONTROLLER = "controller"
+    PROCESSOR = "processor"
+    TRUSTEE = "trustee"
+    OVERSEAS_RECEIVER = "overseasReceiver"
+    DATA_CATEGORY = "dataCategory"
+
+
+class EdgeType(StrEnum):
+    """图谱边类型（DATA_CONTRACT 3.1 EdgeType 字典）。"""
+
+    COLLECT = "collect"
+    STORE = "store"
+    SHARE = "share"
+    ENTRUST = "entrust"
+    CROSS_BORDER = "crossBorder"
+    ANONYMIZE = "anonymize"
+
+
+class RiskLevel(StrEnum):
+    """风险等级（DATA_CONTRACT 3.1 RiskLevel 字典）。"""
+
+    HIGH = "high"
+    MEDIUM = "medium"
+    LOW = "low"
+
+
+class PathType(StrEnum):
+    """出境路径判定类型（DATA_CONTRACT 4.7 suggestions.pathType）。"""
+
+    SECURITY_ASSESSMENT = "securityAssessment"
+    SCC = "scc"
+    CERTIFICATION = "certification"
+    UNKNOWN = "unknown"
