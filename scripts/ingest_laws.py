@@ -177,8 +177,12 @@ RAW_LAWS: dict[str, list[tuple[str, str]]] = {
 }
 
 
-def _build_laws() -> list[dict]:
-    """组装入库数据：statute + 条款 + 版本 + 生效日 + 来源。"""
+def _build_laws(version: str, effective_date_override: date | None = None) -> list[dict]:
+    """组装入库数据：statute + 条款 + 版本 + 生效日 + 来源。
+
+    :param effective_date_override: 若提供，覆盖所有 statute 的生效日
+        （新版本修订时指定更晚生效日，保证 get_active_article 能区分新旧版本）。
+    """
     effective_map = {
         "个人信息保护法": date(2021, 11, 1),
         "数据安全法": date(2021, 9, 1),
@@ -197,14 +201,15 @@ def _build_laws() -> list[dict]:
     }
     laws: list[dict] = []
     for statute, articles in RAW_LAWS.items():
+        effective = effective_date_override or effective_map[statute]
         for article_no, article_text in articles:
             laws.append(
                 {
                     "statute": statute,
                     "article_no": article_no,
                     "article_text": article_text,
-                    "version": VERSION,
-                    "effective_date": effective_map[statute],
+                    "version": version,
+                    "effective_date": effective,
                     "source": source_map[statute],
                 }
             )
@@ -212,12 +217,35 @@ def _build_laws() -> list[dict]:
 
 
 def main() -> None:
-    """执行入库；输出插入/跳过统计（重复运行 skipped 增加、inserted 为 0）。"""
-    laws = _build_laws()
+    """执行入库；输出插入/跳过统计（重复运行 skipped 增加、inserted 为 0）。
+
+    支持 `--version` 指定入库版本号、`--effective-date` 指定生效日（版本化：
+    修订时用新版本号 + 新生效日再入库，与旧版本共存而不覆盖）。
+    """
+    import argparse
+
+    parser = argparse.ArgumentParser(description="幂等写入法条基线")
+    parser.add_argument(
+        "--version",
+        default=VERSION,
+        help=f"法条版本号（默认 {VERSION}；修订时传入新版本号以新增版本而非覆盖）",
+    )
+    parser.add_argument(
+        "--effective-date",
+        type=date.fromisoformat,
+        default=None,
+        help="生效日（YYYY-MM-DD，默认用各法规法定生效日；新版本修订时传入更晚生效日）",
+    )
+    args = parser.parse_args()
+
+    laws = _build_laws(version=args.version, effective_date_override=args.effective_date)
     with SessionLocal() as db:
         result = ingest_laws(db, laws)
     total = len(laws)
-    print(f"[ingest_laws] 总条款 {total}，新插入 {result['inserted']}，已存在跳过 {result['skipped']}")
+    print(
+        f"[ingest_laws] 版本 {args.version}：总条款 {total}，"
+        f"新插入 {result['inserted']}，已存在跳过 {result['skipped']}"
+    )
 
 
 if __name__ == "__main__":

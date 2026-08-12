@@ -55,6 +55,55 @@ def upsert_law(
     return True
 
 
+def get_active_article(
+    *,
+    db: Session,
+    statute: str,
+    article_no: str,
+    on_date: date,
+) -> LawBaseline | None:
+    """返回指定日期时点"生效"的法条（effectiveDate <= on_date 且版本最新）。
+
+    用于检索当前生效版本（M2-6）。无命中返回 None（不编造）。
+    """
+    rows = (
+        db.execute(
+            select(LawBaseline).where(
+                LawBaseline.statute == statute,
+                LawBaseline.article_no == article_no,
+                LawBaseline.effective_date <= on_date,
+            )
+        )
+        .scalars()
+        .all()
+    )
+    if not rows:
+        return None
+    # 取 effective_date 最晚（即最新生效）的一条
+    return max(rows, key=lambda r: r.effective_date)  # noqa: B023
+
+
+def get_article_version(
+    *,
+    db: Session,
+    statute: str,
+    article_no: str,
+    version: str,
+) -> LawBaseline | None:
+    """按精确版本取回法条（旧报告版本追溯）。
+
+    即使已有新版本，也严格按报告锁定的 version 返回该版本原文，保证追溯一致。
+    无命中返回 None（不编造）。
+    """
+    return db.execute(
+        select(LawBaseline).where(
+            LawBaseline.statute == statute,
+            LawBaseline.article_no == article_no,
+            LawBaseline.version == version,
+        )
+    ).scalar_one_or_none()
+
+
 def ingest_laws(db: Session, laws: list[dict[str, Any]]) -> dict[str, int]:
     """批量幂等入库。
 
