@@ -63,6 +63,8 @@
 - [x] **M1-3 URL 解析 API**（commit 3cc6c82）：`POST /documents/from-url`，httpx 抓取 html 转文本（BeautifulSoup），10s 超时 + 失败重试 1 次（指数退避），仍失败 400（E3）；协议白名单（http/https）校验；URL 内容为空 400；`UrlDocumentIn` 请求契约 + 公共 `_persist_document`（敏感模式原文不落库，存 sha256 指纹 + 前 500 字预览）；服务层单测（MockTransport 注入）4 项 + API 层（monkeypatch）2 项 + 真实 curl 验证成功/无效协议 400 均通过
 - [x] **M1-4 解析服务完整接入**（commit 1b8a150）：`extract_pdf_text`（PyMuPDF，无文字层抛 ScannedPdfError→400 `scanned_pdf` 明确提示 E2）/`extract_docx_text`（python-docx，含表格文本）写入 `raw_text`+`text_preview`+`charCount`；`docType` 文件名启发式推断（privacyPolicy/userAgreement/dpa/scc 关键词），推断失败 400 `doc_type_required`；`_extract_text` 按扩展名分发；敏感模式 `raw_text` 不落库；新增 parse 单测 6 项 + 修正 M1-2 旧断言 2 处；全量 22 passed；真实 curl 验证中文 docx 解析/扫描版 400/推断失败 400 均通过
 - [x] **M1-5 敏感模式专项**（commit 0407c7b）：新增 `core/storage.py`（MinIO 封装：bucket 保障/`save_document_raw` 原文落盘/`list_raw_objects` 列举验证）+ `Document.minio_object_key` 内部字段（响应契约不暴露）+ Alembic `20260812_0002` 迁移已执行；上传默认模式存 MinIO 原文、敏感模式跳过（`raw_text`/`minio_object_key` 均 NULL，仅存 sha256 指纹）；`config` 补 MinIO 配置 + `.env` 本地 `localhost:9000` 覆盖；`tests/conftest.py` autouse 禁用真实 MinIO（单测不依赖外部服务）；M1-5 单测 2 项（敏感模式不落盘/默认模式落盘）；全量 24 passed；真实验证：敏感模式上传后 MinIO 空 + 库中 raw_text NULL/仅指纹/无对象 key，默认模式上传后 MinIO 有对象
+- [x] **M1-6 收尾验收**（commit 2d3ea57）：新增 `test_m1_exceptions.py` 专项覆盖 E1（损坏 PDF `parse_failed`/非法 docType `invalid_doc_type`/非支持格式 `unsupported_format`）、E2（扫描版 `scanned_pdf` 提示不支持 OCR）、E3（URL 连接失败重试 1 次后 `url_fetch_failed`、非 2xx 如 404 重试后仍失败）；全量 30 passed + ruff/black 全绿；**M1 里程碑完成（6 子任务全部勾选）**
+- **M1 里程碑状态**：文件上传与解析完成——PDF/docx/URL 三类输入均可解析为文本落地 Document 表；文件限制/敏感模式原文不落盘/E1-E3 异常语义全部达标；12 条红线遵守（api 薄层走 services、业务异常统一 DomainError、MinIO 仅经 core/storage）。
 
 ## 2. 进行中
 
@@ -103,7 +105,7 @@
 - [x] M1-3 URL 解析 API（10s 超时 + 重试 1 次）
 - [x] M1-4 解析服务：PyMuPDF/python-docx/html→text，扫描版 PDF 明确提示
 - [x] M1-5 敏感模式：原文不落盘（存储目录验证为空）
-- [ ] M1-6 单测 + 异常用例（E1-E3）通过，**git 存档**
+- [x] M1-6 单测 + 异常用例（E1-E3）通过，**git 存档**
 
 ### M2 法条基线入库（前置核心）
 **目标**：PIPL/DSL/网安法 + GB/T 35273 官方文本入库，条款结构化 + 版本化 + pgvector 检索（PRD F9、ARCHITECTURE 4.1）。
