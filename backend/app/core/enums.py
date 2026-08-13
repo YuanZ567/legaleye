@@ -64,7 +64,7 @@ class Provider(StrEnum):
 
 
 class ReviewDimension(StrEnum):
-    """合规审查六维（DATA_CONTRACT 4.1 ReviewTask.dimensions）。"""
+    """合规审查维度（DATA_CONTRACT 4.1 Dimension：D1-D6 + crossConsistency）。"""
 
     D1_COLLECTION = "d1Collection"
     D2_NOTICE = "d2Notice"
@@ -72,6 +72,7 @@ class ReviewDimension(StrEnum):
     D4_THIRD_PARTY = "d4ThirdParty"
     D5_CROSS_BORDER = "d5CrossBorder"
     D6_DATA_RIGHTS = "d6DataRights"
+    CROSS_CONSISTENCY = "crossConsistency"
 
 
 class FindingVerdict(StrEnum):

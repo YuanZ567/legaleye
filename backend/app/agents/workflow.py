@@ -1,8 +1,8 @@
-"""LangGraph 审查工作流（M4-3 骨架）。
+"""LangGraph 审查工作流（M4-3 骨架 + M5 Critic）。
 
-状态流转：orchestrator → 六维并行(D1-D6) → 反思(≤2轮) → report。
-- 六节点默认 mock（骨架验证状态流转/SSE/反思循环），真实 LLM 在 M4-4 接入；
-- 反思：若 finding 含"待补"/needsHumanReview 且轮次<2，重跑六节点，否则结束；
+状态流转：orchestrator → 六维并行(D1-D6) → Critic(矛盾检测) → 反思(≤2轮) → report。
+- 六节点真实 LLM 经 factory（可注入 mock）；Critic 跨维度矛盾检测 + 高风险复核；
+- 反思：基于 Critic 打回的维度重跑，≤2 轮强制结束（ARCHITECTURE 6.4 防死循环）；
 - SSE：各节点发布 nodeStart/nodeEnd/taskStatus/tokenUsage。
 
 图使用 async 节点（配合 Celery async 编排），亦可同步 invoke 测试。
@@ -13,6 +13,7 @@ from typing import Annotated, Any, TypedDict
 
 from langgraph.graph import END, START, StateGraph
 
+from app.agents.critic import Critic
 from app.agents.dimension_agent import build_dimension_node
 from app.core.sse import publish_event
 
@@ -31,6 +32,11 @@ def _merge_findings(left: list[dict], right: list[dict]) -> list[dict]:
     return list(merged.values())
 
 
+def _append_dims(left: list[str], right: list[str]) -> list[str]:
+    """reconsider_dims reducer：追加去重。"""
+    return list(dict.fromkeys(left + right))
+
+
 class WorkflowState(TypedDict, total=False):
     """工作流共享状态。"""
 
@@ -42,6 +48,10 @@ class WorkflowState(TypedDict, total=False):
     # findings 用 reducer 合并：六维并行各自追加 + 反思按 dimension 覆盖
     findings: Annotated[list[dict], _merge_findings]
     reflection_round: int
+    # Critic 打回的维度（反思重跑用），列表 reducer
+    reconsider_dims: Annotated[list[str], _append_dims]
+    # 文档是否声明"不出境"（供 Critic 不出境-图谱出境矛盾检测）
+    declares_no_outbound: bool
 
 
 async def _default_llm_func(**kwargs: Any) -> str:
@@ -97,21 +107,39 @@ def _orchestrator(state: WorkflowState) -> dict:
 
 
 def _needs_reflection(state: WorkflowState) -> str:
-    """反思路由：含待补/低置信且轮次<2 → 再一轮；否则结束。"""
+    """反思路由：Critic 打回维度非空 或 含待补，且轮次<2 → 再一轮；否则结束。
+
+    轮次上限 MAX_REFLECTION_ROUNDS 强制结束（ARCHITECTURE 6.4 防死循环）。
+    """
     round_no = state.get("reflection_round", 0)
     findings = state.get("findings", [])
+    reconsidered = state.get("reconsider_dims", [])
     has_pending = any(
         f.get("clauseRef") in ("", "待补") or f.get("needsHumanReview") for f in findings
     )
-    if has_pending and round_no < MAX_REFLECTION_ROUNDS:
+    if (reconsidered or has_pending) and round_no < MAX_REFLECTION_ROUNDS:
         return "agents"
     return "report"
 
 
 def _reflect(state: WorkflowState) -> dict:
-    """反思节点：递增轮次（骨架）。"""
+    """反思节点：递增轮次（仅路由计数；打回维度在 Critic 已产出）。"""
     publish_event(state["task_id"], "taskStatus", {"status": "running", "progress": 60})
     return {"reflection_round": state.get("reflection_round", 0) + 1}
+
+
+def _critic(state: WorkflowState) -> dict:
+    """Critic 节点（后置）：矛盾检测 + 高风险复核，产出 crossConsistency 与打回维度。"""
+    critic = Critic(document_declares_no_outbound=state.get("declares_no_outbound", False))
+    new_findings, reconsider_dims = critic.analyze(
+        task_id=state["task_id"],
+        findings=state.get("findings", []),
+        graph_summary=state.get("graph_summary", ""),
+    )
+    return {
+        "findings": new_findings,
+        "reconsider_dims": reconsider_dims,
+    }
 
 
 def _report(state: WorkflowState) -> dict:
@@ -134,14 +162,16 @@ def build_workflow(agent_fns: dict[str, Any] | None = None) -> StateGraph:
     for dim in DIMENSIONS:
         fn = _build_agent(dim, (agent_fns or {}).get(dim))
         g.add_node(dim, fn)
+    g.add_node("critic", _critic)
     g.add_node("reflect", _reflect)
     g.add_node("report", _report)
 
     g.add_edge(START, "orchestrator")
-    # 六维并行
+    # 六维并行 → Critic（后置矛盾检测）
     for dim in DIMENSIONS:
         g.add_edge("orchestrator", dim)
-        g.add_edge(dim, "reflect")
+        g.add_edge(dim, "critic")
+    g.add_edge("critic", "reflect")
     # 反思路由
     g.add_conditional_edges(
         "reflect", _needs_reflection, {"agents": "orchestrator", "report": "report"}
