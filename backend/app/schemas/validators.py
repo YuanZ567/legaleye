@@ -39,20 +39,25 @@ def validate_finding(raw: dict) -> tuple[dict | None, list[str]]:
     """
     warnings: list[str] = []
 
-    # 枚举未知 → 丢弃
+    # 枚举校验：dimension 未知丢弃；verdict/level 缺失用安全默认（不丢弃，降级语义）
     dimension = raw.get("dimension")
     verdict = raw.get("verdict")
     level = raw.get("level")
     if dimension not in _DIMENSIONS:
         return None, [f"dimension 未知丢弃: {dimension}"]
     if verdict not in _VERDICTS:
-        return None, [f"verdict 未知丢弃: {verdict}"]
+        warnings.append(f"verdict 非法/缺失，默认 unclear: {verdict}")
+        verdict = FindingVerdict.UNCLEAR.value
+        needs_human_default = True
+    else:
+        needs_human_default = False
     if level not in _LEVELS:
-        return None, [f"level 未知丢弃: {level}"]
+        warnings.append(f"level 非法/缺失，默认 medium: {level}")
+        level = FindingLevel.MEDIUM.value
 
     # clauseRef 正则；失败 → 降级"待补" + needsHumanReview（不改 verdict，用标记而非 pending）
     clause_ref = str(raw.get("clauseRef") or "").strip()
-    needs_human = bool(raw.get("needsHumanReview", False))
+    needs_human = bool(raw.get("needsHumanReview", False)) or needs_human_default
     if clause_ref not in ("", "待补") and not CLAUSE_REF_RE.fullmatch(clause_ref):
         warnings.append(f"clauseRef 非法，降级待补: {clause_ref}")
         clause_ref = "待补"

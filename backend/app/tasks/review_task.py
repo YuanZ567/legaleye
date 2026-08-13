@@ -23,22 +23,25 @@ _DEGRADED_DIMENSIONS = [d for d in ReviewDimension]
 
 
 @celery_app.task(bind=True, max_retries=2)
-def run_review(self, document_id: str) -> dict:
-    """执行一次完整审查（异步任务；max_retries=2 对应"重试 2 次"）。"""
-    task_id = uuid.uuid4()
+def run_review(self, document_id: str, task_id: str | None = None) -> dict:
+    """执行一次完整审查（异步任务；max_retries=2 对应"重试 2 次"）。
+
+    :param task_id: API 创建的任务 id（更新该任务状态与 findings）；None 则新建。
+    """
+    tid = uuid.UUID(task_id) if task_id else uuid.uuid4()
     try:
-        _run_workflow(task_id=task_id, document_id=uuid.UUID(document_id))
-        return {"task_id": str(task_id), "status": "done"}
+        _run_workflow(task_id=tid, document_id=uuid.UUID(document_id))
+        return {"task_id": str(tid), "status": "done"}
     except Exception as exc:
         logger.exception("审查失败，尝试降级: %s", exc)
         # 重试 2 次仍失败 → 降级（不中断任务）
         try:
-            _degrade_task(task_id=task_id, document_id=uuid.UUID(document_id))
-            return {"task_id": str(task_id), "status": "degraded"}
+            _degrade_task(task_id=tid, document_id=uuid.UUID(document_id))
+            return {"task_id": str(tid), "status": "degraded"}
         except Exception:
             # 降级也失败：标记任务 failed
-            _mark_failed(task_id, str(exc))
-            return {"task_id": str(task_id), "status": "failed"}
+            _mark_failed(tid, str(exc))
+            return {"task_id": str(tid), "status": "failed"}
 
 
 def _run_workflow(*, task_id: uuid.UUID, document_id: uuid.UUID) -> None:
@@ -48,8 +51,14 @@ def _run_workflow(*, task_id: uuid.UUID, document_id: uuid.UUID) -> None:
         if doc is None:
             raise ValueError(f"文档不存在: {document_id}")
         text = doc.raw_text or ""
-        task = ReviewTask(id=task_id, document_id=document_id, status="running", progress=10)
-        db.add(task)
+        # upsert：若 API 已创建该任务则更新状态，否则新建
+        task = db.get(ReviewTask, task_id)
+        if task is None:
+            task = ReviewTask(id=task_id, document_id=document_id, status="running", progress=10)
+            db.add(task)
+        else:
+            task.status = "running"
+            task.progress = 10
         db.commit()
         publish_event(str(task_id), "taskStatus", {"status": "running", "progress": 10})
 

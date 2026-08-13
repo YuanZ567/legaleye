@@ -44,13 +44,14 @@ def test_node_returns_valid_finding():
     assert finding["clauseRef"] == "第五条第1款"
 
 
-def test_node_degrades_on_invalid_enum():
-    """LLM 返回非法枚举 → 校验丢弃 → 降级待补。"""
+def test_node_handles_invalid_enum_with_default():
+    """LLM 返回非法 verdict → 默认 unclear 保留（不丢弃不降级）。"""
     node = build_dimension_node("d1", _invalid_llm)
     result = _run(node)
     finding = result["findings"][0]
-    assert finding["clauseRef"] == "待补"
-    assert finding["needsHumanReview"] is True
+    assert finding["dimension"] == "d1Collection"
+    assert finding["verdict"] == "unclear"  # 非法 verdict 默认值
+    assert finding["needsHumanReview"] is True  # verdict 非法标记人工复核
 
 
 def test_node_degrades_on_llm_exception():

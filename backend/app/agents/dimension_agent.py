@@ -35,6 +35,99 @@ def _extract_json(text: str) -> dict:
     return json.loads(cleaned)
 
 
+# 维度归一化：LLM 可能输出中文名/智能体名/短名 → 契约值
+DIMENSION_NORMALIZE: dict[str, str] = {
+    "d1": "d1Collection",
+    "d1Collection": "d1Collection",
+    "个人信息收集": "d1Collection",
+    "收集": "d1Collection",
+    "d2": "d2Notice",
+    "d2Notice": "d2Notice",
+    "告知与同意": "d2Notice",
+    "告知同意": "d2Notice",
+    "d3": "d3Purpose",
+    "d3Purpose": "d3Purpose",
+    "目的与最小化": "d3Purpose",
+    "d4": "d4ThirdParty",
+    "d4ThirdParty": "d4ThirdParty",
+    "第三方委托与共享": "d4ThirdParty",
+    "第三方委托": "d4ThirdParty",
+    "d5": "d5CrossBorder",
+    "d5CrossBorder": "d5CrossBorder",
+    "跨境提供": "d5CrossBorder",
+    "跨境": "d5CrossBorder",
+    "d6": "d6DataRights",
+    "d6DataRights": "d6DataRights",
+    "数据主体权利": "d6DataRights",
+}
+
+
+def normalize_dimension(value: str | None, fallback_dim: str) -> str:
+    """把 LLM 输出的维度值归一化为契约值；无法识别用 fallback 的契约值。
+
+    支持契约值前缀匹配（如 "d5CrossBorderProvision" → "d5CrossBorder"）。
+    """
+    if value:
+        stripped = str(value).strip()
+        exact = DIMENSION_NORMALIZE.get(stripped)
+        if exact:
+            return exact
+        # 契约值前缀匹配（LLM 常追加后缀如 Provision/Review）
+        for dim, contract in DIMENSION_NORMALIZE.items():
+            if dim.startswith("d") and dim == contract and stripped.startswith(contract):
+                return contract
+    return DIMENSION_NORMALIZE.get(fallback_dim, fallback_dim)
+
+
+def _normalize_llm_raw(raw: dict, fallback_dim: str) -> dict:
+    """规范化 LLM 原始输出（schema 不稳定的容忍层）。
+
+    - dimension：归一化到契约值；
+    - verdict 缺失但含 conclusion → 按语义推断（不合规/合规/部分/不适用）；
+    - clauseRef 清洗（去书名号/去法规名，提取条款号）；
+    - level 缺失默认 medium。
+    """
+    # dimension 归一化
+    raw["dimension"] = normalize_dimension(raw.get("dimension"), fallback_dim)
+
+    # verdict：缺失但含 conclusion 时按语义推断
+    if not raw.get("verdict"):
+        conclusion = str(raw.get("conclusion") or "")
+        if "不合规" in conclusion or "违反" in conclusion or "未" in conclusion:
+            raw["verdict"] = "nonCompliant"
+        elif "合规" in conclusion and "部分" not in conclusion:
+            raw["verdict"] = "compliant"
+        elif "部分" in conclusion:
+            raw["verdict"] = "partial"
+        elif "不适用" in conclusion:
+            raw["verdict"] = "notApplicable"
+        else:
+            raw["verdict"] = "unclear"
+
+    # level 缺失默认 medium
+    if not raw.get("level"):
+        raw["level"] = "medium"
+
+    # clauseRef 清洗：去书名号、去法规名，提取第一个 第X条
+    import re
+
+    # clauseRef 清洗/提取：优先 clauseRef 字段，其次从 conclusion/description 提取
+    clause_ref = str(raw.get("clauseRef") or "")
+    m = re.search(r"第[一二三四五六七八九十\d]+条(第[一二三四五六七八九十\d]+款)?", clause_ref)
+    if not m:
+        # 从 conclusion/description 提取（LLM 常把条款号写在结论里）
+        search_text = f"{raw.get('conclusion', '')} {raw.get('description', '')}"
+        m = re.search(r"第[一二三四五六七八九十\d]+条(第[一二三四五六七八九十\d]+款)?", search_text)
+    if m:
+        raw["clauseRef"] = m.group(0)
+
+    # description 缺失但含 conclusion → 用 conclusion 作为说明
+    if not raw.get("description") and raw.get("conclusion"):
+        raw["description"] = str(raw["conclusion"]).strip()
+
+    return raw
+
+
 def build_dimension_node(
     dimension: str,
     llm_func: Callable[..., Awaitable[str]],
@@ -61,9 +154,9 @@ def build_dimension_node(
             {"role": "user", "content": user_content},
         ]
 
-        # 降级默认：LLM 异常/校验失败 → 待补 + needsHumanReview
+        # 降级默认：LLM 异常/校验失败 → 待补 + needsHumanReview（dimension 用契约值）
         degraded = {
-            "dimension": dimension,
+            "dimension": normalize_dimension(None, dimension),
             "verdict": "unclear",
             "level": "medium",
             "clauseRef": "待补",
@@ -77,6 +170,8 @@ def build_dimension_node(
         try:
             text = await llm_func(messages=messages, dimension=dimension, task_id=task_id)
             raw = _extract_json(text)
+            # 规范化 LLM 原始输出（schema 不稳定容忍层：维度/verdict/clauseRef）
+            raw = _normalize_llm_raw(raw, dimension)
             finding, warnings = validate_finding(raw)
             if finding is None:
                 logger.warning("维度 %s 校验丢弃: %s", dimension, warnings)

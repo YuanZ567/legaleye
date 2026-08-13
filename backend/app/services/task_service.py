@@ -20,10 +20,10 @@ def create_task(*, db: Session, document_id: uuid.UUID) -> uuid.UUID:
 
 
 def dispatch_task(task_id: uuid.UUID, document_id: uuid.UUID) -> None:
-    """分发 Celery 异步审查（延迟导入避免循环依赖）。"""
+    """分发 Celery 异步审查（延迟导入避免循环依赖），传入任务 id 以更新状态。"""
     from app.tasks.review_task import run_review
 
-    run_review.delay(str(document_id))
+    run_review.delay(str(document_id), str(task_id))
 
 
 def get_task(db: Session, task_id: uuid.UUID) -> ReviewTask | None:

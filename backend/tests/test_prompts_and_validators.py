@@ -85,19 +85,21 @@ def test_confidence_clamped():
 
 
 def test_unknown_enum_discarded():
-    """枚举未知（verdict/level/dimension）→ 丢弃 + 告警。"""
-    # 非法 verdict
-    result, warnings = validate_finding(_valid_raw(verdict="notAThing"))
-    assert result is None
-    assert any("verdict" in w for w in warnings)
-    # 非法 level
-    result, warnings = validate_finding(_valid_raw(level="critical"))
-    assert result is None
-    assert any("level" in w for w in warnings)
-    # 非法 dimension
+    """枚举：dimension 未知丢弃；verdict/level 非法默认值保留（不丢弃）+ 告警。"""
+    # 非法 dimension → 丢弃
     result, warnings = validate_finding(_valid_raw(dimension="d99"))
     assert result is None
     assert any("dimension" in w for w in warnings)
+    # 非法 verdict → 默认 unclear（不丢弃）+ 告警
+    result, warnings = validate_finding(_valid_raw(verdict="notAThing"))
+    assert result is not None
+    assert result["verdict"] == "unclear"
+    assert any("verdict" in w for w in warnings)
+    # 非法 level → 默认 medium（不丢弃）+ 告警
+    result, warnings = validate_finding(_valid_raw(level="critical"))
+    assert result is not None
+    assert result["level"] == "medium"
+    assert any("level" in w for w in warnings)
 
 
 def test_no_hit_pending():
