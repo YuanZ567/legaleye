@@ -159,7 +159,8 @@
 - [x] M5-1 Critic 节点：跨维度矛盾检测（声明-行为、不出境-图谱出境）（commit fb74884）
 - [x] M5-2 高风险结论复核（needsHumanReview 联动）（commit fb74884）
 - [x] M5-3 反思循环：打回对应维度重审，≤2 轮强制结束（commit fb74884）：`agents/critic.py`（跨维度矛盾检测：不出境-图谱出境 + 声明-行为 + 高风险复核，产出 crossConsistency finding + 打回维度）；`workflow.py` 接入 critic 后置节点（六维→critic→reflect），反思基于 reconsider_dims，`ReviewDimension` 补 crossConsistency；修复图谱摘要"无出境"否定表达误判；单测 5 项（矛盾样本/无矛盾/声明-行为/高风险复核/反思循环 ≤2 轮强制结束）；全量 126 passed
-- [ ] M5-4 单测（矛盾样本）通过，**git 存档**
+- [x] M5-4 单测（矛盾样本）通过，**git 存档**：全量 126 passed + ruff/black 全绿；**M5 里程碑完成（4 子任务全部勾选）**
+- **M5 里程碑状态**：一致性校验 Critic 智能体完成——跨维度矛盾检测（不出境-图谱出境、声明-行为）+ 高风险结论复核（needsHumanReview 联动）+ 反思循环（打回对应维度重审 ≤2 轮强制结束，防死循环对应 ARCHITECTURE 6.4）；复用 M4 LangGraph 工作流（Critic 作为后置节点）；12 条红线遵守（禁裸调 LLM、经 factory、强校验）。产出：Critic 节点 + crossConsistency 维度 + 反思循环升级；单测 5 项（矛盾样本/无矛盾/声明-行为/高风险复核/反思循环）；测试 121→126
 
 ### M6 多文档联合审查
 **目标**：隐私政策+DPA+SCC 声明键对齐，输出 CrossDocConflict（PRD F5）。
