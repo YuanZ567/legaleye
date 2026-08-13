@@ -28,6 +28,7 @@ dependencies = [
     "pgvector>=0.3",
     "openai>=1.40",
     "networkx>=3.3",
+    "anthropic>=0.40",
 ]
 
 [dependency-groups]

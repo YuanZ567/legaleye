@@ -52,3 +52,41 @@ class PathType(StrEnum):
     SCC = "scc"
     CERTIFICATION = "certification"
     UNKNOWN = "unknown"
+
+
+class Provider(StrEnum):
+    """LLM Provider（ARCHITECTURE 6.2，四 provider 路由）。"""
+
+    BAILIAN = "bailian"
+    DEEPSEEK = "deepseek"
+    OPENAI = "openai"
+    ANTHROPIC = "anthropic"
+
+
+class ReviewDimension(StrEnum):
+    """合规审查六维（DATA_CONTRACT 4.1 ReviewTask.dimensions）。"""
+
+    D1_COLLECTION = "d1Collection"
+    D2_NOTICE = "d2Notice"
+    D3_PURPOSE = "d3Purpose"
+    D4_THIRD_PARTY = "d4ThirdParty"
+    D5_CROSS_BORDER = "d5CrossBorder"
+    D6_DATA_RIGHTS = "d6DataRights"
+
+
+class FindingVerdict(StrEnum):
+    """审查结论（DATA_CONTRACT 4.8 finding.verdict）。"""
+
+    COMPLIANT = "compliant"
+    PARTIAL = "partial"
+    NON_COMPLIANT = "nonCompliant"
+    NOT_APPLICABLE = "notApplicable"
+    UNCLEAR = "unclear"
+
+
+class FindingLevel(StrEnum):
+    """风险等级（finding.level）。"""
+
+    HIGH = "high"
+    MEDIUM = "medium"
+    LOW = "low"
