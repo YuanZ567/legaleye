@@ -143,7 +143,7 @@
 **不允许破坏**：`ReviewTask` 状态机（queued→running→done/failed）；`ComplianceFinding` 强制字段；**LLM 调用必须经 factory 且记账**；默认路由国内模型（数据不出境）；降级容错表（ARCHITECTURE 6.4）；SSE 七类事件名。
 **验收标准**：
 - [x] M4-1 llm/factory.py：四 provider 路由 + Fernet 解密 + LLMCallRecord 记账（commit fb220a8）：`core/security.py` Fernet 加解密 + `models/model_config.py`（ModelConfig：provider/Fernet 密文 Key/L2 永不出 API + LLMCallRecord 记账）+ `llm/factory.py`（bailian/deepseek/openai 走 OpenAI 兼容、anthropic 走 Anthropic，chat_completion 唯一入口解密+记账，禁裸调，未配置抛 LLMConfigError）+ Alembic `20260813_0005`（待 Docker 启动后对真实 PG 执行）；单测 5 项（Fernet 往返/错误密钥 SecurityError/配置缺失/记账 tokens/node/四 provider 路由）；全量 92 passed。**注：Docker 未运行，迁移未执行，需启动 infra 后补跑 alembic upgrade head**
-- [ ] M4-2 prompts/ 集中管理：D1-D6 提示词（输出 schema 强制）
+- [x] M4-2 prompts/ 集中管理：D1-D6 提示词（输出 schema 强制）（commit d53124c）：`prompts/` 集中管理（base.py PromptSpec + 通用纪律"依据检索结果而非记忆/无命中输出待补" + d1-d6 每智能体一文件 + 注册表 get_prompt）+ `schemas/validators.py` 强校验（clauseRef 正则失败→降级待补+needsHumanReview、confidence 钳制 [0,1] 含 NaN、枚举未知丢弃、缺失字段默认）；单测 9 项；全量 101 passed
 - [ ] M4-3 LangGraph 工作流骨架 + Celery 任务
 - [ ] M4-4 六维并行 + 工具挂载（法规检索/图谱查询/SCC 比对）
 - [ ] M4-5 SSE 进度（taskStatus/nodeStart/nodeEnd/tokenUsage）
