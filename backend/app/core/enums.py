@@ -91,3 +91,14 @@ class FindingLevel(StrEnum):
     HIGH = "high"
     MEDIUM = "medium"
     LOW = "low"
+
+
+class DeclarationKey(StrEnum):
+    """跨文档声明键（DATA_CONTRACT 4.8 CrossDocConflict，6 个）。"""
+
+    DATA_CATEGORY = "dataCategory"
+    PURPOSE = "purpose"
+    RECEIVERS = "receivers"
+    CROSS_BORDER = "crossBorder"
+    RETENTION = "retention"
+    RIGHTS = "rights"
