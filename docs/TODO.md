@@ -167,10 +167,10 @@
 **允许修改范围**：`backend/app/services/`（声明键抽取/对齐）、`agents/`、`api/tasks.py`（multi 模式）、报告结构。
 **不允许破坏**：`CrossDocConflict` 契约；6 个声明键枚举；合法组合规则；矛盾级别判定（高/中/低）。
 **验收标准**：
-- [ ] M6-1 声明键抽取（数据类别/目的/接收方/出境/保留期限/权利响应）
-- [ ] M6-2 对齐比对 + 名称归一化
-- [ ] M6-3 矛盾级别判定 + 双方原文证据
-- [ ] M6-4 验收：注入样本（政策不出境 vs DPA 有境外接收方）检出 ≥1 条高级矛盾；联合审查 3 份 ≤10 分钟，**git 存档**
+- [x] M6-1 声明键抽取（数据类别/目的/接收方/出境/保留期限/权利响应）（commit 029ed7f）
+- [x] M6-2 对齐比对 + 名称归一化（commit 029ed7f）
+- [x] M6-3 矛盾级别判定 + 双方原文证据（commit 029ed7f）
+- [x] M6-4 验收：注入样本（政策不出境 vs DPA 有境外接收方）检出 ≥1 条高级矛盾；联合审查 3 份 ≤10 分钟，**git 存档**（commit 029ed7f）：`services/crossdoc.py`（6 声明键抽取值+原文证据 charRange + 名称归一化 境外/海外/overseas→境外 + 矛盾判定 crossBorder 语义冲突高/保留期限不一致中）+ `schemas/crossdoc.py`（CrossDocConflict 契约 docA/docB/level）+ `DeclarationKey` 枚举；单测 6 项（全键抽取/不出境识别/归一化/crossBorder 高矛盾/retention 中矛盾/样本检出高级矛盾）；全量 132 passed；联合审查复用 M4 工作流模式（documents 数组）
 
 ### M7 前端四件套
 **目标**：聊天（SSE）/ 编排画布 / 数据流图谱 / 仪表盘四块可视化联动（PRD F7、DESIGN 7.2）。
