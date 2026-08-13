@@ -156,9 +156,9 @@
 **允许修改范围**：`backend/app/agents/`（Critic 节点）、`prompts/`、工作流图定义。
 **不允许破坏**：反思循环上限 2 轮；`ComplianceFinding` schema；`crossConsistency` 维度枚举；SSE 事件契约。
 **验收标准**：
-- [ ] M5-1 Critic 节点：跨维度矛盾检测（声明-行为、不出境-图谱出境）
-- [ ] M5-2 高风险结论复核（needsHumanReview 联动）
-- [ ] M5-3 反思循环：打回对应维度重审，≤2 轮强制结束
+- [x] M5-1 Critic 节点：跨维度矛盾检测（声明-行为、不出境-图谱出境）（commit fb74884）
+- [x] M5-2 高风险结论复核（needsHumanReview 联动）（commit fb74884）
+- [x] M5-3 反思循环：打回对应维度重审，≤2 轮强制结束（commit fb74884）：`agents/critic.py`（跨维度矛盾检测：不出境-图谱出境 + 声明-行为 + 高风险复核，产出 crossConsistency finding + 打回维度）；`workflow.py` 接入 critic 后置节点（六维→critic→reflect），反思基于 reconsider_dims，`ReviewDimension` 补 crossConsistency；修复图谱摘要"无出境"否定表达误判；单测 5 项（矛盾样本/无矛盾/声明-行为/高风险复核/反思循环 ≤2 轮强制结束）；全量 126 passed
 - [ ] M5-4 单测（矛盾样本）通过，**git 存档**
 
 ### M6 多文档联合审查
