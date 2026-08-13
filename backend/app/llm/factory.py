@@ -31,6 +31,11 @@ PROVIDER_BASE_URLS: dict[Provider, str] = {
     Provider.OPENAI: "https://api.openai.com/v1",
 }
 
+# 降级容错（ARCHITECTURE 6.4）：单次调用超时 60s，失败重试 2 次（指数退避）
+LLM_TIMEOUT_SECONDS = 60
+LLM_MAX_RETRIES = 2
+LLM_RETRY_BACKOFF = 2.0
+
 
 class LLMConfigError(LLMError):
     """模型配置缺失/解密失败。"""
@@ -55,17 +60,17 @@ def get_active_model_config(db: Session, provider: Provider) -> ModelConfig:
 
 
 def _build_openai_client(api_key: str, base_url: str) -> Any:
-    """构造 OpenAI 兼容 client（bailian/deepseek/openai 共用）。"""
+    """构造 OpenAI 兼容 client（bailian/deepseek/openai 共用），带 60s 超时。"""
     from openai import OpenAI
 
-    return OpenAI(api_key=api_key, base_url=base_url)
+    return OpenAI(api_key=api_key, base_url=base_url, timeout=LLM_TIMEOUT_SECONDS)
 
 
 def _build_anthropic_client(api_key: str) -> Any:
-    """构造 Anthropic client。"""
+    """构造 Anthropic client，带 60s 超时。"""
     import anthropic
 
-    return anthropic.Anthropic(api_key=api_key)
+    return anthropic.Anthropic(api_key=api_key, timeout=LLM_TIMEOUT_SECONDS)
 
 
 def _record_call(
@@ -112,13 +117,25 @@ def chat_completion(
     api_key = decrypt_secret(cfg.api_key_encrypted)
     model = model or cfg.model
 
-    client = None
-    if provider == Provider.ANTHROPIC:
-        client = _build_anthropic_client(api_key)
-        resp = _anthropic_completion(client, model, messages)
-    else:
-        client = _build_openai_client(api_key, PROVIDER_BASE_URLS[provider])
-        resp = _openai_completion(client, model, messages)
+    # 降级容错（ARCHITECTURE 6.4）：失败重试 2 次（指数退避）；配置错误不重试
+    for attempt in range(LLM_MAX_RETRIES + 1):
+        try:
+            if provider == Provider.ANTHROPIC:
+                client = _build_anthropic_client(api_key)
+                resp = _anthropic_completion(client, model, messages)
+            else:
+                client = _build_openai_client(api_key, PROVIDER_BASE_URLS[provider])
+                resp = _openai_completion(client, model, messages)
+            break
+        except LLMConfigError:
+            raise
+        except Exception as exc:  # 网络/超时/限流 → 重试
+            if attempt < LLM_MAX_RETRIES:
+                time.sleep(LLM_RETRY_BACKOFF * (2**attempt))
+            else:
+                raise LLMError(
+                    f"LLM 调用重试 {LLM_MAX_RETRIES} 次仍失败: {exc}", code="llm_failed"
+                ) from exc
 
     input_tokens = resp.get("input_tokens", 0)
     output_tokens = resp.get("output_tokens", 0)

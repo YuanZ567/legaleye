@@ -22,8 +22,8 @@ celery_app.conf.update(
     accept_content=["json"],
     timezone="Asia/Shanghai",
     enable_utc=True,
-    # 降级容错（ARCHITECTURE 6.4）：单任务软超时 60s + 重试 2 次
-    task_time_limit=60,
-    task_soft_time_limit=55,
+    # 降级容错（ARCHITECTURE 6.4）：任务总熔断 10 分钟（单 LLM 调用 60s 超时由 factory 层控制）
+    task_time_limit=600,
+    task_soft_time_limit=570,
     task_acks_late=True,
 )
