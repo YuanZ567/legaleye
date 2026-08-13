@@ -29,6 +29,31 @@ def retrieve_law_baseline(db: Session, query: str, top_k: int = 3) -> str:
     return "\n".join(lines)
 
 
+def retrieve_law_multi(db: Session, queries: list[str], top_k: int = 3) -> str:
+    """多 query 语义检索合并去重（确保覆盖跨境/收集/同意等各维度条款）。
+
+    供 orchestrator 使用：合并结果按法条去重，保证 D5 等维度能在检索结果中
+    找到对应条款号（满足"clauseRef 必须命中检索结果"的红线校验）。
+    """
+    seen: set[str] = set()
+    lines: list[str] = []
+    for q in queries:
+        try:
+            hits = semantic_search(db=db, query=q, top_k=top_k)
+        except Exception as exc:  # embedding 失败不阻塞
+            logger.warning("法条检索失败(%s): %s", q, exc)
+            continue
+        for h in hits:
+            key = (h.clause_ref, h.statute_version)
+            if key in seen:
+                continue
+            seen.add(key)
+            lines.append(f"[{h.clause_ref} · {h.statute_version}] {h.article_text}")
+    if not lines:
+        return "（无相关法条命中）"
+    return "\n".join(lines)
+
+
 def query_dataflow_graph(db: Session, document_id: str) -> str:
     """查询数据流图谱风险路径（返回跨境等风险摘要，供 D5 使用）。"""
     from app.services.graph_service import build_graph_for_document

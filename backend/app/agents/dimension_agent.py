@@ -79,14 +79,18 @@ def normalize_dimension(value: str | None, fallback_dim: str) -> str:
     return DIMENSION_NORMALIZE.get(fallback_dim, fallback_dim)
 
 
-def _normalize_llm_raw(raw: dict, fallback_dim: str) -> dict:
+def _normalize_llm_raw(raw: dict, fallback_dim: str, retrieval: str = "") -> dict:
     """规范化 LLM 原始输出（schema 不稳定的容忍层）。
 
     - dimension：归一化到契约值；
     - verdict 缺失但含 conclusion → 按语义推断（不合规/合规/部分/不适用）；
-    - clauseRef 清洗（去书名号/去法规名，提取条款号）；
+    - clauseRef 清洗 + **检索命中校验**（红线：禁无引用结论）——LLM 输出的条款号
+      必须在本轮检索结果中，否则强制清空 + needsHumanReview + verdict=unclear
+      （绝不静默放过"假引用"）；
     - level 缺失默认 medium。
     """
+    import re
+
     # dimension 归一化
     raw["dimension"] = normalize_dimension(raw.get("dimension"), fallback_dim)
 
@@ -108,18 +112,34 @@ def _normalize_llm_raw(raw: dict, fallback_dim: str) -> dict:
     if not raw.get("level"):
         raw["level"] = "medium"
 
-    # clauseRef 清洗：去书名号、去法规名，提取第一个 第X条
-    import re
-
     # clauseRef 清洗/提取：优先 clauseRef 字段，其次从 conclusion/description 提取
     clause_ref = str(raw.get("clauseRef") or "")
     m = re.search(r"第[一二三四五六七八九十\d]+条(第[一二三四五六七八九十\d]+款)?", clause_ref)
     if not m:
-        # 从 conclusion/description 提取（LLM 常把条款号写在结论里）
         search_text = f"{raw.get('conclusion', '')} {raw.get('description', '')}"
         m = re.search(r"第[一二三四五六七八九十\d]+条(第[一二三四五六七八九十\d]+款)?", search_text)
-    if m:
-        raw["clauseRef"] = m.group(0)
+    extracted_ref = m.group(0) if m else ""
+
+    # 检索命中校验（红线）：clauseRef 必须在本轮检索结果中；无检索 → 不能有引用
+    retrieval_text = retrieval or ""
+    if extracted_ref and (retrieval_text and extracted_ref in retrieval_text):
+        # 命中检索：保留引用（needsHumanReview 用 LLM 原值或默认 False）
+        raw["clauseRef"] = extracted_ref
+        raw["needsHumanReview"] = bool(raw.get("needsHumanReview", False))
+    elif extracted_ref and not retrieval_text:
+        # 无检索结果却写引用 → 假引用，清空 + 人工复核
+        raw["clauseRef"] = ""
+        raw["verdict"] = "unclear"
+        raw["needsHumanReview"] = True
+    elif extracted_ref and extracted_ref not in retrieval_text:
+        # 引用不在检索结果 → 假引用，清空 + 人工复核（绝不静默放过）
+        raw["clauseRef"] = ""
+        raw["verdict"] = "unclear"
+        raw["needsHumanReview"] = True
+    else:
+        # 无条款号 → 待补
+        raw["clauseRef"] = ""
+        raw["needsHumanReview"] = bool(raw.get("needsHumanReview", False))
 
     # description 缺失但含 conclusion → 用 conclusion 作为说明
     if not raw.get("description") and raw.get("conclusion"):
@@ -170,8 +190,8 @@ def build_dimension_node(
         try:
             text = await llm_func(messages=messages, dimension=dimension, task_id=task_id)
             raw = _extract_json(text)
-            # 规范化 LLM 原始输出（schema 不稳定容忍层：维度/verdict/clauseRef）
-            raw = _normalize_llm_raw(raw, dimension)
+            # 规范化 LLM 原始输出（schema 不稳定容忍层：维度/verdict/clauseRef + 检索命中校验）
+            raw = _normalize_llm_raw(raw, dimension, state.get("retrieval", ""))
             finding, warnings = validate_finding(raw)
             if finding is None:
                 logger.warning("维度 %s 校验丢弃: %s", dimension, warnings)

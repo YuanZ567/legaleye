@@ -11,9 +11,9 @@ from app.agents.dimension_agent import build_dimension_node
 
 
 def _run(node, **state):
-    return asyncio.run(
-        node(state or {"task_id": "t", "document_text": "d", "retrieval": "", "graph_summary": ""})
-    )
+    base = {"task_id": "t", "document_text": "d", "retrieval": "", "graph_summary": ""}
+    base.update(state)
+    return asyncio.run(node(base))
 
 
 async def _ok_llm(**kwargs):
@@ -34,9 +34,9 @@ async def _raise_llm(**kwargs):
 
 
 def test_node_returns_valid_finding():
-    """LLM 返回合法 JSON → 过 validators 返回合法 finding。"""
+    """LLM 返回合法 JSON 且 clauseRef 命中检索 → 过 validators 返回合法 finding。"""
     node = build_dimension_node("d1", _ok_llm)
-    result = _run(node)
+    result = _run(node, retrieval="[第五条第1款 · 个人信息保护法] 收集应当最小必要")
     finding = result["findings"][0]
     assert finding["dimension"] == "d1Collection"
     assert finding["verdict"] == "nonCompliant"
@@ -80,3 +80,49 @@ def test_node_passes_retrieval_to_llm():
     assert msgs[0]["role"] == "system"  # 提示词 system
     assert "检索结果A" in msgs[1]["content"]  # 检索结果传入
     assert "隐私政策原文" in msgs[1]["content"]  # 文档原文传入
+
+
+# ── D5 修复：clauseRef 检索命中校验（红线：禁无引用结论） ──
+
+
+def test_clause_ref_must_hit_retrieval():
+    """clauseRef 在检索结果中 → 保留（D5 修复核心）。"""
+    from app.agents.dimension_agent import _normalize_llm_raw
+
+    retrieval = "[第三十九条 · 个人信息保护法] 向境外提供个人信息应当取得单独同意"
+    raw = _normalize_llm_raw(
+        {"dimension": "d5CrossBorder", "clauseRef": "第三十九条", "conclusion": "不合规"},
+        "d5",
+        retrieval=retrieval,
+    )
+    assert raw["clauseRef"] == "第三十九条"  # 命中检索，保留
+    assert raw["needsHumanReview"] is False
+
+
+def test_clause_ref_fake_hit_cleared():
+    """clauseRef 不在检索结果 → 清空 + needsHumanReview + verdict=unclear（禁假引用）。"""
+    from app.agents.dimension_agent import _normalize_llm_raw
+
+    retrieval = "[第三十九条 · 个人信息保护法] 向境外提供应当单独同意"
+    # LLM 凭记忆写"第二条"，但检索结果里没有第二条
+    raw = _normalize_llm_raw(
+        {"dimension": "d5CrossBorder", "clauseRef": "第二条", "conclusion": "不合规"},
+        "d5",
+        retrieval=retrieval,
+    )
+    assert raw["clauseRef"] == ""  # 假引用清空
+    assert raw["verdict"] == "unclear"
+    assert raw["needsHumanReview"] is True
+
+
+def test_clause_ref_no_retrieval_cleared():
+    """无检索结果却写引用 → 清空 + 人工复核（红线兜底）。"""
+    from app.agents.dimension_agent import _normalize_llm_raw
+
+    raw = _normalize_llm_raw(
+        {"dimension": "d5CrossBorder", "clauseRef": "第三十九条", "conclusion": "不合规"},
+        "d5",
+        retrieval="",
+    )
+    assert raw["clauseRef"] == ""
+    assert raw["needsHumanReview"] is True

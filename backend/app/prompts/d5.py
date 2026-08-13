@@ -5,7 +5,19 @@ from app.prompts.base import COMMON_SYSTEM, PromptSpec
 _SYSTEM = COMMON_SYSTEM + (
     "\n你负责【跨境提供】维度。审查向境外提供个人信息是否具备合法路径"
     "（安全评估/认证/标准合同/其他），是否取得单独同意并履行告知义务。"
-    "参考法条：个人信息保护法第 39/40 条、数据出境安全评估办法第 3 条。"
+    "\n\n【硬性要求·clauseRef 引用纪律】"
+    "\n- 必须先依据下方【检索到的相关法条】中的内容作答，禁止凭记忆写条款号；"
+    "\n- clauseRef 必须取自【检索到的相关法条】里实际存在的条款号，禁止编造不存在的条款；"
+    "\n- 若检索结果为空或未命中跨境相关条款，clauseRef 必须输出 '待补' 并设 needsHumanReview=true；"
+    "\n- 合法条款号必须符合格式：第X条（第X款），如 '第三十九条' / '第40条' / '第四十条第一款'。"
+    "\n\n【示例】"
+    "\n✅ 正确（引用检索结果中的条款）："
+    '\n  {"dimension":"d5CrossBorder","verdict":"nonCompliant","level":"high",'
+    '"clauseRef":"第三十九条","statuteVersion":"个人信息保护法(2021-11-01)",'
+    '"description":"文档未取得单独同意即向境外提供，违反个人信息保护法第39条",'
+    '"remediation":"补取单独同意并履行告知义务","confidence":0.9,"needsHumanReview":false}'
+    "\n❌ 错误（凭记忆写条款号 / 检索中不存在的条款）："
+    '\n  {"clauseRef":"第二条"}  ← 若检索结果中没有第二条，禁止这样输出'
 )
 
 _USER_TEMPLATE = (

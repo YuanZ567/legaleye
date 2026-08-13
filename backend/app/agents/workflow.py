@@ -92,12 +92,21 @@ def _orchestrator(state: WorkflowState) -> dict:
     retrieval = state.get("retrieval")
     graph_summary = state.get("graph_summary")
     if retrieval is None or graph_summary is None:
-        # 首轮：执行法条检索 + 图谱查询（失败降级）
-        from app.agents.tools import query_dataflow_graph, retrieve_law_baseline
+        # 首轮：执行法条检索（多 query 覆盖跨境/收集/同意等）+ 图谱查询（失败降级）
+        from app.agents.tools import query_dataflow_graph, retrieve_law_multi
         from app.core.db import SessionLocal
 
         with SessionLocal() as db:
-            retrieval = retrieve_law_baseline(db, "数据合规与个人信息保护", top_k=5)
+            retrieval = retrieve_law_multi(
+                db,
+                [
+                    "个人信息跨境向境外提供的条件与单独同意义务",
+                    "个人信息收集的最小必要与合法正当",
+                    "委托处理第三方与告知同意",
+                    "数据主体查询复制更正删除权利",
+                ],
+                top_k=3,
+            )
             graph_summary = query_dataflow_graph(db, document_id) if document_id else ""
     return {
         "retrieval": retrieval,
