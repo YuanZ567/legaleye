@@ -29,6 +29,9 @@ dependencies = [
     "openai>=1.40",
     "networkx>=3.3",
     "anthropic>=0.40",
+    "langgraph>=0.2",
+    "langchain>=0.3",
+    "celery>=5.4",
 ]
 
 [dependency-groups]

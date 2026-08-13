@@ -5,9 +5,8 @@ Revises: 20260812_0004
 Create Date: 2026-08-13
 """
 
-from alembic import op
 import sqlalchemy as sa
-
+from alembic import op
 from app.core.enums import Provider
 
 # revision identifiers, used by Alembic.
@@ -19,7 +18,10 @@ depends_on = None
 
 def _provider_enum() -> sa.Enum:
     return sa.Enum(
-        Provider, name="provider", native_enum=False, length=32,
+        Provider,
+        name="provider",
+        native_enum=False,
+        length=32,
         values_callable=lambda e: [m.value for m in e],
     )
 
@@ -33,7 +35,12 @@ def upgrade() -> None:
         sa.Column("api_key_encrypted", sa.Text(), nullable=False),
         sa.Column("model", sa.String(length=64), nullable=False),
         sa.Column("is_active", sa.Boolean(), nullable=False),
-        sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.text("now()"), nullable=False),
+        sa.Column(
+            "created_at",
+            sa.DateTime(timezone=True),
+            server_default=sa.text("now()"),
+            nullable=False,
+        ),
         sa.PrimaryKeyConstraint("id"),
     )
 
@@ -48,7 +55,12 @@ def upgrade() -> None:
         sa.Column("output_tokens", sa.Integer(), nullable=False),
         sa.Column("cost_est", sa.Float(), nullable=False),
         sa.Column("latency_ms", sa.Integer(), nullable=False),
-        sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.text("now()"), nullable=False),
+        sa.Column(
+            "created_at",
+            sa.DateTime(timezone=True),
+            server_default=sa.text("now()"),
+            nullable=False,
+        ),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_index("ix_llm_call_records_task_id", "llm_call_records", ["task_id"])
