@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { BookOpen, FileText, GitFork, PlusCircle, Settings, ShieldCheck } from "lucide-react";
+import { BookOpen, FileText, GitFork, MessagesSquare, PlusCircle, Settings, ShieldCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import GraphPreview from "@/pages/GraphPreview";
+import Workbench from "@/pages/Workbench";
 
-type View = "tasks" | "graph";
+type View = "tasks" | "graph" | "chat";
 
 const navItems: { label: string; icon: typeof FileText; view: View }[] = [
   { label: "任务列表", icon: FileText, view: "tasks" },
-  { label: "新建审查", icon: PlusCircle, view: "tasks" },
+  { label: "新建审查", icon: PlusCircle, view: "chat" },
+  { label: "审查工作台", icon: MessagesSquare, view: "chat" },
   { label: "数据流图谱", icon: GitFork, view: "graph" },
   { label: "模型配置", icon: Settings, view: "tasks" },
   { label: "知识库", icon: BookOpen, view: "tasks" },
@@ -62,9 +64,11 @@ export default function App() {
           </div>
         </header>
         <main className="flex-1 overflow-auto p-6">
-          {view === "graph" ? <GraphPreview /> : (
+          {view === "graph" && <GraphPreview />}
+          {view === "chat" && <Workbench />}
+          {view === "tasks" && (
             <div className="flex h-full items-center justify-center rounded-lg border border-dashed border-line-200">
-              <p className="text-sm text-ink-400">该视图占位 — 数据流图谱已接入</p>
+              <p className="text-sm text-ink-400">该视图占位 — 任务列表（M8）</p>
             </div>
           )}
         </main>

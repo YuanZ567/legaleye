@@ -3,18 +3,23 @@
  * 端到端：GET /documents/{id}/graph → GraphPayload → GraphCanvas。
  */
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { fetchDocumentGraph, type GraphPayload } from "@/api/graph";
 import GraphCanvas from "@/components/GraphCanvas";
 
-export default function GraphPreview() {
-  const [docId, setDocId] = useState("");
+interface Props {
+  /** 可选：初始文档 ID（自动加载，供工作台联动）。 */
+  initialDocId?: string;
+}
+
+export default function GraphPreview({ initialDocId = "" }: Props) {
+  const [docId, setDocId] = useState(initialDocId);
   const [payload, setPayload] = useState<GraphPayload | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function loadGraph() {
+  const loadGraph = useCallback(async () => {
     if (!docId.trim()) return;
     setLoading(true);
     setError(null);
@@ -27,7 +32,17 @@ export default function GraphPreview() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [docId]);
+
+  // 初始文档 ID 变化时自动加载
+  useEffect(() => {
+    if (initialDocId && initialDocId !== docId) {
+      setDocId(initialDocId);
+    }
+    if (initialDocId) {
+      loadGraph();
+    }
+  }, [initialDocId, docId, loadGraph]);
 
   return (
     <div className="flex flex-col gap-4">
