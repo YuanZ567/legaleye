@@ -50,6 +50,27 @@ def publish_event(task_id: str, event_type: str, data: dict[str, Any]) -> None:
     logger.info("[sse] %s %s %s", task_id, event_type, data)
 
 
+def publish_token_usage(
+    task_id: str,
+    *,
+    provider: str,
+    model: str,
+    input_tokens: int,
+    output_tokens: int,
+) -> None:
+    """发布 tokenUsage 事件（LLM 调用记账后调用，契约 DATA_CONTRACT 3.3）。"""
+    publish_event(
+        task_id,
+        "tokenUsage",
+        {
+            "provider": provider,
+            "model": model,
+            "inputTokens": input_tokens,
+            "outputTokens": output_tokens,
+        },
+    )
+
+
 def iter_events(task_id: str, *, timeout: int = 120) -> Iterator[str]:
     """迭代读取任务事件流（SSE generator 用）。
 
