@@ -27,7 +27,9 @@ data/raw_laws/
 
 # ── IDE / 系统 ─────────────────────────────
 .idea/
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 .DS_Store
 Thumbs.db
 *.log

@@ -1,0 +1,40 @@
+{
+  // ── 文件树：隐藏缓存/构建产物（治"看着乱"）──
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/.pytest_cache": true,
+    "**/.ruff_cache": true,
+    "**/node_modules": true,
+    "frontend/dist": true,
+    "**/.venv": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/__pycache__": true,
+    "frontend/dist": true,
+    "**/.venv": true
+  },
+
+  // ── Python：指向 backend 虚拟环境（治"标红"）──
+  "python.defaultInterpreterPath": "${workspaceFolder}/backend/.venv/Scripts/python.exe",
+  "python.analysis.extraPaths": ["${workspaceFolder}/backend"],
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportMissingTypeStubs": "none"
+  },
+
+  // ── 格式化：保存时自动 ruff + prettier ──
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "ruff.nativeServer": true
+}
