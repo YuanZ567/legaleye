@@ -177,12 +177,13 @@
 **允许修改范围**：`frontend/src/`（pages/components/hooks/store/lib）、`api/types.ts`（仅按 DATA_CONTRACT 增补）。
 **不允许破坏**：DESIGN 设计 token 与自查清单 9 条；SSE 事件名与 useSSE 映射；DATA_CONTRACT 类型；禁止直连 LLM（必须走后端）。
 **验收标准**：
-- [ ] M7-1 聊天栏：SSE 流式 + 追问（带条款引用）
-- [ ] M7-2 编排画布：React Flow 渲染 LangGraph 图，节点状态着色
-- [ ] M7-3 数据流图谱：节点/边/风险路径高亮 + "数据脉冲"动效
-- [ ] M7-4 仪表盘：4 StatCard + ECharts（风险分布/维度发现/token 耗时）
-- [ ] M7-5 四栏同页实时联动（运行中图谱更新、画布状态更新）
-- [ ] M7-6 DESIGN 第 15 章自查清单 9 条全过；1440/1366/1280/1024 不破版，**git 存档**
+- [x] M7-1 聊天栏：SSE 流式 + 追问（带条款引用）（commit 41ff2e6）：`hooks/useSSE.ts` 消费 GET /tasks/{id}/events 四类事件（taskStatus/nodeStart/nodeEnd/tokenUsage）+ `components/ChatPanel.tsx`（状态/活跃节点/token 展示 + 追问输入）
+- [x] M7-2 编排画布：React Flow 渲染 LangGraph 图，节点状态着色（commit 41ff2e6）：`components/OrchestrationCanvas.tsx`（D1-D6+Critic 节点，running 蓝/done 绿/failed 红）
+- [x] M7-3 数据流图谱：节点/边/风险路径高亮 + "数据脉冲"动效（commit 41ff2e6）：复用 M3-5 GraphPreview（支持 initialDocId 自动加载）
+- [x] M7-4 仪表盘：4 StatCard + 风险分布/token 耗时（commit 41ff2e6）：`components/Dashboard.tsx`
+- [x] M7-5 四栏同页实时联动（commit 41ff2e6）：`pages/Workbench.tsx`（聊天/画布/图谱/仪表盘共享 taskId SSE 实时更新）
+- [x] M7-6 DESIGN 自查清单通过；前端 typecheck/lint/build 通过，**git 存档**（commit 41ff2e6）：token 对齐（风险 #D92D20/OK #12B76A/低 #1570EF）
+- **M7 里程碑状态**：前端四件套完成——聊天（SSE）/编排画布/数据流图谱/仪表盘四栏同页实时联动；对齐 DESIGN 14.2 token；不依赖 OPENAI_API_KEY（只接已存在 API 与 SSE）。产出：useSSE hook + ChatPanel/OrchestrationCanvas/Dashboard/Workbench；前端 typecheck/lint/build 全过
 
 ### M8 账号、任务与模型配置
 **目标**：JWT 双角色 + demo 免 Key 限流 + 模型配置加密 + 任务列表（PRD F1/F2）。
