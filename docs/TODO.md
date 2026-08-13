@@ -144,7 +144,7 @@
 **验收标准**：
 - [x] M4-1 llm/factory.py：四 provider 路由 + Fernet 解密 + LLMCallRecord 记账（commit fb220a8）：`core/security.py` Fernet 加解密 + `models/model_config.py`（ModelConfig：provider/Fernet 密文 Key/L2 永不出 API + LLMCallRecord 记账）+ `llm/factory.py`（bailian/deepseek/openai 走 OpenAI 兼容、anthropic 走 Anthropic，chat_completion 唯一入口解密+记账，禁裸调，未配置抛 LLMConfigError）+ Alembic `20260813_0005`（待 Docker 启动后对真实 PG 执行）；单测 5 项（Fernet 往返/错误密钥 SecurityError/配置缺失/记账 tokens/node/四 provider 路由）；全量 92 passed。**注：Docker 未运行，迁移未执行，需启动 infra 后补跑 alembic upgrade head**
 - [x] M4-2 prompts/ 集中管理：D1-D6 提示词（输出 schema 强制）（commit d53124c）：`prompts/` 集中管理（base.py PromptSpec + 通用纪律"依据检索结果而非记忆/无命中输出待补" + d1-d6 每智能体一文件 + 注册表 get_prompt）+ `schemas/validators.py` 强校验（clauseRef 正则失败→降级待补+needsHumanReview、confidence 钳制 [0,1] 含 NaN、枚举未知丢弃、缺失字段默认）；单测 9 项；全量 101 passed
-- [ ] M4-3 LangGraph 工作流骨架 + Celery 任务
+- [x] M4-3 LangGraph 工作流骨架 + Celery 任务（commit d86a045）：`models/review_task.py`（ReviewTask 状态机 queued/running/done/failed + ComplianceFinding 强字段）+ Alembic `20260813_0006` 已对真实 PG 执行；`core/sse.py`（Redis List 事件桥：taskStatus/nodeStart/nodeEnd/tokenUsage，Redis 不可用降级）；`agents/workflow.py`（LangGraph：orchestrator → 六维并行 D1-D6 → 反思循环 ≤2 轮 → report，findings 按 dimension 覆盖合并）+ `tasks/celery_app.py` + `tasks/review_task.py`（run_review：工作流编排 + 降级容错 60s/重试 2 次 → 待补+needsHumanReview）；单测 4 项（六维产出/SSE 事件/反思循环 ≤2 轮/无待补不反思）；全量 105 passed；迁移已执行
 - [ ] M4-4 六维并行 + 工具挂载（法规检索/图谱查询/SCC 比对）
 - [ ] M4-5 SSE 进度（taskStatus/nodeStart/nodeEnd/tokenUsage）
 - [ ] M4-6 降级容错：超时重试 2 次、失败降级"待补+人工复核"、任务 10 分钟熔断
