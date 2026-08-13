@@ -20,10 +20,14 @@ def create_task(*, db: Session, document_id: uuid.UUID) -> uuid.UUID:
 
 
 def dispatch_task(task_id: uuid.UUID, document_id: uuid.UUID) -> None:
-    """分发 Celery 异步审查（延迟导入避免循环依赖），传入任务 id 以更新状态。"""
+    """分发 Celery 异步审查（延迟导入避免循环依赖），传入任务 id 以更新状态。
+
+    apply_async + 显式 kwargs 传参：避免 celery bind=True 任务的位置参数歧义
+    （delay 位置传参曾导致 task_id 丢失、worker 侧新建任务记录）。
+    """
     from app.tasks.review_task import run_review
 
-    run_review.delay(str(document_id), str(task_id))
+    run_review.apply_async(args=[str(document_id)], kwargs={"task_id": str(task_id)})
 
 
 def get_task(db: Session, task_id: uuid.UUID) -> ReviewTask | None:

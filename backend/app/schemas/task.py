@@ -15,14 +15,31 @@ class TaskCreateIn(APIModel):
     task_type: str = Field(default="compliance", alias="taskType")
 
 
+class FindingOut(APIModel):
+    """合规发现契约（DATA_CONTRACT 4.2 ComplianceFinding 核心字段）。"""
+
+    id: uuid.UUID
+    dimension: str
+    verdict: str
+    level: str = Field(alias="riskLevel")
+    clause_ref: str = Field(default="", alias="clauseRef")
+    statute_version: str | None = Field(default=None, alias="statuteVersion")
+    description: str = ""
+    remediation: str = ""
+    confidence: float = 0.0
+    needs_human_review: bool = Field(default=False, alias="needsHumanReview")
+
+
 class TaskOut(APIModel):
-    """审查任务响应契约（4.4 核心字段）。"""
+    """审查任务响应契约（4.4 核心字段 + findings 明细）。"""
 
     id: uuid.UUID
     status: str
     progress: int
+    document_id: uuid.UUID | None = Field(default=None, alias="documentId")
     token_usage: int = Field(default=0, alias="tokenUsage")
     finding_count: int = Field(default=0, alias="findingCount")
+    findings: list[FindingOut] = Field(default_factory=list)
     error: str | None = None
     created_at: datetime = Field(alias="createdAt")
 

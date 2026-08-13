@@ -55,7 +55,7 @@ services:
       retries: 10
     restart: unless-stopped
 
-  # ── 后端（FastAPI + Celery，M0-4 起构建）──
+  # ── 后端（FastAPI，M0-4 起构建）──
   backend:
     build:
       context: ../backend
@@ -71,6 +71,22 @@ services:
       redis:
         condition: service_healthy
       minio:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ── Celery Worker（消费审查任务队列，M4-3 补上架构缺口）──
+  worker:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: legaleye-worker
+    command: ["uv", "run", "celery", "-A", "app.tasks.celery_app", "worker", "--loglevel=info", "--concurrency=2"]
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     restart: unless-stopped
 

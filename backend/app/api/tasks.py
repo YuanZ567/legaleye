@@ -21,7 +21,20 @@ router = APIRouter(prefix="/tasks", tags=["tasks"])
 
 
 def _dump_task(task) -> dict:
-    return TaskOut.model_validate(task, from_attributes=True).model_dump(by_alias=True)
+    """序列化任务 + 关联 findings（API 契约：findings 明细）。"""
+    from app.core.db import SessionLocal
+    from app.models import ComplianceFinding
+
+    with SessionLocal() as session:
+        findings = (
+            session.query(ComplianceFinding)
+            .filter(ComplianceFinding.task_id == task.id)
+            .order_by(ComplianceFinding.created_at)
+            .all()
+        )
+    return TaskOut.model_validate(
+        task, from_attributes=True
+    ).model_copy(update={"findings": findings}).model_dump(by_alias=True)
 
 
 @router.post("")
