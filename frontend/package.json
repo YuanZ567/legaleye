@@ -17,6 +17,7 @@
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\""
   },
   "devDependencies": {
+    "@types/diff-match-patch": "^1.0.36",
     "@types/node": "^26.2.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
@@ -36,6 +37,7 @@
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "diff-match-patch": "^1.0.5",
     "lucide-react": "^1.31.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

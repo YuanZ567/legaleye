@@ -1,25 +1,38 @@
 import { useState } from "react";
-import { BookOpen, FileText, GitFork, MessagesSquare, PlusCircle, Settings, ShieldCheck } from "lucide-react";
+import {
+  BookOpen,
+  FileText,
+  GitFork,
+  MessagesSquare,
+  PlusCircle,
+  Settings,
+  ShieldCheck,
+  ScrollText,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import GraphPreview from "@/pages/GraphPreview";
+import ReportView from "@/pages/ReportView";
 import TaskList from "@/pages/TaskList";
 import Workbench from "@/pages/Workbench";
 
-type View = "tasks" | "graph" | "chat";
+type View = "tasks" | "graph" | "chat" | "report";
 
 const navItems: { label: string; icon: typeof FileText; view: View }[] = [
   { label: "任务列表", icon: FileText, view: "tasks" },
   { label: "新建审查", icon: PlusCircle, view: "chat" },
   { label: "审查工作台", icon: MessagesSquare, view: "chat" },
   { label: "数据流图谱", icon: GitFork, view: "graph" },
+  { label: "合规报告", icon: ScrollText, view: "report" },
   { label: "模型配置", icon: Settings, view: "tasks" },
   { label: "知识库", icon: BookOpen, view: "tasks" },
 ];
 
-/** M0 应用壳：侧边栏 + 顶栏 + 内容区（M3-5 接入数据流图谱 React Flow）。 */
+/** M0 应用壳：侧边栏 + 顶栏 + 内容区（M9-2 接入报告查看页）。 */
 export default function App() {
   const [view, setView] = useState<View>("graph");
+  const [reportTaskId, setReportTaskId] = useState("");
+  const [reportLoaded, setReportLoaded] = useState(false);
   return (
     <div className="flex h-screen bg-paper text-ink-900">
       {/* 侧边栏 */}
@@ -68,6 +81,29 @@ export default function App() {
           {view === "graph" && <GraphPreview />}
           {view === "chat" && <Workbench />}
           {view === "tasks" && <TaskList />}
+          {view === "report" &&
+            (reportLoaded ? (
+              <ReportView taskId={reportTaskId} onBack={() => setReportLoaded(false)} />
+            ) : (
+              <div className="flex flex-col items-center justify-center gap-3 py-24 text-center">
+                <ScrollText className="h-8 w-8 text-ink-400" />
+                <p className="text-sm text-ink-600">输入任务 ID 查看合规报告</p>
+                <div className="flex gap-2">
+                  <input
+                    value={reportTaskId}
+                    onChange={(e) => setReportTaskId(e.target.value)}
+                    placeholder="任务 ID"
+                    className="h-9 w-72 rounded-md border border-line-200 bg-surface px-3 text-sm focus:border-brand-600 focus:outline-none"
+                  />
+                  <Button
+                    onClick={() => reportTaskId.trim() && setReportLoaded(true)}
+                    disabled={!reportTaskId.trim()}
+                  >
+                    查看报告
+                  </Button>
+                </div>
+              </div>
+            ))}
         </main>
       </div>
     </div>
