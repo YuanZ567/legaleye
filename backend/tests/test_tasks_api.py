@@ -21,7 +21,12 @@ from sqlalchemy.pool import StaticPool
 
 
 @pytest.fixture()
-def client() -> Generator[TestClient, None, None]:
+def client(monkeypatch) -> Generator[TestClient, None, None]:
+    # 避免 demo 限流（真实 Redis 计数）干扰任务 API 测试
+    from app.services import rate_limit_service
+
+    monkeypatch.setattr(rate_limit_service, "check_demo_limit", lambda **kw: None)
+
     engine = create_engine(
         "sqlite://",
         connect_args={"check_same_thread": False},
