@@ -5,6 +5,7 @@
 
 import uuid
 
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models import ReviewTask
@@ -33,3 +34,11 @@ def dispatch_task(task_id: uuid.UUID, document_id: uuid.UUID) -> None:
 def get_task(db: Session, task_id: uuid.UUID) -> ReviewTask | None:
     """查询任务详情。"""
     return db.get(ReviewTask, task_id)
+
+
+def list_tasks(db: Session, status: str | None = None) -> list[ReviewTask]:
+    """列出审查任务（按状态筛选，倒序）。"""
+    stmt = select(ReviewTask).order_by(ReviewTask.created_at.desc())
+    if status:
+        stmt = stmt.where(ReviewTask.status == status)
+    return list(db.scalars(stmt).all())

@@ -3,6 +3,11 @@
 // 后端地址（本地开发默认 8000；容器内由环境注入）
 const BASE_URL = "http://localhost:8000";
 
+/** API 统一响应包裹：{data: T}。 */
+export interface ApiResponse<T> {
+  data: T;
+}
+
 export class ApiError extends Error {
   code: string;
 
@@ -32,4 +37,11 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 export async function get<T>(path: string): Promise<T> {
   return request<T>(path, { method: "GET" });
+}
+
+export async function post<T>(path: string, body?: unknown): Promise<T> {
+  return request<T>(path, {
+    method: "POST",
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
 }

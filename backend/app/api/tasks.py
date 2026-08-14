@@ -15,28 +15,29 @@ from sqlalchemy.orm import Session
 from app.core.db import get_db
 from app.core.sse import iter_events
 from app.schemas.task import TaskCreateIn, TaskCreateOut, TaskOut
-from app.services.task_service import create_task, dispatch_task, get_task
+from app.services.task_service import (
+    create_task,
+    dispatch_task,
+    get_task,
+    list_tasks,
+)
 
 router = APIRouter(prefix="/tasks", tags=["tasks"])
 
 
 def _dump_task(task) -> dict:
-    """序列化任务 + 关联 findings（API 契约：findings 明细）。"""
-    from app.core.db import SessionLocal
-    from app.models import ComplianceFinding
+    """序列化任务核心字段（契约 TaskOut，findings 明细由详情端点单独提供）。"""
+    return TaskOut.model_validate(task, from_attributes=True).model_dump(by_alias=True)
 
-    with SessionLocal() as session:
-        findings = (
-            session.query(ComplianceFinding)
-            .filter(ComplianceFinding.task_id == task.id)
-            .order_by(ComplianceFinding.created_at)
-            .all()
-        )
-    return (
-        TaskOut.model_validate(task, from_attributes=True)
-        .model_copy(update={"findings": findings})
-        .model_dump(by_alias=True)
-    )
+
+@router.get("")
+async def list_review_tasks(
+    status: str | None = None,
+    db: Session = Depends(get_db),  # noqa: B008 (FastAPI 注入)
+) -> dict:
+    """列出审查任务（可按 status 筛选，倒序）。"""
+    tasks = list_tasks(db=db, status=status)
+    return {"data": [_dump_task(t) for t in tasks]}
 
 
 @router.post("")

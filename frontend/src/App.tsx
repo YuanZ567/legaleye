@@ -3,6 +3,7 @@ import { BookOpen, FileText, GitFork, MessagesSquare, PlusCircle, Settings, Shie
 
 import { Button } from "@/components/ui/button";
 import GraphPreview from "@/pages/GraphPreview";
+import TaskList from "@/pages/TaskList";
 import Workbench from "@/pages/Workbench";
 
 type View = "tasks" | "graph" | "chat";
@@ -66,11 +67,7 @@ export default function App() {
         <main className="flex-1 overflow-auto p-6">
           {view === "graph" && <GraphPreview />}
           {view === "chat" && <Workbench />}
-          {view === "tasks" && (
-            <div className="flex h-full items-center justify-center rounded-lg border border-dashed border-line-200">
-              <p className="text-sm text-ink-400">该视图占位 — 任务列表（M8）</p>
-            </div>
-          )}
+          {view === "tasks" && <TaskList />}
         </main>
       </div>
     </div>
