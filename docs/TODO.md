@@ -205,10 +205,11 @@
 **允许修改范围**：`backend/app/services/report_service.py`、`api/reports.py`、前端报告页。
 **不允许破坏**：`Report` 契约（含 baselineVersion）；`diff` 渲染（DESIGN DiffView）；免责声明必须包含。
 **验收标准**：
-- [ ] M9-1 报告生成：findings 分组 + 条款引用 + 整改 diff + 法规版本标注
-- [ ] M9-2 HTML 报告页：条款号可点击跳知识库；目录锚点；跨文档矛盾区
+- [x] M9-1 报告生成：findings 分组 + 条款引用 + 整改 diff + 法规版本标注（commit 532581c）
+- [x] M9-2 HTML 报告页：条款号可点击跳知识库；目录锚点；跨文档矛盾区（commit 701de41）
 - [ ] M9-3 Markdown 导出完整可打开
 - [ ] M9-4 单测 + 抽查通过，**git 存档**
+- **M9-2 里程碑状态（部分）**：报告生成（M9-1）+ HTML 报告页（M9-2）完成——后端 `report_service`（findings 分组/条款引用/整改 diff 字段/法规基线版本锁定/跨文档矛盾区/幂等 upsert）+ API（JSON + Markdown 导出，归属校验）；前端 `ReportView` 编辑式长文（DESIGN 7.3：报告头→执行摘要→目录锚点→维度分组结论（ClauseRef 可点击跳知识库 + DiffView diff-match-patch 高亮 + RiskBadge 图标+文字）→跨文档矛盾红色警示区→免责声明）+ 复用组件（lib/risk.ts 风险映射/RiskBadge/ClauseRef/DiffView）+ App 导航入口 + client.ts 附加 JWT；真实联调：报告 API 返回完整契约（9 findings/highRiskCount 正确）；typecheck/lint/build 全绿；新增 diff-match-patch 依赖。
 
 ### M10 三层评估
 **目标**：40 份金标集 + evaluate.py 三层指标达标（PRD F10、计划书第十三章）。
