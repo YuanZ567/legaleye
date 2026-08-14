@@ -194,7 +194,7 @@
 **验收标准**：
 - [x] M8-1 Auth：注册/登录/JWT/双角色；首个用户为 admin（commit d60eaed）：`models/user.py`（User：email 唯一 + bcrypt 密码哈希 + UserRole）+ Alembic `20260814_0007` 已执行；`core/auth.py`（bcrypt 哈希 + JWT 签发/验证外层 Fernet 加密 + get_current_user/require_admin 依赖）+ `UserRole` 枚举 + `api/auth.py`（register/login/me）+ `services/auth_service.py`（首个用户 admin、后续 user）；单测 7 项（首个 admin/后续 user/登录 token/错误密码 400/me token/未登录 401/重复注册 400）；全量 130 passed
 - [x] M8-2 demo 免 Key：无 Key 用户自动走系统默认模型；限流 3 次/日（429 + "今日 demo 额度已用完，请配置自有 Key 体验无限次"）（commit 0181aca）：`services/rate_limit_service.py`（Redis 计数器 IP+user_id 双重限制，3 次/日超限抛 RateLimitError 429 友好提示，Redis 不可用降级放行；配自有 Key 付费用户绕过无限次）+ config/.env `DEMO_DAILY_LIMIT=3`（5→3 修改）+ `api/tasks.py` create_review_task 注入 Request 按 IP 限流；单测 4 项（3 次放行第 4 次 429/IP+user_id 独立计数/Redis 降级/配置=3）；全量 134 passed
-- [ ] M8-3 模型配置：四 provider 保存/激活/测试；Key 尾号 4 位脱敏；无效 Key 拦截
+- [x] M8-3 模型配置：四 provider 保存/激活/测试；Key 尾号 4 位脱敏；无效 Key 拦截（commit f397ee8）：`services/model_service.py`（Key Fernet 密文存储 + apiKeyTail 尾号 4 位脱敏 + create_model 首个自动激活 + activate_model 事务停旧启用 + test_model 真实验证打通 provider）+ `api/models.py`（GET/POST /models + PUT /{id}/activate + POST /models/test，全部 require_admin）+ `schemas/model.py`（provider/displayName/modelName/apiKeyTail/isActive 契约）；单测 5 项（admin 鉴权 403/apiKeyTail 脱敏无明文/事务激活切换/test 成功/test 无效 Key 拦截）；真实打通：OPENAI_API_KEY 调 qwen3.7-flash 返回 ok:true；全量 139 passed
 - [ ] M8-4 任务列表页：表格/筛选/状态 Badge/新建入口
 - [ ] M8-5 单测 + 联调通过，**git 存档**
 
