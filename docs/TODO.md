@@ -207,9 +207,9 @@
 **验收标准**：
 - [x] M9-1 报告生成：findings 分组 + 条款引用 + 整改 diff + 法规版本标注（commit 532581c）
 - [x] M9-2 HTML 报告页：条款号可点击跳知识库；目录锚点；跨文档矛盾区（commit 701de41）
-- [ ] M9-3 Markdown 导出完整可打开
-- [ ] M9-4 单测 + 抽查通过，**git 存档**
-- **M9-2 里程碑状态（部分）**：报告生成（M9-1）+ HTML 报告页（M9-2）完成——后端 `report_service`（findings 分组/条款引用/整改 diff 字段/法规基线版本锁定/跨文档矛盾区/幂等 upsert）+ API（JSON + Markdown 导出，归属校验）；前端 `ReportView` 编辑式长文（DESIGN 7.3：报告头→执行摘要→目录锚点→维度分组结论（ClauseRef 可点击跳知识库 + DiffView diff-match-patch 高亮 + RiskBadge 图标+文字）→跨文档矛盾红色警示区→免责声明）+ 复用组件（lib/risk.ts 风险映射/RiskBadge/ClauseRef/DiffView）+ App 导航入口 + client.ts 附加 JWT；真实联调：报告 API 返回完整契约（9 findings/highRiskCount 正确）；typecheck/lint/build 全绿；新增 diff-match-patch 依赖。
+- [x] M9-3 Markdown 导出完整可打开（commit d22aa7f）：`to_markdown` 补全 confidence/statuteVersion/needsHumanReview/evidence 4 字段 + 矛盾区详情（docA/docB/evidence）+ 文末免责声明；保持与 HTML 报告同源同结构（报告头→摘要→审查发现按维度分组→跨文档矛盾→免责声明）；不重构结构、不改 API 路由
+- [x] M9-4 单测 + 抽查通过，**git 存档**（commit d22aa7f）：`test_m9_report.py` 8 项（新增 `test_to_markdown_contains_all_fields` 覆盖 4 字段+矛盾区详情+免责声明+同源结构）；全量 pytest 148 passed（排除慢工作流）；ruff/black 全绿；前端 typecheck/build 通过
+- **M9 里程碑状态（完成）**：报告生成（M9-1）+ HTML 报告页（M9-2）+ Markdown 导出完善（M9-3）+ 单测存档（M9-4）完成——后端 `report_service`（findings 分组/条款引用/整改 diff 字段/法规基线版本锁定/跨文档矛盾区/幂等 upsert/Markdown 4 字段+矛盾详情+免责声明）；API（JSON + Markdown 导出，归属校验）；前端 `ReportView` 编辑式长文（DESIGN 7.3：报告头→执行摘要→目录锚点→维度分组结论（ClauseRef 可点击跳知识库 + DiffView diff-match-patch 高亮 + RiskBadge 图标+文字）→跨文档矛盾红色警示区→免责声明）+ 复用组件（lib/risk.ts/RiskBadge/ClauseRef/DiffView）+ App 导航入口 + client.ts 附加 JWT；真实联调：报告 API 返回完整契约（9 findings/highRiskCount 正确）；typecheck/lint/build 全绿；新增 diff-match-patch 依赖。测试 141→148。**M9 里程碑完成（4 子任务全部勾选）**
 
 ### M10 三层评估
 **目标**：40 份金标集 + evaluate.py 三层指标达标（PRD F10、计划书第十三章）。
