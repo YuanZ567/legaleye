@@ -81,8 +81,32 @@ def _build_content(
     return content
 
 
+def _finding_md(f: dict) -> str:
+    """单条 finding 的 markdown（补全 confidence/statuteVersion/needsHumanReview/evidence）。"""
+    lines = [f"### [{f.get('dimension', '')}] {f.get('verdict', '')}（{f.get('level', '')}）", ""]
+    lines.append(f"- 条款：{f.get('clauseRef', '待补')}")
+    lines.append(f"- 法规版本：{f.get('statuteVersion') or '待补'}")
+    confidence = f.get("confidence")
+    if confidence is not None:
+        lines.append(f"- 置信度：{round(float(confidence) * 100)}%")
+    if f.get("needsHumanReview"):
+        lines.append("- ⚠️ 需人工复核")
+    lines.append(f"- 说明：{f.get('description', '')}")
+    if f.get("remediation"):
+        lines.append(f"- 整改建议：{f.get('remediation', '')}")
+    evidence = f.get("evidence") or {}
+    if evidence.get("text"):
+        lines.append(f"- 证据：{evidence['text']}")
+    return "\n".join(lines)
+
+
 def to_markdown(report: Report) -> str:
-    """朴素 markdown 序列化（M9-3 完善）。"""
+    """Markdown 序列化（M9-3 完善）。
+
+    保持与 HTML 报告同源同结构：
+    报告头 → 摘要 → 审查发现（按维度分组）→ 跨文档矛盾 → 免责声明。
+    每条 finding 含条款引用/法规版本/置信度/需人工复核/证据/整改建议。
+    """
     c = report.content_json
     lines = [
         "# 合规审查报告",
@@ -99,17 +123,43 @@ def to_markdown(report: Report) -> str:
         "## 审查发现",
         "",
     ]
-    for f in c.get("findings", []):
-        lines.append(
-            f"### [{f['dimension']}] {f.get('verdict', '')}（{f.get('level', '')}）\n\n"
-            f"- 条款：{f.get('clauseRef', '待补')}\n"
-            f"- 说明：{f.get('description', '')}\n"
-            f"- 整改：{f.get('remediation', '')}\n"
-        )
-    if c.get("crossDocConflicts"):
-        lines.append("## 跨文档矛盾\n")
-        for conflict in c["crossDocConflicts"]:
-            lines.append(f"- {conflict.get('declarationKey', '')}：{conflict.get('level', '')}\n")
+
+    grouped = c.get("findingsByDimension") or {}
+    if grouped:
+        for dim, findings in grouped.items():
+            lines.append(f"### {dim}（{len(findings)} 项）")
+            lines.append("")
+            for f in findings:
+                lines.append(_finding_md(f))
+                lines.append("")
+    else:
+        for f in c.get("findings", []):
+            lines.append(_finding_md(f))
+            lines.append("")
+
+    conflicts = c.get("crossDocConflicts") or []
+    if conflicts:
+        lines.append("## 跨文档矛盾")
+        lines.append("")
+        for conflict in conflicts:
+            lines.append(f"### {conflict.get('declarationKey', '')}（{conflict.get('level', '')}）")
+            lines.append("")
+            for side, key in (("文档 A", "docA"), ("文档 B", "docB")):
+                doc = conflict.get(key) or {}
+                lines.append(f"- {side}：{doc.get('value', '待补')}")
+                evidence = doc.get("evidence") or {}
+                if evidence.get("text"):
+                    lines.append(f"  - 证据：{evidence['text']}")
+            lines.append("")
+
+    lines.extend(
+        [
+            "---",
+            "",
+            "> **免责声明**：本报告由 AI 生成，仅供参考，不构成法律意见。",
+            "> 高风险项与需人工复核项请由专业法律顾问最终确认。",
+        ]
+    )
     return "\n".join(lines)
 
 

@@ -213,3 +213,90 @@ def test_idempotent_regenerate(client):
         generate_report(db=db, task_id=task_id)  # 幂等
         count = db.query(Report).filter(Report.task_id == task_id).count()
     assert count == 1
+
+
+def test_to_markdown_contains_all_fields(client):
+    """to_markdown 包含 4 个新字段 + 免责声明 + 矛盾区详情。"""
+    from types import SimpleNamespace
+
+    from app.services.report_service import to_markdown
+
+    content = {
+        "summary": "共审查 1 项，其中高风险 1 项；发现 1 项高风险项，需重点关注",
+        "findingCount": 1,
+        "highRiskCount": 1,
+        "findings": [
+            {
+                "id": str(uuid.uuid4()),
+                "dimension": "d1Collection",
+                "verdict": "nonCompliant",
+                "level": "high",
+                "clauseRef": "第五条",
+                "statuteVersion": "个人信息保护法(2021)",
+                "description": "收集范围超出最小必要。",
+                "remediation": "缩减至最小必要字段。",
+                "confidence": 0.87,
+                "needsHumanReview": True,
+                "evidence": {"text": "收集手机号、定位等非必要信息", "charRange": [10, 20]},
+            }
+        ],
+        "findingsByDimension": {
+            "d1Collection": [
+                {
+                    "id": str(uuid.uuid4()),
+                    "dimension": "d1Collection",
+                    "verdict": "nonCompliant",
+                    "level": "high",
+                    "clauseRef": "第五条",
+                    "statuteVersion": "个人信息保护法(2021)",
+                    "description": "收集范围超出最小必要。",
+                    "remediation": "缩减至最小必要字段。",
+                    "confidence": 0.87,
+                    "needsHumanReview": True,
+                    "evidence": {"text": "收集手机号、定位等非必要信息", "charRange": [10, 20]},
+                }
+            ]
+        },
+        "crossDocConflicts": [
+            {
+                "id": str(uuid.uuid4()),
+                "declarationKey": "crossBorder",
+                "docA": {
+                    "documentId": str(uuid.uuid4()),
+                    "value": "不出境",
+                    "evidence": {"text": "政策未提及出境"},
+                },
+                "docB": {
+                    "documentId": str(uuid.uuid4()),
+                    "value": "向境外",
+                    "evidence": {"text": "DPA 列出境外接收方"},
+                },
+                "level": "high",
+            }
+        ],
+    }
+    report = SimpleNamespace(
+        task_id=uuid.uuid4(),
+        baseline_version="laws-v1.0-20260811",
+        generated_at="2026-08-14T00:00:00Z",
+        content_json=content,
+    )
+    md = to_markdown(report)
+
+    # 4 个新字段
+    assert "条款：第五条" in md
+    assert "法规版本：个人信息保护法(2021)" in md
+    assert "置信度：87%" in md
+    assert "⚠️ 需人工复核" in md
+    assert "证据：收集手机号、定位等非必要信息" in md
+    # 矛盾区详情
+    assert "跨文档矛盾" in md
+    assert "文档 A：不出境" in md
+    assert "文档 B：向境外" in md
+    assert "DPA 列出境外接收方" in md
+    # 免责声明
+    assert "免责声明" in md
+    assert "仅供参考，不构成法律意见" in md
+    # 与 HTML 报告同源同结构：按维度分组章节
+    assert "## 摘要" in md
+    assert "## 审查发现" in md
