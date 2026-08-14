@@ -15,6 +15,7 @@ from app.core.db import SessionLocal
 from app.core.enums import FindingLevel, FindingVerdict, ReviewDimension
 from app.core.sse import publish_event
 from app.models import ComplianceFinding, Document, ReviewTask
+from app.services.report_service import generate_report
 from app.tasks.celery_app import celery_app
 
 logger = logging.getLogger(__name__)
@@ -98,6 +99,8 @@ def _run_workflow(*, task_id: uuid.UUID, document_id: uuid.UUID) -> None:
             t.progress = 100
             t.finding_count = len(findings)
         db.commit()
+        # M9 集成：任务完成后生成报告（幂等 upsert，一任务一报告）
+        generate_report(db=db, task_id=task_id)
 
 
 def _degrade_task(*, task_id: uuid.UUID, document_id: uuid.UUID) -> None:
@@ -127,6 +130,8 @@ def _degrade_task(*, task_id: uuid.UUID, document_id: uuid.UUID) -> None:
             )
         db.commit()
         publish_event(str(task_id), "taskStatus", {"status": "done", "progress": 100})
+        # M9 集成：降级也生成报告（保证报告永远存在）
+        generate_report(db=db, task_id=task_id)
 
 
 def _mark_failed(task_id: uuid.UUID, error: str) -> None:
