@@ -91,3 +91,61 @@ export interface Report {
   findings: FindingContract[];
   crossDocConflicts?: CrossDocConflict[];
 }
+
+/** 用户角色（DATA_CONTRACT 3.1 UserRole）。 */
+export type UserRole = "user" | "admin";
+
+/** 用户（DATA_CONTRACT 4.1 UserOut）。 */
+export interface User {
+  id: string;
+  email: string;
+  role: UserRole;
+  createdAt: string;
+}
+
+/** 认证响应（DATA_CONTRACT 4.1 AuthOut）：{token, user}。 */
+export interface AuthResponse {
+  token: string;
+  user: User;
+}
+
+/** LLM Provider（DATA_CONTRACT 3.1 Provider）。 */
+export type Provider = "bailian" | "deepseek" | "openai" | "anthropic";
+
+export const PROVIDERS: Provider[] = ["bailian", "deepseek", "openai", "anthropic"];
+
+/** 模型配置（DATA_CONTRACT 4.2 ModelConfig）：Key 仅 apiKeyTail 末 4 位。 */
+export interface ModelConfig {
+  id: string;
+  provider: Provider;
+  displayName: string;
+  model: string;
+  apiKeyTail: string;
+  isActive: boolean;
+}
+
+/** 模型测试响应（DATA_CONTRACT 4.2 ModelTestOut）：{ok, message?}。 */
+export interface ModelTestOut {
+  ok: boolean;
+  message?: string | null;
+}
+
+/** 法条基线（DATA_CONTRACT 4.10 LawBaseline）。 */
+export interface LawBaseline {
+  id: string;
+  statute: string;
+  articleNo: string;
+  articleText: string;
+  effectiveDate: string;
+  version: string;
+  source: string;
+  createdAt: string;
+}
+
+/** 法条检索命中（DATA_CONTRACT 4.10 LawSearchHit）。 */
+export interface LawSearchHit {
+  clauseRef: string;
+  statuteVersion: string;
+  articleText: string;
+  score: number;
+}
