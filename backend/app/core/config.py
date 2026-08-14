@@ -22,6 +22,8 @@ class Settings(BaseSettings):
     # 应用
     app_env: str = "development"
     log_level: str = "INFO"
+    # JWT 签名密钥（生产必须从环境变量设置强随机值）
+    jwt_secret: str = "legaleye-dev-jwt-secret-change-me"
 
     # 数据 / 队列
     database_url: str = (

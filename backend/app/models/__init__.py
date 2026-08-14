@@ -7,6 +7,7 @@ from app.models.document import Document
 from app.models.law_baseline import LawBaseline
 from app.models.model_config import LLMCallRecord, ModelConfig
 from app.models.review_task import ComplianceFinding, ReviewTask
+from app.models.user import User
 
 __all__ = [
     "ComplianceFinding",
@@ -17,5 +18,6 @@ __all__ = [
     "LLMCallRecord",
     "ModelConfig",
     "ReviewTask",
+    "User",
     "SQLModel",
 ]

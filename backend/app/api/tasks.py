@@ -32,9 +32,11 @@ def _dump_task(task) -> dict:
             .order_by(ComplianceFinding.created_at)
             .all()
         )
-    return TaskOut.model_validate(
-        task, from_attributes=True
-    ).model_copy(update={"findings": findings}).model_dump(by_alias=True)
+    return (
+        TaskOut.model_validate(task, from_attributes=True)
+        .model_copy(update={"findings": findings})
+        .model_dump(by_alias=True)
+    )
 
 
 @router.post("")

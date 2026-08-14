@@ -102,3 +102,10 @@ class DeclarationKey(StrEnum):
     CROSS_BORDER = "crossBorder"
     RETENTION = "retention"
     RIGHTS = "rights"
+
+
+class UserRole(StrEnum):
+    """账号角色（DATA_CONTRACT 3.1 UserRole）。"""
+
+    USER = "user"
+    ADMIN = "admin"
