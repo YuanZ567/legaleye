@@ -49,7 +49,8 @@ class Settings(BaseSettings):
     # LLM（M4 起使用；demo 免 Key 走系统默认百炼）
     bailian_api_key: str = ""
     bailian_model: str = "qwen-plus"
-    demo_daily_limit: int = 5
+    # demo 免 Key 用户每日限流（PRD 定案：3 次/日；配 Key 用户无限次）
+    demo_daily_limit: int = 3
 
     # Embedding（M2-5 语义检索用；百炼 OpenAI 兼容接口，Key 从 OPENAI_API_KEY 读取）
     openai_api_key: str = ""  # 对应环境变量 OPENAI_API_KEY（百炼 DashScope 兼容模式）

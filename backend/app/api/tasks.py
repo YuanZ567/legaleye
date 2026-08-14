@@ -8,7 +8,7 @@
 
 import uuid
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 
@@ -42,11 +42,23 @@ def _dump_task(task) -> dict:
 @router.post("")
 async def create_review_task(
     payload: TaskCreateIn,
+    request: Request,
     db: Session = Depends(get_db),  # noqa: B008 (FastAPI 注入)
 ) -> dict:
-    """创建审查任务并异步分发。"""
+    """创建审查任务并异步分发。
+
+    demo 免 Key 用户每日限流 3 次（IP+user_id 双重限制，429 友好提示）；
+    配自有 Key 的付费用户无限次。
+    """
     if not payload.document_ids:
         raise HTTPException(status_code=400, detail="documentIds 不能为空")
+
+    # demo 限流（未登录/无 Key → 按 IP 计数；已登录 → user_id 优先）
+    from app.services.rate_limit_service import check_demo_limit
+
+    client_ip = request.client.host if request.client else "unknown"
+    check_demo_limit(ip=client_ip, user_id=None)
+
     document_id = payload.document_ids[0]  # M4 单文件审查
     task_id = create_task(db=db, document_id=document_id)
     dispatch_task(task_id=task_id, document_id=document_id)
