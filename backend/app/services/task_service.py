@@ -11,9 +11,11 @@ from sqlalchemy.orm import Session
 from app.models import ReviewTask
 
 
-def create_task(*, db: Session, document_id: uuid.UUID) -> uuid.UUID:
-    """创建审查任务（status=queued），返回 task_id。"""
-    task = ReviewTask(document_id=document_id, status="queued", progress=0)
+def create_task(
+    *, db: Session, document_id: uuid.UUID, user_id: uuid.UUID | None = None
+) -> uuid.UUID:
+    """创建审查任务（status=queued，关联 user_id 归属），返回 task_id。"""
+    task = ReviewTask(document_id=document_id, user_id=user_id, status="queued", progress=0)
     db.add(task)
     db.commit()
     db.refresh(task)

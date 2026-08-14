@@ -29,6 +29,7 @@ class ReviewTask(SQLModel, table=True):
 
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     document_id: uuid.UUID = Field(nullable=False, index=True)
+    user_id: uuid.UUID | None = Field(default=None, index=True)  # 任务归属（多用户隔离）
 
     # 状态机（DATA_CONTRACT 4.4）
     status: str = Field(

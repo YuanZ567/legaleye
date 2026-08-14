@@ -60,10 +60,29 @@ async def create_review_task(
     client_ip = request.client.host if request.client else "unknown"
     check_demo_limit(ip=client_ip, user_id=None)
 
+    # 关联当前用户（demo 未登录 → None，归属校验时对 None 放行）
+    user_id = _resolve_user_id(request)
+
     document_id = payload.document_ids[0]  # M4 单文件审查
-    task_id = create_task(db=db, document_id=document_id)
+    task_id = create_task(db=db, document_id=document_id, user_id=user_id)
     dispatch_task(task_id=task_id, document_id=document_id)
     return TaskCreateOut(task_id=task_id).model_dump(by_alias=True)
+
+
+def _resolve_user_id(request: Request) -> uuid.UUID | None:
+    """从 Authorization header 解析当前用户 id（无/无效 token → None，demo 模式）。"""
+    import uuid as _uuid
+
+    from app.core.auth import decode_access_token
+
+    auth = request.headers.get("Authorization", "")
+    if not auth.startswith("Bearer "):
+        return None
+    try:
+        payload = decode_access_token(auth[7:])
+        return _uuid.UUID(payload["sub"])
+    except Exception:
+        return None
 
 
 @router.get("/{task_id}")

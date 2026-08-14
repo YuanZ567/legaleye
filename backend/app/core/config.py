@@ -52,6 +52,9 @@ class Settings(BaseSettings):
     # demo 免 Key 用户每日限流（PRD 定案：3 次/日；配 Key 用户无限次）
     demo_daily_limit: int = 3
 
+    # 法规库基线版本（报告锁存当时的法规版本，M9-1 从 config 读，禁止硬编码）
+    laws_baseline_version: str = "laws-v1.0-20260811"
+
     # Embedding（M2-5 语义检索用；百炼 OpenAI 兼容接口，Key 从 OPENAI_API_KEY 读取）
     openai_api_key: str = ""  # 对应环境变量 OPENAI_API_KEY（百炼 DashScope 兼容模式）
     bailian_embedding_base_url: str = "https://dashscope.aliyuncs.com/compatible-mode/v1"
