@@ -192,7 +192,7 @@
 **允许修改范围**：`backend/app/core/`（auth）、`api/auth.py`、`api/models.py`、`services/`、前端登录/任务列表/模型配置页。
 **不允许破坏**：Fernet 加密存储（Key 绝不出 API，仅 apiKeyTail）；demo 限流计数（Redis）；`UserRole`/`Provider` 枚举；数据分级 L2/L3 规则。
 **验收标准**：
-- [ ] M8-1 Auth：注册/登录/JWT/双角色；首个用户为 admin
+- [x] M8-1 Auth：注册/登录/JWT/双角色；首个用户为 admin（commit d60eaed）：`models/user.py`（User：email 唯一 + bcrypt 密码哈希 + UserRole）+ Alembic `20260814_0007` 已执行；`core/auth.py`（bcrypt 哈希 + JWT 签发/验证外层 Fernet 加密 + get_current_user/require_admin 依赖）+ `UserRole` 枚举 + `api/auth.py`（register/login/me）+ `services/auth_service.py`（首个用户 admin、后续 user）；单测 7 项（首个 admin/后续 user/登录 token/错误密码 400/me token/未登录 401/重复注册 400）；全量 130 passed
 - [ ] M8-2 demo 免 Key：无 Key 用户自动走系统默认模型；限流 5 次/日（429 提示）
 - [ ] M8-3 模型配置：四 provider 保存/激活/测试；Key 尾号 4 位脱敏；无效 Key 拦截
 - [ ] M8-4 任务列表页：表格/筛选/状态 Badge/新建入口
