@@ -92,6 +92,28 @@ def test_get_task_404(client: TestClient):
     assert resp.status_code == 404
 
 
+def test_list_tasks(client: TestClient, monkeypatch):
+    """GET /tasks 返回任务列表（可按 status 筛选）。"""
+    import app.api.tasks as tasks_api
+
+    monkeypatch.setattr(tasks_api, "dispatch_task", lambda task_id, document_id: None)
+
+    # 创建两个任务
+    for _ in range(2):
+        client.post("/tasks", json={"documentIds": [str(uuid.uuid4())]})
+
+    resp = client.get("/tasks")
+    assert resp.status_code == 200, resp.text
+    data = resp.json()["data"]
+    assert len(data) == 2
+    assert all(t["status"] == "queued" for t in data)
+    assert all("tokenUsage" in t and "findingCount" in t for t in data)
+
+    # status 筛选
+    filtered = client.get("/tasks?status=queued").json()["data"]
+    assert len(filtered) == 2
+
+
 def test_sse_four_event_types_publish_and_read(monkeypatch):
     """taskStatus/nodeStart/nodeEnd/tokenUsage 四类事件可发布并被 SSE 迭代读取。"""
     import app.core.sse as sse
