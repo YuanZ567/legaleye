@@ -66,6 +66,20 @@ class Settings(BaseSettings):
     task_timeout_seconds: int = 600
     max_task_tokens: int = 400000
 
+    # OAuth（M9-6：GitHub 全链路 + QQ 接口就绪；凭据只来自 .env，禁硬编码）
+    # 回调地址基址（后端完成授权后 302 跳回前端 SPA，如 http://localhost:5173）
+    oauth_redirect_base: str = "http://localhost:5173"
+    # 后端对外可访问的基址（GitHub/QQ 回调 URL 指向此处，如 http://localhost:8000）
+    api_base_url: str = "http://localhost:8000"
+    # GitHub OAuth（本地联调可配）
+    github_client_id: str = ""
+    github_client_secret: str = ""
+    # QQ OAuth（凭据留空 = 接口就绪但未开通，authorize 返回 503）
+    qq_app_id: str = ""
+    qq_app_key: str = ""
+    # OAuth state 有效期（防 CSRF，Redis TTL，秒）
+    oauth_state_ttl_seconds: int = 300
+
     # 可观测
     sentry_dsn: str = ""
 

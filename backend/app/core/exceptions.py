@@ -22,11 +22,14 @@ class DomainError(Exception):
         *,
         code: str | None = None,
         extra: dict[str, Any] | None = None,
+        status_code: int | None = None,
     ):
         super().__init__(message)
         self.message = message
         self.code = code or self.__class__.__name__
         self.extra = extra or {}
+        # 可选自定义 HTTP 状态码（优先于子类默认映射，如 OAuth 未配置 → 503）
+        self.status_code = status_code
 
     def to_dict(self) -> dict[str, Any]:
         """转为响应契约中的 error 对象。"""

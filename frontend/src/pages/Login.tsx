@@ -1,23 +1,25 @@
-/** 登录/注册页（M9-5，DESIGN 10 登录页）：居中 400px 卡片 + 双模式切换。
+/** 登录/注册页（M9-6）：独立全屏页（无导航/侧边栏，路由 /login）。
  *
- * - 登录：POST /auth/login → saveAuth(token, user) → onLoggedIn(user)
- * - 注册：POST /auth/register → 自动登录（后端首个用户为 admin）
+ * - 登录/注册双模式 + 邮箱密码；
+ * - 第三方登录：GitHub（全链路）+ QQ（接口就绪，凭据留空标注"暂未开通"）；
+ * - 成功后 saveAuth → navigate("/") 进入主界面。
  */
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { GitBranch } from "lucide-react";
 
 import { login as apiLogin, register as apiRegister } from "@/api/auth";
 import { saveAuth } from "@/api/client";
 import { Button } from "@/components/ui/button";
-import type { User } from "@/api/types";
-
-interface LoginProps {
-  onLoggedIn: (user: User) => void;
-}
 
 type Mode = "login" | "register";
 
-export default function Login({ onLoggedIn }: LoginProps) {
+/** 后端 OAuth authorize 基址（配 api_base_url，禁硬编码 host）。 */
+const OAUTH_BASE = "http://localhost:8000";
+
+export default function Login() {
+  const navigate = useNavigate();
   const [mode, setMode] = useState<Mode>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,7 +40,7 @@ export default function Login({ onLoggedIn }: LoginProps) {
           ? await apiLogin(email.trim(), password)
           : await apiRegister(email.trim(), password);
       saveAuth(auth.token, auth.user);
-      onLoggedIn(auth.user);
+      navigate("/");
     } catch (err) {
       setError(err instanceof Error ? err.message : "操作失败");
     } finally {
@@ -51,9 +53,14 @@ export default function Login({ onLoggedIn }: LoginProps) {
     setError(null);
   };
 
+  /** 发起第三方登录（GitHub 全链路；QQ 接口就绪但凭据留空 → 后端 503）。 */
+  const oauthLogin = (provider: "github" | "qq") => {
+    window.location.href = `${OAUTH_BASE}/auth/oauth/${provider}/authorize`;
+  };
+
   return (
     <div
-      className="flex min-h-full items-center justify-center bg-paper px-4"
+      className="flex min-h-screen items-center justify-center bg-paper px-4"
       style={{
         backgroundImage:
           "linear-gradient(rgba(238,241,253,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(238,241,253,0.5) 1px, transparent 1px)",
@@ -68,6 +75,31 @@ export default function Login({ onLoggedIn }: LoginProps) {
           </div>
           <h1 className="text-lg font-semibold text-ink-900">LegalEye 法眼</h1>
           <p className="text-xs text-ink-400">出海企业数据合规智能审查</p>
+        </div>
+
+        {/* 第三方登录 */}
+        <div className="mb-5 space-y-2">
+          <button
+            type="button"
+            onClick={() => oauthLogin("github")}
+            className="flex w-full items-center justify-center gap-2 rounded-md border border-line-200 bg-surface px-3 py-2 text-sm font-medium text-ink-700 transition-colors hover:bg-muted"
+          >
+            <GitBranch className="h-4 w-4" />
+            使用 GitHub 登录
+          </button>
+          <button
+            type="button"
+            onClick={() => oauthLogin("qq")}
+            className="flex w-full items-center justify-center gap-2 rounded-md border border-line-200 bg-surface px-3 py-2 text-sm font-medium text-ink-400 transition-colors hover:bg-muted"
+          >
+            QQ 登录
+            <span className="rounded bg-muted px-1.5 py-0.5 text-xs text-ink-400">暂未开通</span>
+          </button>
+          <div className="flex items-center gap-3 py-1 text-xs text-ink-400">
+            <span className="h-px flex-1 bg-line-200" />
+            或使用邮箱
+            <span className="h-px flex-1 bg-line-200" />
+          </div>
         </div>
 
         {/* 模式切换 */}

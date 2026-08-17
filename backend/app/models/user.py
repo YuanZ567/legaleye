@@ -37,6 +37,10 @@ class User(SQLModel, table=True):
         )
     )
 
+    # OAuth（M9-6：provider + oauth_id 联合定位第三方账号；邮箱用合成 {provider}_{id}@oauth.local）
+    oauth_provider: str | None = Field(default=None, nullable=True)
+    oauth_id: str | None = Field(default=None, nullable=True)
+
     created_at: Any = Field(
         sa_column=Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     )

@@ -27,5 +27,6 @@ def register_exception_handlers(app: FastAPI) -> None:
             ForbiddenError: 403,
             RateLimitError: 429,
         }
-        status = status_map.get(type(exc), 400)
+        # 显式 status_code 优先（如 OAuth 未配置 503）；否则用子类默认映射
+        status = exc.status_code or status_map.get(type(exc), 400)
         return JSONResponse(status_code=status, content={"error": exc.to_dict()})
