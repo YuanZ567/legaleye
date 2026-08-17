@@ -108,23 +108,37 @@ def chat_completion(
     messages: list[dict],
     node: str | None = None,
     task_id: Any | None = None,
+    api_key_override: str | None = None,
 ) -> str:
     """经工厂发起 LLM 对话（唯一入口），解密 Key + 记账 + 返回文本。
 
     :param model: 若为 None，使用 ModelConfig 中的默认模型。
+    :param api_key_override: 用户自有 API Key（M9-8）。非空则用用户 Key（一律按百炼
+        compatible-mode 处理，base_url 固定百炼地址），否则用 ModelConfig 系统 Key。
+        默认 None → 行为与之前完全一致（回归安全）。
     """
     cfg = get_active_model_config(db, provider)
-    api_key = decrypt_secret(cfg.api_key_encrypted)
     model = model or cfg.model
+
+    # M9-8：用户自有 Key 一律按百炼 DashScope 兼容接口处理（谁用谁付费）
+    if api_key_override:
+        api_key = api_key_override
+        base_url = PROVIDER_BASE_URLS[Provider.BAILIAN]
+        use_anthropic = False
+    else:
+        api_key = decrypt_secret(cfg.api_key_encrypted)
+        # anthropic 无 base_url（走专用接口），用 .get 避免 KeyError
+        base_url = PROVIDER_BASE_URLS.get(provider)
+        use_anthropic = provider == Provider.ANTHROPIC
 
     # 降级容错（ARCHITECTURE 6.4）：失败重试 2 次（指数退避）；配置错误不重试
     for attempt in range(LLM_MAX_RETRIES + 1):
         try:
-            if provider == Provider.ANTHROPIC:
+            if use_anthropic:
                 client = _build_anthropic_client(api_key)
                 resp = _anthropic_completion(client, model, messages)
             else:
-                client = _build_openai_client(api_key, PROVIDER_BASE_URLS[provider])
+                client = _build_openai_client(api_key, base_url)
                 resp = _openai_completion(client, model, messages)
             break
         except LLMConfigError:

@@ -188,7 +188,15 @@ def build_dimension_node(
         }
 
         try:
-            text = await llm_func(messages=messages, dimension=dimension, task_id=task_id)
+            call_kwargs: dict[str, Any] = {
+                "messages": messages,
+                "dimension": dimension,
+                "task_id": task_id,
+            }
+            # M9-8：透传用户自有 Key（无则不含该参数 → 走系统 Key；不破坏测试 mock 签名）
+            if state.get("api_key_override"):
+                call_kwargs["api_key_override"] = state["api_key_override"]
+            text = await llm_func(**call_kwargs)
             raw = _extract_json(text)
             # 规范化 LLM 原始输出（schema 不稳定容忍层：维度/verdict/clauseRef + 检索命中校验）
             raw = _normalize_llm_raw(raw, dimension, state.get("retrieval", ""))

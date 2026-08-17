@@ -45,6 +45,8 @@ class WorkflowState(TypedDict, total=False):
     document_text: str
     retrieval: str
     graph_summary: str
+    # M9-8：用户自有 API Key 明文（worker 按 task.user_id 解析后透传；无 → None 走系统 Key）
+    api_key_override: str
     # findings 用 reducer 合并：六维并行各自追加 + 反思按 dimension 覆盖
     findings: Annotated[list[dict], _merge_findings]
     reflection_round: int
@@ -64,15 +66,18 @@ async def _default_llm_func(**kwargs: Any) -> str:
     from app.llm.factory import chat_completion
 
     with SessionLocal() as db:
-        return await asyncio.to_thread(
-            chat_completion,
-            db=db,
-            provider=Provider.BAILIAN,
-            model=None,
-            messages=kwargs["messages"],
-            node=kwargs.get("dimension"),
-            task_id=kwargs.get("task_id"),
-        )
+        chat_kwargs: dict[str, Any] = {
+            "db": db,
+            "provider": Provider.BAILIAN,
+            "model": None,
+            "messages": kwargs["messages"],
+            "node": kwargs.get("dimension"),
+            "task_id": kwargs.get("task_id"),
+        }
+        # M9-8：有用户自有 Key 则透传（否则走系统 Key）
+        if kwargs.get("api_key_override"):
+            chat_kwargs["api_key_override"] = kwargs["api_key_override"]
+        return await asyncio.to_thread(chat_completion, **chat_kwargs)
 
 
 def _build_agent(dimension: str, llm_func: Any | None):

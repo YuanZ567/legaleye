@@ -9,6 +9,7 @@ import {
   BookOpen,
   FileText,
   GitFork,
+  KeyRound,
   LogOut,
   MessagesSquare,
   PlusCircle,
@@ -21,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { AUTH_LOGOUT_EVENT, clearAuth, getUser } from "@/api/client";
 import { fetchModels } from "@/api/models";
 import type { ModelConfig as ModelConfigType, User } from "@/api/types";
+import ApiKeySettings from "@/pages/ApiKeySettings";
 import GraphPreview from "@/pages/GraphPreview";
 import KnowledgeBase from "@/pages/KnowledgeBase";
 import ModelConfig from "@/pages/ModelConfig";
@@ -28,7 +30,7 @@ import ReportView from "@/pages/ReportView";
 import TaskList from "@/pages/TaskList";
 import Workbench from "@/pages/Workbench";
 
-type View = "tasks" | "graph" | "chat" | "report" | "models" | "knowledge";
+type View = "tasks" | "graph" | "chat" | "report" | "models" | "knowledge" | "apikey";
 
 interface NavItem {
   label: string;
@@ -44,6 +46,7 @@ const navItems: NavItem[] = [
   { label: "数据流图谱", icon: GitFork, view: "graph" },
   { label: "合规报告", icon: ScrollText, view: "report" },
   { label: "模型配置", icon: Settings, view: "models", adminOnly: true },
+  { label: "API Key 设置", icon: KeyRound, view: "apikey" },
   { label: "知识库", icon: BookOpen, view: "knowledge" },
 ];
 
@@ -146,6 +149,7 @@ export function MainLayout() {
           {view === "chat" && <Workbench />}
           {view === "tasks" && <TaskList />}
           {view === "models" && user && isAdmin && <ModelConfig />}
+          {view === "apikey" && <ApiKeySettings />}
           {view === "knowledge" && <KnowledgeBase />}
           {view === "report" &&
             (reportLoaded ? (

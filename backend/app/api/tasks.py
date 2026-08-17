@@ -58,14 +58,20 @@ async def create_review_task(
     if not payload.document_ids:
         raise HTTPException(status_code=400, detail="documentIds 不能为空")
 
-    # demo 限流（未登录/无 Key → 按 IP 计数；已登录 → user_id 优先）
+    # 关联当前用户（demo 未登录 → None，归属校验时对 None 放行）
+    user_id = _resolve_user_id(request)
+
+    # M9-8 限流接线：配置了自有 Key 的付费用户无限次；无 Key 走 demo 限流 3 次/日
+    from app.models import User
     from app.services.rate_limit_service import check_demo_limit
 
     client_ip = request.client.host if request.client else "unknown"
-    check_demo_limit(ip=client_ip, user_id=None)
-
-    # 关联当前用户（demo 未登录 → None，归属校验时对 None 放行）
-    user_id = _resolve_user_id(request)
+    has_personal_key = False
+    if user_id is not None:
+        user = db.get(User, user_id)
+        has_personal_key = bool(user and user.api_key_encrypted)
+    if not has_personal_key:
+        check_demo_limit(ip=client_ip, user_id=str(user_id) if user_id else None)
 
     document_id = payload.document_ids[0]  # M4 单文件审查
     task_id = create_task(db=db, document_id=document_id, user_id=user_id)

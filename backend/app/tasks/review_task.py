@@ -61,6 +61,15 @@ def _run_workflow(*, task_id: uuid.UUID, document_id: uuid.UUID) -> None:
             task.status = "running"
             task.progress = 10
         db.commit()
+        # M9-8：按任务归属用户取自有 Key（无 user_id / 用户无 Key → None 走系统 Key）
+        api_key_override = None
+        if task.user_id is not None:
+            from app.models import User
+            from app.services.user_api_key_service import get_user_api_key_plain
+
+            owner = db.get(User, task.user_id)
+            if owner is not None:
+                api_key_override = get_user_api_key_plain(db, owner)
         publish_event(str(task_id), "taskStatus", {"status": "running", "progress": 10})
 
     graph = build_workflow()
@@ -71,6 +80,7 @@ def _run_workflow(*, task_id: uuid.UUID, document_id: uuid.UUID) -> None:
                 "task_id": str(task_id),
                 "document_id": str(document_id),
                 "document_text": text,
+                "api_key_override": api_key_override,
             }
         )
     )

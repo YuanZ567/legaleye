@@ -41,6 +41,12 @@ class User(SQLModel, table=True):
     oauth_provider: str | None = Field(default=None, nullable=True)
     oauth_id: str | None = Field(default=None, nullable=True)
 
+    # 用户级 API Key（M9-8）：只存 Fernet 密文 + 尾号 4 位；明文永不落库/出 API
+    api_key_encrypted: str | None = Field(
+        default=None, sa_column=Column(String(1024), nullable=True)
+    )
+    api_key_tail: str | None = Field(default=None, sa_column=Column(String(8), nullable=True))
+
     created_at: Any = Field(
         sa_column=Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     )

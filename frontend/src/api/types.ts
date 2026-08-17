@@ -101,6 +101,8 @@ export interface User {
   email: string;
   role: UserRole;
   createdAt: string;
+  /** 用户级 API Key 尾号（M9-8；未配置 → null；展示格式 ****abcd）。 */
+  apiKeyTail?: string | null;
 }
 
 /** 认证响应（DATA_CONTRACT 4.1 AuthOut）：{token, user}。 */
