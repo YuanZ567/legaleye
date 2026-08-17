@@ -44,3 +44,17 @@ def list_tasks(db: Session, status: str | None = None) -> list[ReviewTask]:
     if status:
         stmt = stmt.where(ReviewTask.status == status)
     return list(db.scalars(stmt).all())
+
+
+def delete_task(db: Session, task_id: uuid.UUID) -> bool:
+    """删除审查任务（admin）。
+
+    级联删除依赖 DB 外键 CASCADE（ComplianceFinding/Report 已配 ondelete=CASCADE），
+    不手动逐表 DELETE。返回 True 表示删除成功；任务不存在返回 False。
+    """
+    task = db.get(ReviewTask, task_id)
+    if task is None:
+        return False
+    db.delete(task)
+    db.commit()
+    return True
