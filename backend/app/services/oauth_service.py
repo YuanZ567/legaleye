@@ -93,40 +93,58 @@ def build_authorize_url(provider: str) -> str:
 
 
 async def _github_exchange_and_fetch(code: str, redirect_uri: str) -> dict:
-    """GitHub：换 token → 拉用户。返回 {oauth_id, email?, display_name?}。"""
+    """GitHub：换 token → 拉用户。返回 {oauth_id, email?, display_name?}。
+
+    网络健壮性：国内访问 GitHub 间歇性不通（DNS 正常但 TCP 握手偶发超时），
+    加 5 次重试 + 指数退避，命中"通"的窗口即成功。
+    """
+    import asyncio
+
     import httpx
 
     s = get_settings()
-    async with httpx.AsyncClient(timeout=15) as client:
-        token_resp = await client.post(
-            "https://github.com/login/oauth/access_token",
-            data={
-                "client_id": s.github_client_id,
-                "client_secret": s.github_client_secret,
-                "code": code,
-                "redirect_uri": redirect_uri,
-            },
-            headers={"Accept": "application/json"},
-        )
-        token_resp.raise_for_status()
-        token_json = token_resp.json()
-        access_token = token_json.get("access_token")
-        if not access_token:
-            raise ValidationError("GitHub 换取 token 失败", code="oauth_token_error")
+    last_exc: Exception | None = None
+    for attempt in range(1, 6):
+        try:
+            async with httpx.AsyncClient(timeout=20) as client:
+                token_resp = await client.post(
+                    "https://github.com/login/oauth/access_token",
+                    data={
+                        "client_id": s.github_client_id,
+                        "client_secret": s.github_client_secret,
+                        "code": code,
+                        "redirect_uri": redirect_uri,
+                    },
+                    headers={"Accept": "application/json"},
+                )
+                token_resp.raise_for_status()
+                token_json = token_resp.json()
+                access_token = token_json.get("access_token")
+                if not access_token:
+                    raise ValidationError("GitHub 换取 token 失败", code="oauth_token_error")
 
-        user_resp = await client.get(
-            "https://api.github.com/user",
-            headers={
-                "Authorization": f"Bearer {access_token}",
-                "Accept": "application/vnd.github+json",
-            },
-        )
-        user_resp.raise_for_status()
-        user_json = user_resp.json()
-        return {
-            "oauth_id": str(user_json["id"]),
-            "display_name": user_json.get("name") or user_json.get("login") or "github_user",
-        }
+                user_resp = await client.get(
+                    "https://api.github.com/user",
+                    headers={
+                        "Authorization": f"Bearer {access_token}",
+                        "Accept": "application/vnd.github+json",
+                    },
+                )
+                user_resp.raise_for_status()
+                user_json = user_resp.json()
+                return {
+                    "oauth_id": str(user_json["id"]),
+                    "display_name": user_json.get("name")
+                    or user_json.get("login")
+                    or "github_user",
+                }
+        except (httpx.TransportError, httpx.HTTPStatusError) as exc:  # noqa: PERF203
+            last_exc = exc
+            if attempt < 5:
+                await asyncio.sleep(attempt * 1.5)  # 1.5s/3s/4.5s/6s 退避
+    raise ValidationError(
+        f"GitHub 网络不稳定，重试 5 次仍失败: {last_exc}", code="oauth_network_error"
+    )
 
 
 async def _qq_exchange_and_fetch(code: str, redirect_uri: str) -> dict:
