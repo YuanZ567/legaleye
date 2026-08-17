@@ -7,16 +7,20 @@
 """
 
 import uuid
+from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 
+from app.core.auth import require_admin
 from app.core.db import get_db
 from app.core.sse import iter_events
+from app.models import User
 from app.schemas.task import TaskCreateIn, TaskCreateOut, TaskOut
 from app.services.task_service import (
     create_task,
+    delete_task,
     dispatch_task,
     get_task,
     list_tasks,
@@ -83,6 +87,19 @@ def _resolve_user_id(request: Request) -> uuid.UUID | None:
         return _uuid.UUID(payload["sub"])
     except Exception:
         return None
+
+
+@router.delete("/{task_id}")
+async def delete_review_task(
+    task_id: uuid.UUID,
+    _admin: Annotated[User, Depends(require_admin)],
+    db: Session = Depends(get_db),  # noqa: B008 (FastAPI 注入)
+) -> dict:
+    """删除审查任务（admin 专属）；级联删除 findings + report（DB CASCADE）。"""
+    ok = delete_task(db=db, task_id=task_id)
+    if not ok:
+        raise HTTPException(status_code=404, detail="任务不存在")
+    return {"deleted": True}
 
 
 @router.get("/{task_id}")

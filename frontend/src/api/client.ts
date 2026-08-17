@@ -101,3 +101,7 @@ export async function put<T>(path: string, body?: unknown): Promise<T> {
     body: body === undefined ? undefined : JSON.stringify(body),
   });
 }
+
+export async function del<T>(path: string): Promise<T> {
+  return request<T>(path, { method: "DELETE" });
+}

@@ -5,15 +5,20 @@
 薄层：仅参数校验 + 调 services；无命中返回空列表（不编造）。
 """
 
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
+from app.core.auth import require_admin
 from app.core.db import get_db
-from app.knowledge.law_service import list_laws
+from app.knowledge.law_service import add_law, list_laws
 from app.knowledge.retrieval import semantic_search
 from app.llm.embeddings import get_embedding_provider
+from app.models import User
 from app.schemas.law import (
     LawBaselineOut,
+    LawIn,
     LawSearchHit,
     LawSearchIn,
     LawSearchOut,
@@ -24,6 +29,25 @@ router = APIRouter(prefix="/knowledge", tags=["knowledge"])
 
 def _dump_baseline(law) -> dict:
     return LawBaselineOut.model_validate(law, from_attributes=True).model_dump(by_alias=True)
+
+
+@router.post("/laws")
+async def create_law_endpoint(
+    payload: LawIn,
+    _admin: Annotated[User, Depends(require_admin)],
+    db: Session = Depends(get_db),  # noqa: B008 (FastAPI 注入)
+) -> dict:
+    """添加法条（M9-7 admin 专属）：生成 embedding 后入库；重复 409。"""
+    law = add_law(
+        db=db,
+        statute=payload.statute,
+        article_no=payload.article_no,
+        article_text=payload.article_text,
+        version=payload.version,
+        effective_date=payload.effective_date,
+        source=payload.source,
+    )
+    return {"data": _dump_baseline(law)}
 
 
 @router.get("/laws")

@@ -13,7 +13,59 @@ from typing import Any
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app.core.config import get_settings
+from app.core.exceptions import DomainError
 from app.models.law_baseline import LawBaseline
+from app.services.embedding_service import embed_text
+
+
+def add_law(
+    *,
+    db: Session,
+    statute: str,
+    article_no: str,
+    article_text: str,
+    version: str | None,
+    effective_date: date,
+    source: str,
+) -> LawBaseline:
+    """添加法条（M9-7 admin）：生成 embedding 后入库。
+
+    - 去重：statute + article_no + version 已存在 → 抛 409；
+    - embedding 生成失败 → 抛 500（不静默降级）；
+    - version 缺省用 config.laws_baseline_version（报告锁存版本，禁硬编码）。
+    """
+    final_version = version or get_settings().laws_baseline_version
+    exists = db.execute(
+        select(LawBaseline.id).where(
+            LawBaseline.statute == statute,
+            LawBaseline.article_no == article_no,
+            LawBaseline.version == final_version,
+        )
+    ).first()
+    if exists is not None:
+        raise DomainError(
+            f"该条款已存在（{statute} {article_no} v{final_version}）",
+            code="law_duplicate",
+            status_code=409,
+        )
+
+    law = LawBaseline(
+        statute=statute,
+        article_no=article_no,
+        article_text=article_text,
+        version=final_version,
+        effective_date=effective_date,
+        source=source,
+    )
+    db.add(law)
+    db.flush()  # 取 id
+
+    # embedding 必须有向量（M9-7 红线：不静默降级）
+    law.embedding = embed_text(article_text)
+    db.commit()
+    db.refresh(law)
+    return law
 
 
 def upsert_law(

@@ -4,9 +4,11 @@
  */
 
 import { useCallback, useEffect, useState } from "react";
+import { Trash2 } from "lucide-react";
 
-import { fetchTasks } from "@/api/tasks";
-import type { ReviewTask } from "@/api/types";
+import { deleteTask, fetchTasks } from "@/api/tasks";
+import { getUser } from "@/api/client";
+import type { ReviewTask, User } from "@/api/types";
 
 const STATUS_COLOR: Record<string, string> = {
   queued: "#8A93A6",
@@ -33,9 +35,17 @@ export default function TaskList() {
   const [tasks, setTasks] = useState<ReviewTask[]>([]);
   const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const user = getUser<User>();
+    setIsAdmin(user?.role === "admin");
+  }, []);
 
   const load = useCallback(async () => {
     setLoading(true);
+    setError(null);
     try {
       const data = await fetchTasks(filter);
       setTasks(data);
@@ -49,6 +59,22 @@ export default function TaskList() {
   useEffect(() => {
     load();
   }, [load]);
+
+  const handleDelete = async (task: ReviewTask) => {
+    if (
+      !window.confirm(
+        `确定删除任务 ${task.id.slice(0, 8)}？关联的审查结果和报告将一并删除。`,
+      )
+    ) {
+      return;
+    }
+    try {
+      await deleteTask(task.id);
+      setTasks((prev) => prev.filter((t) => t.id !== task.id));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "删除失败");
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -72,6 +98,12 @@ export default function TaskList() {
         </button>
       </div>
 
+      {error && (
+        <p className="rounded-md border border-risk-high/30 bg-[#FEF3F2] px-3 py-2 text-sm text-risk-highText">
+          {error}
+        </p>
+      )}
+
       {/* 任务表格 */}
       <div className="overflow-hidden rounded-lg border border-line-200 bg-surface">
         <table className="w-full text-left text-sm">
@@ -82,19 +114,20 @@ export default function TaskList() {
               <th className="px-4 py-3 font-medium text-ink-500">进度</th>
               <th className="px-4 py-3 font-medium text-ink-500">Findings</th>
               <th className="px-4 py-3 font-medium text-ink-500">Token</th>
+              {isAdmin && <th className="px-4 py-3 font-medium text-ink-500">操作</th>}
             </tr>
           </thead>
           <tbody>
             {loading && (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-ink-400">
+                <td colSpan={isAdmin ? 6 : 5} className="px-4 py-8 text-center text-ink-400">
                   加载中…
                 </td>
               </tr>
             )}
             {!loading && tasks.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-ink-400">
+                <td colSpan={isAdmin ? 6 : 5} className="px-4 py-8 text-center text-ink-400">
                   暂无任务
                 </td>
               </tr>
@@ -109,6 +142,18 @@ export default function TaskList() {
                   <td className="px-4 py-3 text-ink-700">{t.progress}%</td>
                   <td className="px-4 py-3 text-ink-700">{t.findingCount}</td>
                   <td className="px-4 py-3 text-ink-700">{t.tokenUsage}</td>
+                  {isAdmin && (
+                    <td className="px-4 py-3">
+                      <button
+                        onClick={() => handleDelete(t)}
+                        className="inline-flex items-center gap-1 text-sm text-risk-highText hover:underline"
+                        title="删除任务（级联删除 findings + report）"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                        删除
+                      </button>
+                    </td>
+                  )}
                 </tr>
               ))}
           </tbody>

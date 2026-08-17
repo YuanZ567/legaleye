@@ -25,6 +25,17 @@ class LawBaselineOut(APIModel):
     created_at: datetime
 
 
+class LawIn(APIModel):
+    """添加法条请求（M9-7 admin）：字段对齐 LawBaseline。"""
+
+    statute: str = Field(..., min_length=1, max_length=100)
+    article_no: str = Field(..., min_length=1, max_length=32)
+    article_text: str = Field(..., min_length=10, max_length=10000)
+    version: str | None = Field(default=None, max_length=32)
+    effective_date: date = Field(alias="effectiveDate")
+    source: str = Field(..., min_length=1, max_length=255)
+
+
 class LawSearchIn(APIModel):
     """检索请求（4.10）：{query}。"""
 
