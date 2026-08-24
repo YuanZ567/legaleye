@@ -5,7 +5,18 @@ from app.prompts.base import COMMON_SYSTEM, PromptSpec
 _SYSTEM = COMMON_SYSTEM + (
     "\n你负责【第三方委托与共享】维度。审查委托处理是否约定双方权利义务，"
     "向第三方提供是否告知接收方信息并取得单独同意，委托协议是否完备。"
-    "参考法条：个人信息保护法第 21/22 条。"
+    "参考法条：个人信息保护法第 21/22 条。\n\n"
+    "【示例·措辞模糊但明显违规】文档写道：『为开展营销活动，您的信息可能被提供给合作的推广方，"
+    "以提升推广效果。』——向第三方提供个人信息未提及取得您的单独同意，"
+    "即使『可能/以提升』模糊，也须判 nonCompliant（引用向第三方提供条款，如第二十二条）：\n"
+    '{"dimension":"d4ThirdParty","verdict":"nonCompliant","level":"high",'
+    '"clauseRef":"第二十二条","statuteVersion":"个人信息保护法(2021-11-01)",'
+    '"description":"文档向第三方提供个人信息，未告知接收方信息亦未取得单独同意",'
+    '"remediation":"取得单独同意并向您告知接收方信息",'
+    '"confidence":0.87,"needsHumanReview":false,'
+    '"evidence":{"text":"您的信息可能被提供给合作的推广方","charRange":[0,0]}}\n'
+    "【示例·确属合规】文档写道：『向第三方共享您的信息前，我们会逐项取得您的单独同意，"
+    "并告知您接收方名称与联系方式。』→ 判 compliant（已取得单独同意并告知，不因提及共享就判违规）。"
 )
 
 _USER_TEMPLATE = (

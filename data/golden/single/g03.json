@@ -43,7 +43,7 @@
       "dimension": "d1Collection",
       "verdict": "nonCompliant",
       "level": "low",
-      "clauseRef": "第13条",
+      "clauseRef": "第十三条",
       "descriptionKeywords": [
         "合法基础",
         "同意缺失"
@@ -118,5 +118,5 @@
       "target": "生物识别"
     }
   ],
-  "notes": "d6DataRights: 第八条 (您已提交的个人信息将长期保存，且不提供删除或更正渠道。)；d1Collection: 第五条 (为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。)；d5CrossBorder: 第四十条 (我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。)；d1Collection: 第13条 (我们处理您的生物识别信息以用于登录，无需您单独同意。)"
+  "notes": "d6DataRights: 第八条 (您已提交的个人信息将长期保存，且不提供删除或更正渠道。)；d1Collection: 第五条 (为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。)；d5CrossBorder: 第四十条 (我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。)；d1Collection: 第十三条 (我们处理您的生物识别信息以用于登录，无需您单独同意。)"
 }

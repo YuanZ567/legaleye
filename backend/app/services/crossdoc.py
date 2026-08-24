@@ -26,8 +26,8 @@ KEY_PATTERNS: dict[DeclarationKey, list[re.Pattern]] = {
         re.compile(r"(处理|使用)目的[是为]?[^。；]{2,40}"),
     ],
     DeclarationKey.RECEIVERS: [
-        re.compile(r"(向|共享给|提供给)[^。；]{2,40}(第三方|接收方|境外|子公司|云服务商)"),
-        re.compile(r"(接收方|第三方)[为是][^。；]{2,40}"),
+        re.compile(r"(向|共享给|提供给)[^。；]{2,40}(第三方|接收方|境外|子公司|云服务商|合作方|推广方|广告商)"),
+        re.compile(r"(接收方|第三方|合作方)[为是][^。；]{2,40}"),
     ],
     DeclarationKey.CROSS_BORDER: [
         re.compile(r"(不向境外|不出境|境内存储|不跨境|向境外|跨境|境外提供)[^。；]{0,30}"),

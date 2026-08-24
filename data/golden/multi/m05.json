@@ -10,7 +10,7 @@
       "dimension": "d1Collection",
       "verdict": "nonCompliant",
       "level": "low",
-      "clauseRef": "第13条",
+      "clauseRef": "第十三条",
       "descriptionKeywords": [
         "合法基础",
         "同意缺失"
@@ -65,5 +65,5 @@
       "target": "个人信息"
     }
   ],
-  "notes": "d1Collection: 第13条 (我们处理您的生物识别信息以用于登录，无需您单独同意。)；d2Notice: 第十七条 (我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。)；crossConsistency: 交叉矛盾 (您的订单信息将委托给第三方物流商处理。)"
+  "notes": "d1Collection: 第十三条 (我们处理您的生物识别信息以用于登录，无需您单独同意。)；d2Notice: 第十七条 (我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。)；crossConsistency: 交叉矛盾 (您的订单信息将委托给第三方物流商处理。)"
 }

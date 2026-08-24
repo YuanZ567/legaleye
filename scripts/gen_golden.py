@@ -100,7 +100,7 @@ VIOLATIONS = [
     },
     {
         "dimension": "d1Collection", "verdict": "nonCompliant", "level": "low",
-        "clauseRef": "第13条",
+        "clauseRef": "第十三条",
         "keywords": ["合法基础", "同意缺失"],
         "evidence": "处理敏感个人信息未取得单独同意",
         "sentence": "我们处理您的生物识别信息以用于登录，无需您单独同意。",

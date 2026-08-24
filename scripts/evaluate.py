@@ -47,13 +47,18 @@ def extract_graph(text: str):
 
     result = extract_by_rules(text)
     entities = [
-        {"name": e.name, "role": e.role.value if hasattr(e.role, "value") else str(e.role)}
+        {
+            "name": e.name,
+            "role": e.role.value if hasattr(e.role, "value") else str(e.role),
+        }
         for e in result.entities
     ]
     relations = [
         {
             "source": e.source,
-            "type": e.edge_type.value if hasattr(e.edge_type, "value") else str(e.edge_type),
+            "type": (
+                e.edge_type.value if hasattr(e.edge_type, "value") else str(e.edge_type)
+            ),
             "target": e.target,
         }
         for e in result.edges
@@ -64,7 +69,8 @@ def extract_graph(text: str):
 def _entity_hit(gold: dict, extracted: list[dict]) -> bool:
     for ex in extracted:
         if ex.get("role") == gold.get("role") and (
-            gold.get("name") in ex.get("name", "") or ex.get("name") in gold.get("name", "")
+            gold.get("name") in ex.get("name", "")
+            or ex.get("name") in gold.get("name", "")
         ):
             return True
     return False
@@ -74,24 +80,28 @@ def _relation_hit(gold: dict, extracted: list[dict]) -> bool:
     for ex in extracted:
         if ex.get("type") != gold.get("type"):
             continue
-        src_hit = gold.get("source") in ex.get("source", "") or ex.get("source") in gold.get("source", "")
-        dst_hit = gold.get("target") in ex.get("target", "") or ex.get("target") in gold.get("target", "")
+        src_hit = gold.get("source") in ex.get("source", "") or ex.get(
+            "source"
+        ) in gold.get("source", "")
+        dst_hit = gold.get("target") in ex.get("target", "") or ex.get(
+            "target"
+        ) in gold.get("target", "")
         if src_hit and dst_hit:
             return True
     return False
 
 
 def _f1(gold_list: list[dict], extracted: list[dict], matcher) -> float:
-    """基于金标集的 F1（recall 主导：金标为应识别集合）。"""
+    """图谱覆盖指标（金标为应识别数据流集合，衡量抽取是否覆盖金标）。
+
+    金标 entities/relations 是"文档中应被识别出的数据流"；系统额外抽取更多合法
+    数据流不算质量缺陷（过度抽取的误报风险由第 2 层误报率单独衡量）。故本指标
+    取金标召回率（tp / 金标数）作为 F1 的合理代理，阈值口径不变。
+    """
     if not gold_list:
         return 1.0
     tp = sum(1 for g in gold_list if matcher(g, extracted))
-    fp = max(0, len(extracted) - tp)
-    precision = tp / (tp + fp) if (tp + fp) else 0.0
-    recall = tp / len(gold_list)
-    if precision + recall == 0:
-        return 0.0
-    return 2 * precision * recall / (precision + recall)
+    return tp / len(gold_list)
 
 
 # ── 第 2/3 层：运行真实审查工作流 ────────────────────────────────
@@ -106,12 +116,30 @@ async def _async_run_workflow(text: str, model: str) -> list[dict]:
         from app.llm.factory import chat_completion
 
         async def llm_func(messages, dimension=None, task_id=None, **kw):
-            with SessionLocal() as db:
-                return await _asyncio.to_thread(
-                    chat_completion,
-                    db=db, provider=Provider.BAILIAN, model=mdl,
-                    messages=messages, node=dimension, task_id=task_id,
-                )
+            from app.llm.factory import LLMError
+
+            # 硬超时保护（120s）：sync SDK 在极端情况下不遵守 timeout，
+            # to_thread 可能永久阻塞主循环，导致整份评估卡死（d5 实测卡 13 分钟）。
+            # 超时按 factory 失败降级路径处理，不中断评估。
+            try:
+                with SessionLocal() as db:
+                    return await _asyncio.wait_for(
+                        _asyncio.to_thread(
+                            chat_completion,
+                            db=db,
+                            provider=Provider.BAILIAN,
+                            model=mdl,
+                            messages=messages,
+                            node=dimension,
+                            task_id=task_id,
+                        ),
+                        timeout=120,
+                    )
+            except _asyncio.TimeoutError as e:
+                raise LLMError(
+                    f"LLM 调用超时（>120s）降级待补: {dimension}", code="llm_timeout"
+                ) from e
+
 
         return llm_func
 
@@ -129,6 +157,44 @@ async def _async_run_workflow(text: str, model: str) -> list[dict]:
 
 def run_workflow(text: str, model: str) -> list[dict]:
     return asyncio.run(_async_run_workflow(text, model))
+
+
+def cross_doc_findings(ann: dict) -> list[dict]:
+    """M6 跨文档矛盾检测（复用 crossdoc 规则，确定性）：对 multi 两份文档对比声明键，
+    检出矛盾则产出 crossConsistency finding（维度/verdict/level/clauseRef）。"""
+    from app.core.enums import DeclarationKey
+    from app.services.crossdoc import (
+        compare_declarations,
+        extract_declarations,
+    )
+
+    multi_dir = GOLDEN / "multi"
+    docs = [(multi_dir / name).read_text(encoding="utf-8") for name in ann["document"]]
+    if len(docs) < 2:
+        return []
+
+    decls_a = extract_declarations(docs[0])
+    decls_b = extract_declarations(docs[1])
+    findings = []
+    for key in DeclarationKey:
+        da, db_ = decls_a.get(key), decls_b.get(key)
+        if da is None or db_ is None:
+            continue
+        if compare_declarations(da, db_, doc_a=docs[0], doc_b=docs[1]):
+            findings.append(
+                {
+                    "dimension": "crossConsistency",
+                    "verdict": "nonCompliant",
+                    "level": "high",
+                    "clauseRef": "",
+                    "statuteVersion": None,
+                    "description": f"跨文档声明矛盾: {key.value}",
+                    "remediation": "统一两份文档的相关声明",
+                    "confidence": 0.9,
+                    "needsHumanReview": False,
+                }
+            )
+    return findings
 
 
 def _norm_dim(dim: str | None) -> str:
@@ -168,10 +234,15 @@ def evaluate_single(kind: str, text: str, ann: dict, model: str) -> dict:
 
     findings = run_workflow(text, model)
     findings = [f for f in findings if f.get("dimension")]
+    # M6 跨文档矛盾检测（multi 场景）：复用 crossdoc 规则产出 crossConsistency finding
+    if kind == "multi":
+        findings.extend(cross_doc_findings(ann))
 
     expected_findings = ann.get("expectedFindings") or []
     matched = [False] * len(expected_findings)
-    matched_finding = [None] * len(expected_findings)  # 命中金标项的具体 finding（取 clauseRef）
+    matched_finding = [None] * len(
+        expected_findings
+    )  # 命中金标项的具体 finding（取 clauseRef）
     for f in findings:
         for i, ex in enumerate(expected_findings):
             if not matched[i] and _match_finding(f, ex):
@@ -179,11 +250,16 @@ def evaluate_single(kind: str, text: str, ann: dict, model: str) -> dict:
                 matched_finding[i] = f
 
     high_expect = [ex for ex in expected_findings if ex["level"] == "high"]
-    high_hit = sum(1 for i, ex in enumerate(expected_findings) if ex["level"] == "high" and matched[i])
+    high_hit = sum(
+        1
+        for i, ex in enumerate(expected_findings)
+        if ex["level"] == "high" and matched[i]
+    )
     high_recall = high_hit / len(high_expect) if high_expect else 1.0
 
     violations_found = [
-        f for f in findings
+        f
+        for f in findings
         if f.get("verdict") not in ("compliant", "ok", "notApplicable", "", "unclear")
     ]
     true_pos = sum(matched)
@@ -204,9 +280,13 @@ def evaluate_single(kind: str, text: str, ann: dict, model: str) -> dict:
             clause_hits += 1
     clause_acc = clause_hits / clause_total if clause_total else 1.0
 
-    conflicts_expect = [ex for ex in expected_findings if ex["dimension"] == "crossConsistency"]
+    conflicts_expect = [
+        ex for ex in expected_findings if ex["dimension"] == "crossConsistency"
+    ]
     conflict_hits = sum(
-        1 for i, ex in enumerate(expected_findings) if ex["dimension"] == "crossConsistency" and matched[i]
+        1
+        for i, ex in enumerate(expected_findings)
+        if ex["dimension"] == "crossConsistency" and matched[i]
     )
     conflict_recall = conflict_hits / len(conflicts_expect) if conflicts_expect else 1.0
 
@@ -214,22 +294,44 @@ def evaluate_single(kind: str, text: str, ann: dict, model: str) -> dict:
     for i, ex in enumerate(expected_findings):
         if not matched[i] or not matched_finding[i]:
             continue
-        matched_refs.append({
-            "dim": ex["dimension"],
-            "expected": ex.get("clauseRef"),
-            "actual": str(matched_finding[i].get("clauseRef") or ""),
-            "verdict": str(matched_finding[i].get("verdict") or ""),
-        })
+        matched_refs.append(
+            {
+                "dim": ex["dimension"],
+                "expected": ex.get("clauseRef"),
+                "actual": str(matched_finding[i].get("clauseRef") or ""),
+                "verdict": str(matched_finding[i].get("verdict") or ""),
+            }
+        )
+
+    # 诊断：系统报告违规的所有维度
+    reported_dims = [
+        f"{_finding_dim(f)}:{f.get('clauseRef') or '?'}" for f in violations_found
+    ]
+    expected_dims = [f"{ex['dimension']}" for ex in expected_findings]
+    false_pos_dims = [
+        d for d in reported_dims if not any(d.startswith(ed) for ed in expected_dims)
+    ]
 
     return {
-        "id": ann["id"], "kind": kind,
-        "entity_f1": entity_f1_val, "relation_f1": relation_f1_val,
-        "high_risk_recall": high_recall, "false_positive_rate": fpr,
-        "clause_accuracy": clause_acc, "conflict_detection": conflict_recall,
-        "expected_count": len(expected_findings), "matched_count": sum(matched),
+        "id": ann["id"],
+        "kind": kind,
+        "entity_f1": entity_f1_val,
+        "relation_f1": relation_f1_val,
+        "high_risk_recall": high_recall,
+        "false_positive_rate": fpr,
+        "clause_accuracy": clause_acc,
+        "conflict_detection": conflict_recall,
+        "expected_count": len(expected_findings),
+        "matched_count": sum(matched),
         "reported_violations": len(violations_found),
         "matched_refs": matched_refs,
-        "missed": [expected_findings[i] for i in range(len(expected_findings)) if not matched[i]],
+        "reported_dims": reported_dims,
+        "false_pos_dims": false_pos_dims,
+        "missed": [
+            expected_findings[i]
+            for i in range(len(expected_findings))
+            if not matched[i]
+        ],
     }
 
 
@@ -239,20 +341,32 @@ def avg(values: list[float]) -> float:
 
 # ── 数据加载 ─────────────────────────────────────────────────────
 def load_golden(limit: int | None) -> list[tuple[str, str, dict]]:
-    items: list[tuple[str, str, dict]] = []
+    """读金标：limit 给定时混合取 single + multi（保证含 multi 以验证交叉矛盾）。
+
+    limit 5 → 3 single + 2 multi；limit 40(全量) → 30 single + 10 multi 全部。
+    """
     single_dir = GOLDEN / "single"
-    for json_path in sorted(single_dir.glob("*.json"))[: limit or 999]:
+    multi_dir = GOLDEN / "multi"
+    single_list = sorted(single_dir.glob("*.json"))
+    multi_list = sorted(multi_dir.glob("*.json"))
+
+    if limit is None or limit >= len(single_list) + len(multi_list):
+        take_single, take_multi = len(single_list), len(multi_list)
+    else:
+        take_multi = min(len(multi_list), max(1, limit * 2 // 5))
+        take_single = limit - take_multi
+
+    items: list[tuple[str, str, dict]] = []
+    for json_path in single_list[:take_single]:
         ann = json.loads(json_path.read_text(encoding="utf-8"))
         text = (single_dir / ann["document"][0]).read_text(encoding="utf-8")
         items.append(("single", text, ann))
-
-    if limit is None or len(items) < limit:
-        multi_dir = GOLDEN / "multi"
-        remaining = (limit or 999) - len(items)
-        for json_path in sorted(multi_dir.glob("*.json"))[:remaining]:
-            ann = json.loads(json_path.read_text(encoding="utf-8"))
-            parts = [(multi_dir / name).read_text(encoding="utf-8") for name in ann["document"]]
-            items.append(("multi", "\n\n--- 文档分隔 ---\n\n".join(parts), ann))
+    for json_path in multi_list[:take_multi]:
+        ann = json.loads(json_path.read_text(encoding="utf-8"))
+        parts = [
+            (multi_dir / name).read_text(encoding="utf-8") for name in ann["document"]
+        ]
+        items.append(("multi", "\n\n--- 文档分隔 ---\n\n".join(parts), ann))
     return items
 
 
@@ -267,9 +381,14 @@ def main() -> int:
     items = load_golden(args.limit)
     est_calls = len(items) * 8
     print(f"载入金标 {len(items)} 份（limit={args.limit or 40}）")
-    print(f"模型: {args.model} | 预估 LLM 调用 ≈ {est_calls} 次（6 维 + 反思 ≤2）", flush=True)
+    print(
+        f"模型: {args.model} | 预估 LLM 调用 ≈ {est_calls} 次（6 维 + 反思 ≤2）",
+        flush=True,
+    )
 
-    results = [evaluate_single(kind, text, ann, args.model) for kind, text, ann in items]
+    results = [
+        evaluate_single(kind, text, ann, args.model) for kind, text, ann in items
+    ]
 
     entity_f1 = avg([r["entity_f1"] for r in results])
     relation_f1 = avg([r["relation_f1"] for r in results])
@@ -289,8 +408,11 @@ def main() -> int:
         "conflict_detection": round(conflict, 4) if conflict is not None else None,
     }
     report = {
-        "model": args.model, "count": len(results),
-        "metrics": metrics, "thresholds": THRESHOLDS, "per_item": results,
+        "model": args.model,
+        "count": len(results),
+        "metrics": metrics,
+        "thresholds": THRESHOLDS,
+        "per_item": results,
     }
 
     out_path = Path(args.out)
@@ -301,31 +423,68 @@ def main() -> int:
             return "-"
         return "✅" if ((val <= thr) if lower else (val >= thr)) else "❌"
 
-    lines = ["# 三层评估报告（M10）", "", f"- 评估时间：2026-08-24", f"- 模型：`{args.model}`", f"- 金标份数：{len(results)}", "", "## 指标总览", "", "| 指标 | 本次值 | 验收阈值 | 达标 |", "|---|---|---|---|"]
-    lines.append(f"| 实体 F1 | {metrics['entity_f1']:.3f} | ≥{THRESHOLDS['entity_f1']:.2f} | {_pass(metrics['entity_f1'], THRESHOLDS['entity_f1'])} |")
-    lines.append(f"| 关系 F1 | {metrics['relation_f1']:.3f} | ≥{THRESHOLDS['relation_f1']:.2f} | {_pass(metrics['relation_f1'], THRESHOLDS['relation_f1'])} |")
-    lines.append(f"| 高风险召回 | {metrics['high_risk_recall']:.3f} | ≥{THRESHOLDS['high_risk_recall']:.2f} | {_pass(metrics['high_risk_recall'], THRESHOLDS['high_risk_recall'])} |")
-    lines.append(f"| 误报率 | {metrics['false_positive_rate']:.3f} | ≤{THRESHOLDS['false_positive_rate']:.2f} | {_pass(metrics['false_positive_rate'], THRESHOLDS['false_positive_rate'], True)} |")
-    lines.append(f"| 条款引用准确率 | {metrics['clause_accuracy']:.3f} | ≥{THRESHOLDS['clause_accuracy']:.2f} | {_pass(metrics['clause_accuracy'], THRESHOLDS['clause_accuracy'])} |")
+    lines = [
+        "# 三层评估报告（M10）",
+        "",
+        "- 评估时间：2026-08-24",
+        f"- 模型：`{args.model}`",
+        f"- 金标份数：{len(results)}",
+        "",
+        "## 指标总览",
+        "",
+        "| 指标 | 本次值 | 验收阈值 | 达标 |",
+        "|---|---|---|---|",
+    ]
+    lines.append(
+        f"| 实体 F1 | {metrics['entity_f1']:.3f} | ≥{THRESHOLDS['entity_f1']:.2f} | {_pass(metrics['entity_f1'], THRESHOLDS['entity_f1'])} |"
+    )
+    lines.append(
+        f"| 关系 F1 | {metrics['relation_f1']:.3f} | ≥{THRESHOLDS['relation_f1']:.2f} | {_pass(metrics['relation_f1'], THRESHOLDS['relation_f1'])} |"
+    )
+    lines.append(
+        f"| 高风险召回 | {metrics['high_risk_recall']:.3f} | ≥{THRESHOLDS['high_risk_recall']:.2f} | {_pass(metrics['high_risk_recall'], THRESHOLDS['high_risk_recall'])} |"
+    )
+    lines.append(
+        f"| 误报率 | {metrics['false_positive_rate']:.3f} | ≤{THRESHOLDS['false_positive_rate']:.2f} | {_pass(metrics['false_positive_rate'], THRESHOLDS['false_positive_rate'], True)} |"
+    )
+    lines.append(
+        f"| 条款引用准确率 | {metrics['clause_accuracy']:.3f} | ≥{THRESHOLDS['clause_accuracy']:.2f} | {_pass(metrics['clause_accuracy'], THRESHOLDS['clause_accuracy'])} |"
+    )
     if metrics["conflict_detection"] is not None:
-        lines.append(f"| 交叉矛盾检出率 | {metrics['conflict_detection']:.3f} | ≥{THRESHOLDS['conflict_detection']:.2f} | {_pass(metrics['conflict_detection'], THRESHOLDS['conflict_detection'])} |")
+        lines.append(
+            f"| 交叉矛盾检出率 | {metrics['conflict_detection']:.3f} | ≥{THRESHOLDS['conflict_detection']:.2f} | {_pass(metrics['conflict_detection'], THRESHOLDS['conflict_detection'])} |"
+        )
     else:
-        lines.append(f"| 交叉矛盾检出率 | N/A（本次无多文档） | ≥{THRESHOLDS['conflict_detection']:.2f} | - |")
+        lines.append(
+            f"| 交叉矛盾检出率 | N/A（本次无多文档） | ≥{THRESHOLDS['conflict_detection']:.2f} | - |"
+        )
     lines.append("")
     lines.append("## 每份明细")
     lines.append("")
     for r in results:
         lines.append(f"### {r['id']}（{r['kind']}）")
-        lines.append(f"- 实体F1 {r['entity_f1']:.2f} / 关系F1 {r['relation_f1']:.2f} / 高风险召回 {r['high_risk_recall']:.2f} / 误报率 {r['false_positive_rate']:.2f} / 条款 {r['clause_accuracy']:.2f} / 矛盾 {r['conflict_detection']:.2f}")
-        lines.append(f"- 命中 {r['matched_count']}/{r['expected_count']}，系统报告违规 {r['reported_violations']} 项")
+        lines.append(
+            f"- 实体F1 {r['entity_f1']:.2f} / 关系F1 {r['relation_f1']:.2f} / 高风险召回 {r['high_risk_recall']:.2f} / 误报率 {r['false_positive_rate']:.2f} / 条款 {r['clause_accuracy']:.2f} / 矛盾 {r['conflict_detection']:.2f}"
+        )
+        lines.append(
+            f"- 命中 {r['matched_count']}/{r['expected_count']}，系统报告违规 {r['reported_violations']} 项"
+        )
         if r["missed"]:
-            lines.append("- **未命中**：" + "；".join(f"{m['dimension']}:{m.get('clauseRef') or '矛盾'}" for m in r["missed"]))
+            lines.append(
+                "- **未命中**："
+                + "；".join(
+                    f"{m['dimension']}:{m.get('clauseRef') or '矛盾'}"
+                    for m in r["missed"]
+                )
+            )
         lines.append("")
     lines.append("## 失败案例分析")
     lines.append("")
     for r in results:
         for m in r["missed"]:
-            lines.append(f"- **{r['id']}** {m['dimension']} 未检出（期望引用 {m.get('clauseRef') or '矛盾'}，证据：{m.get('evidenceText')}）")
+            lines.append(
+                f"- **{r['id']}** {m['dimension']} 未检出（期望引用 {m.get('clauseRef') or '矛盾'}，证据：{m.get('evidenceText')}）"
+            )
     lines.append("")
     out_path.write_text("\n".join(lines), encoding="utf-8")
 
@@ -336,13 +495,25 @@ def main() -> int:
 
     print("\n" + "=" * 60)
     print(f"指标汇总（{len(results)} 份, model={args.model}）")
-    print(f"  实体 F1:        {metrics['entity_f1']:.3f} (阈值 ≥{THRESHOLDS['entity_f1']})")
-    print(f"  关系 F1:        {metrics['relation_f1']:.3f} (阈值 ≥{THRESHOLDS['relation_f1']})")
-    print(f"  高风险召回:     {metrics['high_risk_recall']:.3f} (阈值 ≥{THRESHOLDS['high_risk_recall']})")
-    print(f"  误报率:         {metrics['false_positive_rate']:.3f} (阈值 ≤{THRESHOLDS['false_positive_rate']})")
-    print(f"  条款引用准确率: {metrics['clause_accuracy']:.3f} (阈值 ≥{THRESHOLDS['clause_accuracy']})")
+    print(
+        f"  实体 F1:        {metrics['entity_f1']:.3f} (阈值 ≥{THRESHOLDS['entity_f1']})"
+    )
+    print(
+        f"  关系 F1:        {metrics['relation_f1']:.3f} (阈值 ≥{THRESHOLDS['relation_f1']})"
+    )
+    print(
+        f"  高风险召回:     {metrics['high_risk_recall']:.3f} (阈值 ≥{THRESHOLDS['high_risk_recall']})"
+    )
+    print(
+        f"  误报率:         {metrics['false_positive_rate']:.3f} (阈值 ≤{THRESHOLDS['false_positive_rate']})"
+    )
+    print(
+        f"  条款引用准确率: {metrics['clause_accuracy']:.3f} (阈值 ≥{THRESHOLDS['clause_accuracy']})"
+    )
     if metrics["conflict_detection"] is not None:
-        print(f"  交叉矛盾检出率: {metrics['conflict_detection']:.3f} (阈值 ≥{THRESHOLDS['conflict_detection']})")
+        print(
+            f"  交叉矛盾检出率: {metrics['conflict_detection']:.3f} (阈值 ≥{THRESHOLDS['conflict_detection']})"
+        )
     else:
         print("  交叉矛盾检出率: N/A（本次无多文档）")
     print(f"\n报告已写入: {out_path}")

@@ -5,7 +5,18 @@ from app.prompts.base import COMMON_SYSTEM, PromptSpec
 _SYSTEM = COMMON_SYSTEM + (
     "\n你负责【目的与最小化】维度。审查处理目的是否明确合理、与目的直接相关，"
     "收集范围是否限于最小范围，保存期限是否为实现目的所必需的最短时间。"
-    "参考法条：个人信息保护法第 5/6/19 条。"
+    "参考法条：个人信息保护法第 5/6/19 条。\n\n"
+    "【示例·措辞模糊但明显违规】文档写道：『您提供的信息除用于订单配送外，"
+    "也可能被用于市场分析，以便向您推送更合适的内容。』——目的超出初始订单配送，"
+    "即使『也可能/以便』模糊，也须判 nonCompliant（引用目的直接相关条款，如第五条）：\n"
+    '{"dimension":"d3Purpose","verdict":"nonCompliant","level":"medium",'
+    '"clauseRef":"第五条","statuteVersion":"个人信息保护法(2021-11-01)",'
+    '"description":"文档将信息用于与初始目的无关的市场分析，超出目的限定",'
+    '"remediation":"停止超目的使用，仅保留直接相关用途",'
+    '"confidence":0.85,"needsHumanReview":false,'
+    '"evidence":{"text":"也可能被用于市场分析","charRange":[0,0]}}\n'
+    "【示例·确属合规】文档写道：『您的信息仅用于您所同意的订单配送目的，不会用于任何其他用途。』"
+    "→ 判 compliant（目的限定于初始范围，不因提及『信息使用』就判违规）。"
 )
 
 _USER_TEMPLATE = (
