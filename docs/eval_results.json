@@ -1,0 +1,2012 @@
+{
+  "model": "qwen3.7-plus-2026-05-26",
+  "count": 40,
+  "metrics": {
+    "entity_f1": 0.8809,
+    "relation_f1": 0.8167,
+    "high_risk_recall": 0.4917,
+    "false_positive_rate": 0.2025,
+    "clause_accuracy": 0.8,
+    "conflict_detection": 0.5
+  },
+  "thresholds": {
+    "entity_f1": 0.85,
+    "relation_f1": 0.8,
+    "high_risk_recall": 0.9,
+    "false_positive_rate": 0.15,
+    "clause_accuracy": 0.85,
+    "conflict_detection": 0.8
+  },
+  "per_item": [
+    {
+      "id": "g01",
+      "kind": "single",
+      "entity_f1": 0.8571428571428571,
+      "relation_f1": 1.0,
+      "high_risk_recall": 0.5,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 4,
+      "matched_count": 2,
+      "reported_violations": 2,
+      "matched_refs": [
+        {
+          "dim": "d1Collection",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d1Collection",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d2Notice:第二十二条"
+      ],
+      "false_pos_dims": [
+        "d2Notice:第二十二条"
+      ],
+      "missed": [
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第二十二条",
+          "descriptionKeywords": [
+            "单独同意",
+            "第三方共享"
+          ],
+          "evidenceText": "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。"
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "nonCompliant",
+          "level": "low",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "目的限定",
+            "超出范围"
+          ],
+          "evidenceText": "您提供的账号信息会被用于产品调研，超出您当初提供的订单一对一联系用途。"
+        }
+      ]
+    },
+    {
+      "id": "g02",
+      "kind": "single",
+      "entity_f1": 1.0,
+      "relation_f1": 1.0,
+      "high_risk_recall": 1.0,
+      "false_positive_rate": 0.5,
+      "clause_accuracy": 0.5,
+      "conflict_detection": 1.0,
+      "expected_count": 2,
+      "matched_count": 2,
+      "reported_violations": 4,
+      "matched_refs": [
+        {
+          "dim": "d1Collection",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d5CrossBorder",
+          "expected": "第四十条",
+          "actual": "第三条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d3Purpose:第五条",
+        "d5CrossBorder:第三条",
+        "d6DataRights:第八条"
+      ],
+      "false_pos_dims": [
+        "d3Purpose:第五条",
+        "d6DataRights:第八条"
+      ],
+      "missed": []
+    },
+    {
+      "id": "g03",
+      "kind": "single",
+      "entity_f1": 0.875,
+      "relation_f1": 0.8333333333333334,
+      "high_risk_recall": 1.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 0.75,
+      "conflict_detection": 1.0,
+      "expected_count": 4,
+      "matched_count": 4,
+      "reported_violations": 4,
+      "matched_refs": [
+        {
+          "dim": "d6DataRights",
+          "expected": "第八条",
+          "actual": "第八条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d1Collection",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d5CrossBorder",
+          "expected": "第四十条",
+          "actual": "第四十条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d1Collection",
+          "expected": "第十三条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d5CrossBorder:第四十条",
+        "d6DataRights:第八条",
+        "d3Purpose:第五条"
+      ],
+      "false_pos_dims": [
+        "d3Purpose:第五条"
+      ],
+      "missed": []
+    },
+    {
+      "id": "g04",
+      "kind": "single",
+      "entity_f1": 1.0,
+      "relation_f1": 1.0,
+      "high_risk_recall": 1.0,
+      "false_positive_rate": 0.5,
+      "clause_accuracy": 0.5,
+      "conflict_detection": 1.0,
+      "expected_count": 2,
+      "matched_count": 2,
+      "reported_violations": 4,
+      "matched_refs": [
+        {
+          "dim": "d5CrossBorder",
+          "expected": "第四十条",
+          "actual": "第三条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d1Collection",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d3Purpose:第五条",
+        "d5CrossBorder:第三条",
+        "d6DataRights:第八条"
+      ],
+      "false_pos_dims": [
+        "d3Purpose:第五条",
+        "d6DataRights:第八条"
+      ],
+      "missed": []
+    },
+    {
+      "id": "g05",
+      "kind": "single",
+      "entity_f1": 1.0,
+      "relation_f1": 1.0,
+      "high_risk_recall": 1.0,
+      "false_positive_rate": 0.6,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 2,
+      "matched_count": 2,
+      "reported_violations": 5,
+      "matched_refs": [
+        {
+          "dim": "d5CrossBorder",
+          "expected": "第四十条",
+          "actual": "第四十条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d6DataRights",
+          "expected": "第八条",
+          "actual": "第八条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d3Purpose:第五条",
+        "d4ThirdParty:第二十二条",
+        "d5CrossBorder:第四十条",
+        "d6DataRights:第八条"
+      ],
+      "false_pos_dims": [
+        "d1Collection:第五条",
+        "d3Purpose:第五条",
+        "d4ThirdParty:第二十二条"
+      ],
+      "missed": []
+    },
+    {
+      "id": "g06",
+      "kind": "single",
+      "entity_f1": 0.8333333333333334,
+      "relation_f1": 1.0,
+      "high_risk_recall": 0.5,
+      "false_positive_rate": 0.3333333333333333,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 3,
+      "matched_count": 2,
+      "reported_violations": 3,
+      "matched_refs": [
+        {
+          "dim": "d3Purpose",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d1Collection",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d3Purpose:第五条",
+        "d6DataRights:第八条"
+      ],
+      "false_pos_dims": [
+        "d6DataRights:第八条"
+      ],
+      "missed": [
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第二十二条",
+          "descriptionKeywords": [
+            "单独同意",
+            "第三方共享"
+          ],
+          "evidenceText": "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。"
+        }
+      ]
+    },
+    {
+      "id": "g07",
+      "kind": "single",
+      "entity_f1": 0.8571428571428571,
+      "relation_f1": 1.0,
+      "high_risk_recall": 0.5,
+      "false_positive_rate": 0.25,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 4,
+      "matched_count": 3,
+      "reported_violations": 4,
+      "matched_refs": [
+        {
+          "dim": "d6DataRights",
+          "expected": "第八条",
+          "actual": "第八条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d5CrossBorder",
+          "expected": "第三十九条",
+          "actual": "第三十九条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d1Collection",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d5CrossBorder:第三十九条",
+        "d6DataRights:第八条",
+        "d3Purpose:第五条"
+      ],
+      "false_pos_dims": [
+        "d3Purpose:第五条"
+      ],
+      "missed": [
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第二十二条",
+          "descriptionKeywords": [
+            "单独同意",
+            "第三方共享"
+          ],
+          "evidenceText": "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。"
+        }
+      ]
+    },
+    {
+      "id": "g08",
+      "kind": "single",
+      "entity_f1": 1.0,
+      "relation_f1": 0.75,
+      "high_risk_recall": 1.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 3,
+      "matched_count": 2,
+      "reported_violations": 2,
+      "matched_refs": [
+        {
+          "dim": "d1Collection",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d6DataRights",
+          "expected": "第八条",
+          "actual": "第八条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d6DataRights:第八条"
+      ],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d3Purpose",
+          "verdict": "nonCompliant",
+          "level": "low",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "目的限定",
+            "超出范围"
+          ],
+          "evidenceText": "您提供的账号信息会被用于产品调研，超出您当初提供的订单一对一联系用途。"
+        }
+      ]
+    },
+    {
+      "id": "g09",
+      "kind": "single",
+      "entity_f1": 0.875,
+      "relation_f1": 1.0,
+      "high_risk_recall": 1.0,
+      "false_positive_rate": 0.25,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 3,
+      "matched_count": 3,
+      "reported_violations": 4,
+      "matched_refs": [
+        {
+          "dim": "d5CrossBorder",
+          "expected": "第三十九条",
+          "actual": "第三十九条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d4ThirdParty",
+          "expected": "第二十二条",
+          "actual": "第二十二条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d1Collection",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d3Purpose:第五条",
+        "d4ThirdParty:第二十二条",
+        "d5CrossBorder:第三十九条"
+      ],
+      "false_pos_dims": [
+        "d3Purpose:第五条"
+      ],
+      "missed": []
+    },
+    {
+      "id": "g10",
+      "kind": "single",
+      "entity_f1": 0.8333333333333334,
+      "relation_f1": 0.8,
+      "high_risk_recall": 1.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 4,
+      "matched_count": 2,
+      "reported_violations": 2,
+      "matched_refs": [
+        {
+          "dim": "d3Purpose",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d4ThirdParty",
+          "expected": "第二十二条",
+          "actual": "第二十二条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d3Purpose:第五条",
+        "d4ThirdParty:第二十二条"
+      ],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "无关字段",
+            "业务必需"
+          ],
+          "evidenceText": "为了丰富用户画像，我们会收集与业务无关的生物识别信息、账号信息等敏感个人信息。"
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第八条",
+          "descriptionKeywords": [
+            "删除权",
+            "更正权",
+            "复制权"
+          ],
+          "evidenceText": "您已提交的个人信息将长期保存，且不提供删除或更正渠道。"
+        }
+      ]
+    },
+    {
+      "id": "g11",
+      "kind": "single",
+      "entity_f1": 0.8571428571428571,
+      "relation_f1": 0.5,
+      "high_risk_recall": 1.0,
+      "false_positive_rate": 0.3333333333333333,
+      "clause_accuracy": 0.75,
+      "conflict_detection": 1.0,
+      "expected_count": 4,
+      "matched_count": 4,
+      "reported_violations": 6,
+      "matched_refs": [
+        {
+          "dim": "d3Purpose",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d5CrossBorder",
+          "expected": "第三十九条",
+          "actual": "第三十九条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d3Purpose",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d5CrossBorder",
+          "expected": "第四十条",
+          "actual": "第三十九条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d2Notice:第三十九条",
+        "d3Purpose:第五条",
+        "d4ThirdParty:第二十二条",
+        "d5CrossBorder:第三十九条",
+        "d6DataRights:第八条"
+      ],
+      "false_pos_dims": [
+        "d1Collection:第五条",
+        "d2Notice:第三十九条",
+        "d4ThirdParty:第二十二条",
+        "d6DataRights:第八条"
+      ],
+      "missed": []
+    },
+    {
+      "id": "g12",
+      "kind": "single",
+      "entity_f1": 0.6666666666666666,
+      "relation_f1": 1.0,
+      "high_risk_recall": 1.0,
+      "false_positive_rate": 0.5,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 2,
+      "matched_count": 2,
+      "reported_violations": 4,
+      "matched_refs": [
+        {
+          "dim": "d3Purpose",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d4ThirdParty",
+          "expected": "第二十二条",
+          "actual": "第二十二条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d3Purpose:第五条",
+        "d4ThirdParty:第二十二条",
+        "d6DataRights:第八条"
+      ],
+      "false_pos_dims": [
+        "d1Collection:第五条",
+        "d6DataRights:第八条"
+      ],
+      "missed": []
+    },
+    {
+      "id": "g13",
+      "kind": "single",
+      "entity_f1": 1.0,
+      "relation_f1": 0.6666666666666666,
+      "high_risk_recall": 1.0,
+      "false_positive_rate": 0.3333333333333333,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 2,
+      "matched_count": 2,
+      "reported_violations": 3,
+      "matched_refs": [
+        {
+          "dim": "d1Collection",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d6DataRights",
+          "expected": "第八条",
+          "actual": "第八条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d3Purpose:第五条",
+        "d6DataRights:第八条"
+      ],
+      "false_pos_dims": [
+        "d3Purpose:第五条"
+      ],
+      "missed": []
+    },
+    {
+      "id": "g14",
+      "kind": "single",
+      "entity_f1": 0.75,
+      "relation_f1": 0.3333333333333333,
+      "high_risk_recall": 0.5,
+      "false_positive_rate": 0.6666666666666666,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 3,
+      "matched_count": 1,
+      "reported_violations": 3,
+      "matched_refs": [
+        {
+          "dim": "d5CrossBorder",
+          "expected": "第三十九条",
+          "actual": "第三十九条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d5CrossBorder:第三十九条",
+        "d6DataRights:第八条"
+      ],
+      "false_pos_dims": [
+        "d1Collection:第五条",
+        "d6DataRights:第八条"
+      ],
+      "missed": [
+        {
+          "dimension": "d2Notice",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第十七条",
+          "descriptionKeywords": [
+            "告知",
+            "处理目的",
+            "方式"
+          ],
+          "evidenceText": "我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。"
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "nonCompliant",
+          "level": "low",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "目的限定",
+            "超出范围"
+          ],
+          "evidenceText": "您提供的账号信息会被用于产品调研，超出您当初提供的订单一对一联系用途。"
+        }
+      ]
+    },
+    {
+      "id": "g15",
+      "kind": "single",
+      "entity_f1": 0.8,
+      "relation_f1": 1.0,
+      "high_risk_recall": 0.0,
+      "false_positive_rate": 0.75,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 2,
+      "matched_count": 1,
+      "reported_violations": 4,
+      "matched_refs": [
+        {
+          "dim": "d1Collection",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d2Notice:第二十二条",
+        "d3Purpose:第五条",
+        "d6DataRights:第八条"
+      ],
+      "false_pos_dims": [
+        "d2Notice:第二十二条",
+        "d3Purpose:第五条",
+        "d6DataRights:第八条"
+      ],
+      "missed": [
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第二十二条",
+          "descriptionKeywords": [
+            "单独同意",
+            "第三方共享"
+          ],
+          "evidenceText": "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。"
+        }
+      ]
+    },
+    {
+      "id": "g16",
+      "kind": "single",
+      "entity_f1": 1.0,
+      "relation_f1": 0.8,
+      "high_risk_recall": 0.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 0.5,
+      "conflict_detection": 1.0,
+      "expected_count": 4,
+      "matched_count": 2,
+      "reported_violations": 2,
+      "matched_refs": [
+        {
+          "dim": "d5CrossBorder",
+          "expected": "第四十条",
+          "actual": "第三条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d3Purpose",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d3Purpose:第五条",
+        "d5CrossBorder:第三条"
+      ],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d2Notice",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第十七条",
+          "descriptionKeywords": [
+            "告知",
+            "处理目的",
+            "方式"
+          ],
+          "evidenceText": "我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。"
+        },
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "无关字段",
+            "业务必需"
+          ],
+          "evidenceText": "为了丰富用户画像，我们会收集与业务无关的生物识别信息、账号信息等敏感个人信息。"
+        }
+      ]
+    },
+    {
+      "id": "g17",
+      "kind": "single",
+      "entity_f1": 0.8,
+      "relation_f1": 1.0,
+      "high_risk_recall": 1.0,
+      "false_positive_rate": 0.5,
+      "clause_accuracy": 0.5,
+      "conflict_detection": 1.0,
+      "expected_count": 3,
+      "matched_count": 2,
+      "reported_violations": 4,
+      "matched_refs": [
+        {
+          "dim": "d4ThirdParty",
+          "expected": "第二十二条",
+          "actual": "第二十二条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d5CrossBorder",
+          "expected": "第四十条",
+          "actual": "第三条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d4ThirdParty:第二十二条",
+        "d5CrossBorder:第三条",
+        "d6DataRights:第八条"
+      ],
+      "false_pos_dims": [
+        "d1Collection:第五条",
+        "d6DataRights:第八条"
+      ],
+      "missed": [
+        {
+          "dimension": "d3Purpose",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "超目的",
+            "无关用途"
+          ],
+          "evidenceText": "您提供的信息除用于订单配送外，还将用于向您推送与商品无关的第三方广告。"
+        }
+      ]
+    },
+    {
+      "id": "g18",
+      "kind": "single",
+      "entity_f1": 1.0,
+      "relation_f1": 1.0,
+      "high_risk_recall": 1.0,
+      "false_positive_rate": 0.75,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 2,
+      "matched_count": 1,
+      "reported_violations": 4,
+      "matched_refs": [
+        {
+          "dim": "d1Collection",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d2Notice:第四十一条",
+        "d4ThirdParty:第二十二条",
+        "d6DataRights:第八条"
+      ],
+      "false_pos_dims": [
+        "d2Notice:第四十一条",
+        "d4ThirdParty:第二十二条",
+        "d6DataRights:第八条"
+      ],
+      "missed": [
+        {
+          "dimension": "d3Purpose",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "超目的",
+            "无关用途"
+          ],
+          "evidenceText": "您提供的信息除用于订单配送外，还将用于向您推送与商品无关的第三方广告。"
+        }
+      ]
+    },
+    {
+      "id": "g19",
+      "kind": "single",
+      "entity_f1": 0.8,
+      "relation_f1": 1.0,
+      "high_risk_recall": 0.0,
+      "false_positive_rate": 0.3333333333333333,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 3,
+      "matched_count": 2,
+      "reported_violations": 3,
+      "matched_refs": [
+        {
+          "dim": "d1Collection",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d3Purpose",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d2Notice:第二十二条",
+        "d3Purpose:第五条"
+      ],
+      "false_pos_dims": [
+        "d2Notice:第二十二条"
+      ],
+      "missed": [
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第二十二条",
+          "descriptionKeywords": [
+            "单独同意",
+            "第三方共享"
+          ],
+          "evidenceText": "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。"
+        }
+      ]
+    },
+    {
+      "id": "g20",
+      "kind": "single",
+      "entity_f1": 0.8571428571428571,
+      "relation_f1": 0.5,
+      "high_risk_recall": 1.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 0.5,
+      "conflict_detection": 1.0,
+      "expected_count": 4,
+      "matched_count": 4,
+      "reported_violations": 4,
+      "matched_refs": [
+        {
+          "dim": "d5CrossBorder",
+          "expected": "第三十九条",
+          "actual": "第三十九条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d3Purpose",
+          "expected": "第五条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d1Collection",
+          "expected": "第十三条",
+          "actual": "第五条",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "d5CrossBorder",
+          "expected": "第四十条",
+          "actual": "第三十九条",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d3Purpose:第五条",
+        "d4ThirdParty:第三十九条",
+        "d5CrossBorder:第三十九条"
+      ],
+      "false_pos_dims": [
+        "d4ThirdParty:第三十九条"
+      ],
+      "missed": []
+    },
+    {
+      "id": "g21",
+      "kind": "single",
+      "entity_f1": 0.75,
+      "relation_f1": 0.5,
+      "high_risk_recall": 0.0,
+      "false_positive_rate": 1.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 2,
+      "matched_count": 0,
+      "reported_violations": 3,
+      "matched_refs": [],
+      "reported_dims": [
+        "d1Collection:第五条",
+        "d3Purpose:第五条",
+        "d6DataRights:第八条"
+      ],
+      "false_pos_dims": [
+        "d1Collection:第五条",
+        "d3Purpose:第五条",
+        "d6DataRights:第八条"
+      ],
+      "missed": [
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第二十二条",
+          "descriptionKeywords": [
+            "单独同意",
+            "第三方共享"
+          ],
+          "evidenceText": "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。"
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第十七条",
+          "descriptionKeywords": [
+            "告知",
+            "处理目的",
+            "方式"
+          ],
+          "evidenceText": "我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。"
+        }
+      ]
+    },
+    {
+      "id": "g22",
+      "kind": "single",
+      "entity_f1": 0.75,
+      "relation_f1": 0.75,
+      "high_risk_recall": 0.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 4,
+      "matched_count": 0,
+      "reported_violations": 0,
+      "matched_refs": [],
+      "reported_dims": [],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第四十条",
+          "descriptionKeywords": [
+            "出境评估",
+            "安全评估"
+          ],
+          "evidenceText": "我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。"
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "nonCompliant",
+          "level": "low",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "目的限定",
+            "超出范围"
+          ],
+          "evidenceText": "您提供的账号信息会被用于产品调研，超出您当初提供的订单一对一联系用途。"
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第二十二条",
+          "descriptionKeywords": [
+            "单独同意",
+            "第三方共享"
+          ],
+          "evidenceText": "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。"
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第三十九条",
+          "descriptionKeywords": [
+            "单独同意",
+            "境外提供"
+          ],
+          "evidenceText": "为提升服务，我们会将您的个人信息跨境提供给境外的云服务商，您注册即视为同意该传输。"
+        }
+      ]
+    },
+    {
+      "id": "g23",
+      "kind": "single",
+      "entity_f1": 0.75,
+      "relation_f1": 0.6666666666666666,
+      "high_risk_recall": 0.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 3,
+      "matched_count": 0,
+      "reported_violations": 0,
+      "matched_refs": [],
+      "reported_dims": [],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d3Purpose",
+          "verdict": "nonCompliant",
+          "level": "low",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "目的限定",
+            "超出范围"
+          ],
+          "evidenceText": "您提供的账号信息会被用于产品调研，超出您当初提供的订单一对一联系用途。"
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第八条",
+          "descriptionKeywords": [
+            "删除权",
+            "更正权",
+            "复制权"
+          ],
+          "evidenceText": "您已提交的个人信息将长期保存，且不提供删除或更正渠道。"
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第三十九条",
+          "descriptionKeywords": [
+            "单独同意",
+            "境外提供"
+          ],
+          "evidenceText": "为提升服务，我们会将您的个人信息跨境提供给境外的云服务商，您注册即视为同意该传输。"
+        }
+      ]
+    },
+    {
+      "id": "g24",
+      "kind": "single",
+      "entity_f1": 0.75,
+      "relation_f1": 0.5,
+      "high_risk_recall": 1.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 2,
+      "matched_count": 0,
+      "reported_violations": 0,
+      "matched_refs": [],
+      "reported_dims": [],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第四十条",
+          "descriptionKeywords": [
+            "出境评估",
+            "安全评估"
+          ],
+          "evidenceText": "我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。"
+        },
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "low",
+          "clauseRef": "第十三条",
+          "descriptionKeywords": [
+            "合法基础",
+            "同意缺失"
+          ],
+          "evidenceText": "我们处理您的生物识别信息以用于登录，无需您单独同意。"
+        }
+      ]
+    },
+    {
+      "id": "g25",
+      "kind": "single",
+      "entity_f1": 1.0,
+      "relation_f1": 1.0,
+      "high_risk_recall": 0.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 2,
+      "matched_count": 0,
+      "reported_violations": 0,
+      "matched_refs": [],
+      "reported_dims": [],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "无关字段",
+            "业务必需"
+          ],
+          "evidenceText": "为了丰富用户画像，我们会收集与业务无关的生物识别信息、账号信息等敏感个人信息。"
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第十七条",
+          "descriptionKeywords": [
+            "告知",
+            "处理目的",
+            "方式"
+          ],
+          "evidenceText": "我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。"
+        }
+      ]
+    },
+    {
+      "id": "g26",
+      "kind": "single",
+      "entity_f1": 1.0,
+      "relation_f1": 0.6,
+      "high_risk_recall": 1.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 4,
+      "matched_count": 0,
+      "reported_violations": 0,
+      "matched_refs": [],
+      "reported_dims": [],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d6DataRights",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第八条",
+          "descriptionKeywords": [
+            "删除权",
+            "更正权",
+            "复制权"
+          ],
+          "evidenceText": "您已提交的个人信息将长期保存，且不提供删除或更正渠道。"
+        },
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "无关字段",
+            "业务必需"
+          ],
+          "evidenceText": "为了丰富用户画像，我们会收集与业务无关的生物识别信息、账号信息等敏感个人信息。"
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "nonCompliant",
+          "level": "low",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "目的限定",
+            "超出范围"
+          ],
+          "evidenceText": "您提供的账号信息会被用于产品调研，超出您当初提供的订单一对一联系用途。"
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "超目的",
+            "无关用途"
+          ],
+          "evidenceText": "您提供的信息除用于订单配送外，还将用于向您推送与商品无关的第三方广告。"
+        }
+      ]
+    },
+    {
+      "id": "g27",
+      "kind": "single",
+      "entity_f1": 0.875,
+      "relation_f1": 1.0,
+      "high_risk_recall": 0.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 3,
+      "matched_count": 0,
+      "reported_violations": 0,
+      "matched_refs": [],
+      "reported_dims": [],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第四十条",
+          "descriptionKeywords": [
+            "出境评估",
+            "安全评估"
+          ],
+          "evidenceText": "我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。"
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第二十二条",
+          "descriptionKeywords": [
+            "单独同意",
+            "第三方共享"
+          ],
+          "evidenceText": "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。"
+        },
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "最小必要",
+            "过度收集"
+          ],
+          "evidenceText": "为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。"
+        }
+      ]
+    },
+    {
+      "id": "g28",
+      "kind": "single",
+      "entity_f1": 0.9,
+      "relation_f1": 1.0,
+      "high_risk_recall": 0.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 4,
+      "matched_count": 0,
+      "reported_violations": 0,
+      "matched_refs": [],
+      "reported_dims": [],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第四十条",
+          "descriptionKeywords": [
+            "出境评估",
+            "安全评估"
+          ],
+          "evidenceText": "我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。"
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第二十二条",
+          "descriptionKeywords": [
+            "单独同意",
+            "第三方共享"
+          ],
+          "evidenceText": "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。"
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第三十九条",
+          "descriptionKeywords": [
+            "单独同意",
+            "境外提供"
+          ],
+          "evidenceText": "为提升服务，我们会将您的个人信息跨境提供给境外的云服务商，您注册即视为同意该传输。"
+        },
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "最小必要",
+            "过度收集"
+          ],
+          "evidenceText": "为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。"
+        }
+      ]
+    },
+    {
+      "id": "g29",
+      "kind": "single",
+      "entity_f1": 0.8333333333333334,
+      "relation_f1": 0.8,
+      "high_risk_recall": 0.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 3,
+      "matched_count": 0,
+      "reported_violations": 0,
+      "matched_refs": [],
+      "reported_dims": [],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d2Notice",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第十七条",
+          "descriptionKeywords": [
+            "告知",
+            "处理目的",
+            "方式"
+          ],
+          "evidenceText": "我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。"
+        },
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "low",
+          "clauseRef": "第十三条",
+          "descriptionKeywords": [
+            "合法基础",
+            "同意缺失"
+          ],
+          "evidenceText": "我们处理您的生物识别信息以用于登录，无需您单独同意。"
+        },
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "最小必要",
+            "过度收集"
+          ],
+          "evidenceText": "为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。"
+        }
+      ]
+    },
+    {
+      "id": "g30",
+      "kind": "single",
+      "entity_f1": 1.0,
+      "relation_f1": 1.0,
+      "high_risk_recall": 0.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 1.0,
+      "expected_count": 4,
+      "matched_count": 0,
+      "reported_violations": 0,
+      "matched_refs": [],
+      "reported_dims": [],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d2Notice",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第十七条",
+          "descriptionKeywords": [
+            "告知",
+            "处理目的",
+            "方式"
+          ],
+          "evidenceText": "我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。"
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第四十条",
+          "descriptionKeywords": [
+            "出境评估",
+            "安全评估"
+          ],
+          "evidenceText": "我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。"
+        },
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "无关字段",
+            "业务必需"
+          ],
+          "evidenceText": "为了丰富用户画像，我们会收集与业务无关的生物识别信息、账号信息等敏感个人信息。"
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第八条",
+          "descriptionKeywords": [
+            "删除权",
+            "更正权",
+            "复制权"
+          ],
+          "evidenceText": "您已提交的个人信息将长期保存，且不提供删除或更正渠道。"
+        }
+      ]
+    },
+    {
+      "id": "m01",
+      "kind": "multi",
+      "entity_f1": 1.0,
+      "relation_f1": 1.0,
+      "high_risk_recall": 0.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 0.0,
+      "expected_count": 3,
+      "matched_count": 0,
+      "reported_violations": 0,
+      "matched_refs": [],
+      "reported_dims": [],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第三十九条",
+          "descriptionKeywords": [
+            "单独同意",
+            "境外提供"
+          ],
+          "evidenceText": "为提升服务，我们会将您的个人信息跨境提供给境外的云服务商，您注册即视为同意该传输。"
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第四十条",
+          "descriptionKeywords": [
+            "出境评估",
+            "安全评估"
+          ],
+          "evidenceText": "我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。"
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "",
+          "descriptionKeywords": "共享",
+          "evidenceText": "为营销需要，我们会将您的个人信息共享给广告合作方。"
+        }
+      ]
+    },
+    {
+      "id": "m02",
+      "kind": "multi",
+      "entity_f1": 1.0,
+      "relation_f1": 1.0,
+      "high_risk_recall": 0.3333333333333333,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 0.0,
+      "conflict_detection": 1.0,
+      "expected_count": 3,
+      "matched_count": 1,
+      "reported_violations": 1,
+      "matched_refs": [
+        {
+          "dim": "crossConsistency",
+          "expected": "",
+          "actual": "",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "crossConsistency:?"
+      ],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第三十九条",
+          "descriptionKeywords": [
+            "单独同意",
+            "境外提供"
+          ],
+          "evidenceText": "为提升服务，我们会将您的个人信息跨境提供给境外的云服务商，您注册即视为同意该传输。"
+        },
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "最小必要",
+            "过度收集"
+          ],
+          "evidenceText": "为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。"
+        }
+      ]
+    },
+    {
+      "id": "m03",
+      "kind": "multi",
+      "entity_f1": 1.0,
+      "relation_f1": 1.0,
+      "high_risk_recall": 0.6666666666666666,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 0.0,
+      "conflict_detection": 1.0,
+      "expected_count": 4,
+      "matched_count": 2,
+      "reported_violations": 2,
+      "matched_refs": [
+        {
+          "dim": "crossConsistency",
+          "expected": "",
+          "actual": "",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "crossConsistency",
+          "expected": "",
+          "actual": "",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "crossConsistency:?",
+        "crossConsistency:?"
+      ],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "最小必要",
+            "过度收集"
+          ],
+          "evidenceText": "为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。"
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "nonCompliant",
+          "level": "low",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "目的限定",
+            "超出范围"
+          ],
+          "evidenceText": "您提供的账号信息会被用于产品调研，超出您当初提供的订单一对一联系用途。"
+        }
+      ]
+    },
+    {
+      "id": "m04",
+      "kind": "multi",
+      "entity_f1": 0.75,
+      "relation_f1": 0.5,
+      "high_risk_recall": 0.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 0.0,
+      "expected_count": 3,
+      "matched_count": 0,
+      "reported_violations": 0,
+      "matched_refs": [],
+      "reported_dims": [],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "low",
+          "clauseRef": "第十三条",
+          "descriptionKeywords": [
+            "合法基础",
+            "同意缺失"
+          ],
+          "evidenceText": "我们处理您的生物识别信息以用于登录，无需您单独同意。"
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第四十条",
+          "descriptionKeywords": [
+            "出境评估",
+            "安全评估"
+          ],
+          "evidenceText": "我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。"
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "",
+          "descriptionKeywords": "委托",
+          "evidenceText": "您的订单信息将委托给第三方物流商处理。"
+        }
+      ]
+    },
+    {
+      "id": "m05",
+      "kind": "multi",
+      "entity_f1": 0.6666666666666666,
+      "relation_f1": 0.0,
+      "high_risk_recall": 0.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 0.0,
+      "expected_count": 3,
+      "matched_count": 0,
+      "reported_violations": 0,
+      "matched_refs": [],
+      "reported_dims": [],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "low",
+          "clauseRef": "第十三条",
+          "descriptionKeywords": [
+            "合法基础",
+            "同意缺失"
+          ],
+          "evidenceText": "我们处理您的生物识别信息以用于登录，无需您单独同意。"
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第十七条",
+          "descriptionKeywords": [
+            "告知",
+            "处理目的",
+            "方式"
+          ],
+          "evidenceText": "我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。"
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "",
+          "descriptionKeywords": "委托",
+          "evidenceText": "您的订单信息将委托给第三方物流商处理。"
+        }
+      ]
+    },
+    {
+      "id": "m06",
+      "kind": "multi",
+      "entity_f1": 0.8,
+      "relation_f1": 1.0,
+      "high_risk_recall": 0.5,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 0.0,
+      "conflict_detection": 1.0,
+      "expected_count": 4,
+      "matched_count": 2,
+      "reported_violations": 1,
+      "matched_refs": [
+        {
+          "dim": "crossConsistency",
+          "expected": "",
+          "actual": "",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "crossConsistency",
+          "expected": "",
+          "actual": "",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "crossConsistency:?"
+      ],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第二十二条",
+          "descriptionKeywords": [
+            "单独同意",
+            "第三方共享"
+          ],
+          "evidenceText": "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。"
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第三十九条",
+          "descriptionKeywords": [
+            "单独同意",
+            "境外提供"
+          ],
+          "evidenceText": "为提升服务，我们会将您的个人信息跨境提供给境外的云服务商，您注册即视为同意该传输。"
+        }
+      ]
+    },
+    {
+      "id": "m07",
+      "kind": "multi",
+      "entity_f1": 1.0,
+      "relation_f1": 1.0,
+      "high_risk_recall": 0.6666666666666666,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 0.0,
+      "conflict_detection": 1.0,
+      "expected_count": 4,
+      "matched_count": 2,
+      "reported_violations": 1,
+      "matched_refs": [
+        {
+          "dim": "crossConsistency",
+          "expected": "",
+          "actual": "",
+          "verdict": "nonCompliant"
+        },
+        {
+          "dim": "crossConsistency",
+          "expected": "",
+          "actual": "",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "crossConsistency:?"
+      ],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d3Purpose",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "超目的",
+            "无关用途"
+          ],
+          "evidenceText": "您提供的信息除用于订单配送外，还将用于向您推送与商品无关的第三方广告。"
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第三十九条",
+          "descriptionKeywords": [
+            "单独同意",
+            "境外提供"
+          ],
+          "evidenceText": "为提升服务，我们会将您的个人信息跨境提供给境外的云服务商，您注册即视为同意该传输。"
+        }
+      ]
+    },
+    {
+      "id": "m08",
+      "kind": "multi",
+      "entity_f1": 1.0,
+      "relation_f1": 0.6666666666666666,
+      "high_risk_recall": 0.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 0.0,
+      "expected_count": 3,
+      "matched_count": 0,
+      "reported_violations": 0,
+      "matched_refs": [],
+      "reported_dims": [],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d3Purpose",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "超目的",
+            "无关用途"
+          ],
+          "evidenceText": "您提供的信息除用于订单配送外，还将用于向您推送与商品无关的第三方广告。"
+        },
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "无关字段",
+            "业务必需"
+          ],
+          "evidenceText": "为了丰富用户画像，我们会收集与业务无关的生物识别信息、账号信息等敏感个人信息。"
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "",
+          "descriptionKeywords": "委托",
+          "evidenceText": "您的订单信息将委托给第三方物流商处理。"
+        }
+      ]
+    },
+    {
+      "id": "m09",
+      "kind": "multi",
+      "entity_f1": 1.0,
+      "relation_f1": 1.0,
+      "high_risk_recall": 0.5,
+      "false_positive_rate": 0.5,
+      "clause_accuracy": 0.0,
+      "conflict_detection": 1.0,
+      "expected_count": 3,
+      "matched_count": 1,
+      "reported_violations": 2,
+      "matched_refs": [
+        {
+          "dim": "crossConsistency",
+          "expected": "",
+          "actual": "",
+          "verdict": "nonCompliant"
+        }
+      ],
+      "reported_dims": [
+        "crossConsistency:?",
+        "crossConsistency:?"
+      ],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "最小必要",
+            "过度收集"
+          ],
+          "evidenceText": "为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。"
+        },
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "descriptionKeywords": [
+            "无关字段",
+            "业务必需"
+          ],
+          "evidenceText": "为了丰富用户画像，我们会收集与业务无关的生物识别信息、账号信息等敏感个人信息。"
+        }
+      ]
+    },
+    {
+      "id": "m10",
+      "kind": "multi",
+      "entity_f1": 0.75,
+      "relation_f1": 0.5,
+      "high_risk_recall": 0.0,
+      "false_positive_rate": 0.0,
+      "clause_accuracy": 1.0,
+      "conflict_detection": 0.0,
+      "expected_count": 3,
+      "matched_count": 0,
+      "reported_violations": 0,
+      "matched_refs": [],
+      "reported_dims": [],
+      "false_pos_dims": [],
+      "missed": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "nonCompliant",
+          "level": "low",
+          "clauseRef": "第十三条",
+          "descriptionKeywords": [
+            "合法基础",
+            "同意缺失"
+          ],
+          "evidenceText": "我们处理您的生物识别信息以用于登录，无需您单独同意。"
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "nonCompliant",
+          "level": "medium",
+          "clauseRef": "第四十条",
+          "descriptionKeywords": [
+            "出境评估",
+            "安全评估"
+          ],
+          "evidenceText": "我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。"
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "nonCompliant",
+          "level": "high",
+          "clauseRef": "",
+          "descriptionKeywords": "跨境",
+          "evidenceText": "为提升服务，您的个人信息将传输至境外的云服务商。"
+        }
+      ]
+    }
+  ]
+}
