@@ -1,0 +1,77 @@
+{
+  "id": "g18",
+  "type": "single",
+  "document": [
+    "g18.md"
+  ],
+  "expectedFindings": [
+    {
+      "dimension": "d3Purpose",
+      "verdict": "nonCompliant",
+      "level": "medium",
+      "clauseRef": "第五条",
+      "descriptionKeywords": [
+        "超目的",
+        "无关用途"
+      ],
+      "evidenceText": "您提供的信息除用于订单配送外，还将用于向您推送与商品无关的第三方广告。"
+    },
+    {
+      "dimension": "d1Collection",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "第五条",
+      "descriptionKeywords": [
+        "最小必要",
+        "过度收集"
+      ],
+      "evidenceText": "为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。"
+    }
+  ],
+  "expectedHighRiskCount": 1,
+  "entities": [
+    {
+      "name": "我们",
+      "role": "controller"
+    },
+    {
+      "name": "信息",
+      "role": "dataCategory"
+    },
+    {
+      "name": "手机号",
+      "role": "dataCategory"
+    },
+    {
+      "name": "身份证",
+      "role": "dataCategory"
+    },
+    {
+      "name": "账号",
+      "role": "dataCategory"
+    }
+  ],
+  "relations": [
+    {
+      "source": "我们",
+      "type": "share",
+      "target": "信息"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "手机号"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "身份证"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "账号"
+    }
+  ],
+  "notes": "d3Purpose: 第五条 (您提供的信息除用于订单配送外，还将用于向您推送与商品无关的第三方广告。)；d1Collection: 第五条 (为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。)"
+}

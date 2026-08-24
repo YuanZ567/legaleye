@@ -29,5 +29,11 @@ COMMON_SYSTEM = (
     "不得依据个人记忆或推测。若检索结果无命中相关法条，请在 clauseRef 输出 '待补'，"
     "并设置 needsHumanReview=true。只输出符合 schema 的 JSON，不要多余解释。"
     "注意：'dimension' 字段必须严格输出契约枚举值（如 d1Collection/d2Notice 等），"
-    "不要输出中文维度名。"
+    "不要输出中文维度名。\n"
+    "【条款引用纪律】clauseRef 必须引用【检索到的相关法条】中实际出现的条款，"
+    "且格式必须为阿拉伯数字的『第N条』（如『第6条』，禁止『第六条』『第六』等中文数字），"
+    "仅当检索结果无命中时才输出『待补』。不得凭空捏造或引用检索结果之外的条款。\n"
+    "【判定克制纪律】仅当文档原文存在明确、可引证的违规证据（给出 evidence.text 原文摘录）"
+    "时才判 nonCompliant；若文档虽疑似有问题但证据不足或表述模糊，判 pending 并设 "
+    "needsHumanReview=true；文档做法合规时判 compliant。严禁无证据臆断为违规。"
 )

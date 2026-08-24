@@ -1,0 +1,83 @@
+{
+  "id": "g17",
+  "type": "single",
+  "document": [
+    "g17.md"
+  ],
+  "expectedFindings": [
+    {
+      "dimension": "d4ThirdParty",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "第二十二条",
+      "descriptionKeywords": [
+        "单独同意",
+        "第三方共享"
+      ],
+      "evidenceText": "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。"
+    },
+    {
+      "dimension": "d5CrossBorder",
+      "verdict": "nonCompliant",
+      "level": "medium",
+      "clauseRef": "第四十条",
+      "descriptionKeywords": [
+        "出境评估",
+        "安全评估"
+      ],
+      "evidenceText": "我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。"
+    },
+    {
+      "dimension": "d3Purpose",
+      "verdict": "nonCompliant",
+      "level": "medium",
+      "clauseRef": "第五条",
+      "descriptionKeywords": [
+        "超目的",
+        "无关用途"
+      ],
+      "evidenceText": "您提供的信息除用于订单配送外，还将用于向您推送与商品无关的第三方广告。"
+    }
+  ],
+  "expectedHighRiskCount": 1,
+  "entities": [
+    {
+      "name": "我们",
+      "role": "controller"
+    },
+    {
+      "name": "合作营销商",
+      "role": "processor"
+    },
+    {
+      "name": "信息",
+      "role": "dataCategory"
+    },
+    {
+      "name": "境外合作方",
+      "role": "overseasReceiver"
+    },
+    {
+      "name": "重要数据",
+      "role": "dataCategory"
+    }
+  ],
+  "relations": [
+    {
+      "source": "我们",
+      "type": "share",
+      "target": "信息"
+    },
+    {
+      "source": "我们",
+      "type": "crossBorder",
+      "target": "重要数据"
+    },
+    {
+      "source": "我们",
+      "type": "share",
+      "target": "信息"
+    }
+  ],
+  "notes": "d4ThirdParty: 第二十二条 (我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。)；d5CrossBorder: 第四十条 (我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。)；d3Purpose: 第五条 (您提供的信息除用于订单配送外，还将用于向您推送与商品无关的第三方广告。)"
+}

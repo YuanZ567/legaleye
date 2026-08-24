@@ -1,0 +1,129 @@
+{
+  "id": "g28",
+  "type": "single",
+  "document": [
+    "g28.md"
+  ],
+  "expectedFindings": [
+    {
+      "dimension": "d5CrossBorder",
+      "verdict": "nonCompliant",
+      "level": "medium",
+      "clauseRef": "第四十条",
+      "descriptionKeywords": [
+        "出境评估",
+        "安全评估"
+      ],
+      "evidenceText": "我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。"
+    },
+    {
+      "dimension": "d4ThirdParty",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "第二十二条",
+      "descriptionKeywords": [
+        "单独同意",
+        "第三方共享"
+      ],
+      "evidenceText": "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。"
+    },
+    {
+      "dimension": "d5CrossBorder",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "第三十九条",
+      "descriptionKeywords": [
+        "单独同意",
+        "境外提供"
+      ],
+      "evidenceText": "为提升服务，我们会将您的个人信息跨境提供给境外的云服务商，您注册即视为同意该传输。"
+    },
+    {
+      "dimension": "d1Collection",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "第五条",
+      "descriptionKeywords": [
+        "最小必要",
+        "过度收集"
+      ],
+      "evidenceText": "为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。"
+    }
+  ],
+  "expectedHighRiskCount": 3,
+  "entities": [
+    {
+      "name": "我们",
+      "role": "controller"
+    },
+    {
+      "name": "境外合作方",
+      "role": "overseasReceiver"
+    },
+    {
+      "name": "重要数据",
+      "role": "dataCategory"
+    },
+    {
+      "name": "合作营销商",
+      "role": "processor"
+    },
+    {
+      "name": "信息",
+      "role": "dataCategory"
+    },
+    {
+      "name": "境外云服务商",
+      "role": "overseasReceiver"
+    },
+    {
+      "name": "个人信息",
+      "role": "dataCategory"
+    },
+    {
+      "name": "手机号",
+      "role": "dataCategory"
+    },
+    {
+      "name": "身份证",
+      "role": "dataCategory"
+    },
+    {
+      "name": "账号",
+      "role": "dataCategory"
+    }
+  ],
+  "relations": [
+    {
+      "source": "我们",
+      "type": "crossBorder",
+      "target": "重要数据"
+    },
+    {
+      "source": "我们",
+      "type": "share",
+      "target": "信息"
+    },
+    {
+      "source": "我们",
+      "type": "crossBorder",
+      "target": "个人信息"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "手机号"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "身份证"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "账号"
+    }
+  ],
+  "notes": "d5CrossBorder: 第四十条 (我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。)；d4ThirdParty: 第二十二条 (我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。)；d5CrossBorder: 第三十九条 (为提升服务，我们会将您的个人信息跨境提供给境外的云服务商，您注册即视为同意该传输。)；d1Collection: 第五条 (为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。)"
+}

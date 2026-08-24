@@ -1,0 +1,91 @@
+{
+  "id": "m09",
+  "type": "multi",
+  "document": [
+    "m09a.md",
+    "m09b.md"
+  ],
+  "expectedFindings": [
+    {
+      "dimension": "d1Collection",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "第五条",
+      "descriptionKeywords": [
+        "最小必要",
+        "过度收集"
+      ],
+      "evidenceText": "为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。"
+    },
+    {
+      "dimension": "d1Collection",
+      "verdict": "nonCompliant",
+      "level": "medium",
+      "clauseRef": "第五条",
+      "descriptionKeywords": [
+        "无关字段",
+        "业务必需"
+      ],
+      "evidenceText": "为了丰富用户画像，我们会收集与业务无关的生物识别信息、账号信息等敏感个人信息。"
+    },
+    {
+      "dimension": "crossConsistency",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "",
+      "descriptionKeywords": "共享",
+      "evidenceText": "为营销需要，我们会将您的个人信息共享给广告合作方。"
+    }
+  ],
+  "expectedHighRiskCount": 2,
+  "entities": [
+    {
+      "name": "我们",
+      "role": "controller"
+    },
+    {
+      "name": "手机号",
+      "role": "dataCategory"
+    },
+    {
+      "name": "身份证",
+      "role": "dataCategory"
+    },
+    {
+      "name": "账号",
+      "role": "dataCategory"
+    },
+    {
+      "name": "生物识别",
+      "role": "dataCategory"
+    }
+  ],
+  "relations": [
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "手机号"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "身份证"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "账号"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "生物识别"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "账号"
+    }
+  ],
+  "notes": "d1Collection: 第五条 (为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。)；d1Collection: 第五条 (为了丰富用户画像，我们会收集与业务无关的生物识别信息、账号信息等敏感个人信息。)；crossConsistency: 交叉矛盾 (为营销需要，我们会将您的个人信息共享给广告合作方。)"
+}

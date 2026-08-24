@@ -1,0 +1,84 @@
+{
+  "id": "m06",
+  "type": "multi",
+  "document": [
+    "m06a.md",
+    "m06b.md"
+  ],
+  "expectedFindings": [
+    {
+      "dimension": "d4ThirdParty",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "第二十二条",
+      "descriptionKeywords": [
+        "单独同意",
+        "第三方共享"
+      ],
+      "evidenceText": "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。"
+    },
+    {
+      "dimension": "d5CrossBorder",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "第三十九条",
+      "descriptionKeywords": [
+        "单独同意",
+        "境外提供"
+      ],
+      "evidenceText": "为提升服务，我们会将您的个人信息跨境提供给境外的云服务商，您注册即视为同意该传输。"
+    },
+    {
+      "dimension": "crossConsistency",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "",
+      "descriptionKeywords": "共享",
+      "evidenceText": "为营销需要，我们会将您的个人信息共享给广告合作方。"
+    },
+    {
+      "dimension": "crossConsistency",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "",
+      "descriptionKeywords": "委托",
+      "evidenceText": "您的订单信息将委托给第三方物流商处理。"
+    }
+  ],
+  "expectedHighRiskCount": 4,
+  "entities": [
+    {
+      "name": "我们",
+      "role": "controller"
+    },
+    {
+      "name": "合作营销商",
+      "role": "processor"
+    },
+    {
+      "name": "信息",
+      "role": "dataCategory"
+    },
+    {
+      "name": "境外云服务商",
+      "role": "overseasReceiver"
+    },
+    {
+      "name": "个人信息",
+      "role": "dataCategory"
+    }
+  ],
+  "relations": [
+    {
+      "source": "我们",
+      "type": "share",
+      "target": "信息"
+    },
+    {
+      "source": "我们",
+      "type": "crossBorder",
+      "target": "个人信息"
+    }
+  ],
+  "notes": "d4ThirdParty: 第二十二条 (我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。)；d5CrossBorder: 第三十九条 (为提升服务，我们会将您的个人信息跨境提供给境外的云服务商，您注册即视为同意该传输。)；crossConsistency: 交叉矛盾 (为营销需要，我们会将您的个人信息共享给广告合作方。)；crossConsistency: 交叉矛盾 (您的订单信息将委托给第三方物流商处理。)"
+}

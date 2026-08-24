@@ -1,0 +1,110 @@
+{
+  "id": "g30",
+  "type": "single",
+  "document": [
+    "g30.md"
+  ],
+  "expectedFindings": [
+    {
+      "dimension": "d2Notice",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "第十七条",
+      "descriptionKeywords": [
+        "告知",
+        "处理目的",
+        "方式"
+      ],
+      "evidenceText": "我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。"
+    },
+    {
+      "dimension": "d5CrossBorder",
+      "verdict": "nonCompliant",
+      "level": "medium",
+      "clauseRef": "第四十条",
+      "descriptionKeywords": [
+        "出境评估",
+        "安全评估"
+      ],
+      "evidenceText": "我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。"
+    },
+    {
+      "dimension": "d1Collection",
+      "verdict": "nonCompliant",
+      "level": "medium",
+      "clauseRef": "第五条",
+      "descriptionKeywords": [
+        "无关字段",
+        "业务必需"
+      ],
+      "evidenceText": "为了丰富用户画像，我们会收集与业务无关的生物识别信息、账号信息等敏感个人信息。"
+    },
+    {
+      "dimension": "d6DataRights",
+      "verdict": "nonCompliant",
+      "level": "medium",
+      "clauseRef": "第八条",
+      "descriptionKeywords": [
+        "删除权",
+        "更正权",
+        "复制权"
+      ],
+      "evidenceText": "您已提交的个人信息将长期保存，且不提供删除或更正渠道。"
+    }
+  ],
+  "expectedHighRiskCount": 1,
+  "entities": [
+    {
+      "name": "我们",
+      "role": "controller"
+    },
+    {
+      "name": "个人信息",
+      "role": "dataCategory"
+    },
+    {
+      "name": "境外合作方",
+      "role": "overseasReceiver"
+    },
+    {
+      "name": "重要数据",
+      "role": "dataCategory"
+    },
+    {
+      "name": "生物识别",
+      "role": "dataCategory"
+    },
+    {
+      "name": "账号",
+      "role": "dataCategory"
+    }
+  ],
+  "relations": [
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "个人信息"
+    },
+    {
+      "source": "我们",
+      "type": "crossBorder",
+      "target": "重要数据"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "生物识别"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "账号"
+    },
+    {
+      "source": "我们",
+      "type": "store",
+      "target": "个人信息"
+    }
+  ],
+  "notes": "d2Notice: 第十七条 (我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。)；d5CrossBorder: 第四十条 (我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。)；d1Collection: 第五条 (为了丰富用户画像，我们会收集与业务无关的生物识别信息、账号信息等敏感个人信息。)；d6DataRights: 第八条 (您已提交的个人信息将长期保存，且不提供删除或更正渠道。)"
+}

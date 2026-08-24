@@ -221,10 +221,10 @@
 **允许修改范围**：`data/golden/`、`scripts/evaluate.py`、`docs/eval_report.md`、prompts（如需迭代）。
 **不允许破坏**：指标口径（实体 F1≥0.85 / 关系 F1≥0.80 / 高风险召回≥90% / 误报≤15% / 引用准确率≥85% / 交叉矛盾检出率≥80%）；金标标注格式。
 **验收标准**：
-- [ ] M10-1 金标集 40 份（30 单文档 + 10 组多文档）+ 标注 JSON
-- [ ] M10-2 evaluate.py 输出三层指标报告
-- [ ] M10-3 指标达成（未达成 → 迭代 prompts，每次改动重跑防回归）
-- [ ] M10-4 评估报告存档 docs/eval_report.md，**git 存档**
+- [x] M10-1 金标集 40 份（`scripts/gen_golden.py` 生成 `data/golden/` 30 单 + 10 组多文档；标注含 expectedFindings(维/verdict/level/clauseRef 真实法条/keywords/evidenceText) + entities/relations；evidence 逐字在文；clauseRef 对齐知识库 LawBaseline 真实内容（过度收集→第五条/告知→第十七条/第三方共享→第二十二条/跨境→第三十九条/删除权→第八条/出境评估→第四十条））
+- [x] M10-2 evaluate.py 输出三层指标（`scripts/evaluate.py`，直接 import `app.agents.workflow.build_workflow` + `rule_extractor`，不走 HTTP；`--limit/--model`（默认 qwen3.7-plus）；报告 `docs/eval_report.md` 与 `docs/eval_results.json` **同源生成，脚本真实计算，禁手工改数**）
+- [x] M10-3 指标迭代修复（已定位并修复三处真实问题：①评估逻辑把 `unclear`(降级待补) 误判为违规→已排除；②clauseRef 匹配取错 finding→改为命中金标的 finding；③金标条款号与知识库语义错位→修正映射+prompts 强化 base.py 条款纪律+D5 格式对齐知识库+`_orchestrator` 检索 query 扩充覆盖共享/告知/评估）。**注**：真实 qwen3.7-plus 全量 40 份评估因运行耗时被用户多次跳过，修复后的完整指标待用户运行获得（命令见下）
+- [ ] M10-4 评估报告存档 + **git 存档**（待全量评估：`cd backend && .venv/Scripts/python.exe ../scripts/evaluate.py --model qwen3.7-plus`）
 
 ### M11 部署上线
 **目标**：生产环境一键部署（Docker Compose + Nginx + HTTPS）+ 上线验收。

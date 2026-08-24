@@ -1,0 +1,85 @@
+{
+  "id": "g08",
+  "type": "single",
+  "document": [
+    "g08.md"
+  ],
+  "expectedFindings": [
+    {
+      "dimension": "d1Collection",
+      "verdict": "nonCompliant",
+      "level": "medium",
+      "clauseRef": "第五条",
+      "descriptionKeywords": [
+        "无关字段",
+        "业务必需"
+      ],
+      "evidenceText": "为了丰富用户画像，我们会收集与业务无关的生物识别信息、账号信息等敏感个人信息。"
+    },
+    {
+      "dimension": "d3Purpose",
+      "verdict": "nonCompliant",
+      "level": "low",
+      "clauseRef": "第五条",
+      "descriptionKeywords": [
+        "目的限定",
+        "超出范围"
+      ],
+      "evidenceText": "您提供的账号信息会被用于产品调研，超出您当初提供的订单一对一联系用途。"
+    },
+    {
+      "dimension": "d6DataRights",
+      "verdict": "nonCompliant",
+      "level": "medium",
+      "clauseRef": "第八条",
+      "descriptionKeywords": [
+        "删除权",
+        "更正权",
+        "复制权"
+      ],
+      "evidenceText": "您已提交的个人信息将长期保存，且不提供删除或更正渠道。"
+    }
+  ],
+  "expectedHighRiskCount": 0,
+  "entities": [
+    {
+      "name": "我们",
+      "role": "controller"
+    },
+    {
+      "name": "生物识别",
+      "role": "dataCategory"
+    },
+    {
+      "name": "账号",
+      "role": "dataCategory"
+    },
+    {
+      "name": "个人信息",
+      "role": "dataCategory"
+    }
+  ],
+  "relations": [
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "生物识别"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "账号"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "账号"
+    },
+    {
+      "source": "我们",
+      "type": "store",
+      "target": "个人信息"
+    }
+  ],
+  "notes": "d1Collection: 第五条 (为了丰富用户画像，我们会收集与业务无关的生物识别信息、账号信息等敏感个人信息。)；d3Purpose: 第五条 (您提供的账号信息会被用于产品调研，超出您当初提供的订单一对一联系用途。)；d6DataRights: 第八条 (您已提交的个人信息将长期保存，且不提供删除或更正渠道。)"
+}

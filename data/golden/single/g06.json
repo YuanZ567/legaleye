@@ -1,0 +1,97 @@
+{
+  "id": "g06",
+  "type": "single",
+  "document": [
+    "g06.md"
+  ],
+  "expectedFindings": [
+    {
+      "dimension": "d3Purpose",
+      "verdict": "nonCompliant",
+      "level": "low",
+      "clauseRef": "第五条",
+      "descriptionKeywords": [
+        "目的限定",
+        "超出范围"
+      ],
+      "evidenceText": "您提供的账号信息会被用于产品调研，超出您当初提供的订单一对一联系用途。"
+    },
+    {
+      "dimension": "d4ThirdParty",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "第二十二条",
+      "descriptionKeywords": [
+        "单独同意",
+        "第三方共享"
+      ],
+      "evidenceText": "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。"
+    },
+    {
+      "dimension": "d1Collection",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "第五条",
+      "descriptionKeywords": [
+        "最小必要",
+        "过度收集"
+      ],
+      "evidenceText": "为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。"
+    }
+  ],
+  "expectedHighRiskCount": 2,
+  "entities": [
+    {
+      "name": "我们",
+      "role": "controller"
+    },
+    {
+      "name": "账号",
+      "role": "dataCategory"
+    },
+    {
+      "name": "合作营销商",
+      "role": "processor"
+    },
+    {
+      "name": "信息",
+      "role": "dataCategory"
+    },
+    {
+      "name": "手机号",
+      "role": "dataCategory"
+    },
+    {
+      "name": "身份证",
+      "role": "dataCategory"
+    }
+  ],
+  "relations": [
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "账号"
+    },
+    {
+      "source": "我们",
+      "type": "share",
+      "target": "信息"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "手机号"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "身份证"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "账号"
+    }
+  ],
+  "notes": "d3Purpose: 第五条 (您提供的账号信息会被用于产品调研，超出您当初提供的订单一对一联系用途。)；d4ThirdParty: 第二十二条 (我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。)；d1Collection: 第五条 (为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。)"
+}

@@ -1,0 +1,72 @@
+{
+  "id": "m04",
+  "type": "multi",
+  "document": [
+    "m04a.md",
+    "m04b.md"
+  ],
+  "expectedFindings": [
+    {
+      "dimension": "d1Collection",
+      "verdict": "nonCompliant",
+      "level": "low",
+      "clauseRef": "第13条",
+      "descriptionKeywords": [
+        "合法基础",
+        "同意缺失"
+      ],
+      "evidenceText": "我们处理您的生物识别信息以用于登录，无需您单独同意。"
+    },
+    {
+      "dimension": "d5CrossBorder",
+      "verdict": "nonCompliant",
+      "level": "medium",
+      "clauseRef": "第四十条",
+      "descriptionKeywords": [
+        "出境评估",
+        "安全评估"
+      ],
+      "evidenceText": "我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。"
+    },
+    {
+      "dimension": "crossConsistency",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "",
+      "descriptionKeywords": "委托",
+      "evidenceText": "您的订单信息将委托给第三方物流商处理。"
+    }
+  ],
+  "expectedHighRiskCount": 1,
+  "entities": [
+    {
+      "name": "我们",
+      "role": "controller"
+    },
+    {
+      "name": "生物识别",
+      "role": "dataCategory"
+    },
+    {
+      "name": "境外合作方",
+      "role": "overseasReceiver"
+    },
+    {
+      "name": "重要数据",
+      "role": "dataCategory"
+    }
+  ],
+  "relations": [
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "生物识别"
+    },
+    {
+      "source": "我们",
+      "type": "crossBorder",
+      "target": "重要数据"
+    }
+  ],
+  "notes": "d1Collection: 第13条 (我们处理您的生物识别信息以用于登录，无需您单独同意。)；d5CrossBorder: 第四十条 (我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。)；crossConsistency: 交叉矛盾 (您的订单信息将委托给第三方物流商处理。)"
+}

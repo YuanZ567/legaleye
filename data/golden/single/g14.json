@@ -1,0 +1,80 @@
+{
+  "id": "g14",
+  "type": "single",
+  "document": [
+    "g14.md"
+  ],
+  "expectedFindings": [
+    {
+      "dimension": "d5CrossBorder",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "第三十九条",
+      "descriptionKeywords": [
+        "单独同意",
+        "境外提供"
+      ],
+      "evidenceText": "为提升服务，我们会将您的个人信息跨境提供给境外的云服务商，您注册即视为同意该传输。"
+    },
+    {
+      "dimension": "d2Notice",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "第十七条",
+      "descriptionKeywords": [
+        "告知",
+        "处理目的",
+        "方式"
+      ],
+      "evidenceText": "我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。"
+    },
+    {
+      "dimension": "d3Purpose",
+      "verdict": "nonCompliant",
+      "level": "low",
+      "clauseRef": "第五条",
+      "descriptionKeywords": [
+        "目的限定",
+        "超出范围"
+      ],
+      "evidenceText": "您提供的账号信息会被用于产品调研，超出您当初提供的订单一对一联系用途。"
+    }
+  ],
+  "expectedHighRiskCount": 2,
+  "entities": [
+    {
+      "name": "我们",
+      "role": "controller"
+    },
+    {
+      "name": "境外云服务商",
+      "role": "overseasReceiver"
+    },
+    {
+      "name": "个人信息",
+      "role": "dataCategory"
+    },
+    {
+      "name": "账号",
+      "role": "dataCategory"
+    }
+  ],
+  "relations": [
+    {
+      "source": "我们",
+      "type": "crossBorder",
+      "target": "个人信息"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "个人信息"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "账号"
+    }
+  ],
+  "notes": "d5CrossBorder: 第三十九条 (为提升服务，我们会将您的个人信息跨境提供给境外的云服务商，您注册即视为同意该传输。)；d2Notice: 第十七条 (我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。)；d3Purpose: 第五条 (您提供的账号信息会被用于产品调研，超出您当初提供的订单一对一联系用途。)"
+}

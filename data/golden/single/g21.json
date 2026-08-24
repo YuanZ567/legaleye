@@ -1,0 +1,64 @@
+{
+  "id": "g21",
+  "type": "single",
+  "document": [
+    "g21.md"
+  ],
+  "expectedFindings": [
+    {
+      "dimension": "d4ThirdParty",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "第二十二条",
+      "descriptionKeywords": [
+        "单独同意",
+        "第三方共享"
+      ],
+      "evidenceText": "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。"
+    },
+    {
+      "dimension": "d2Notice",
+      "verdict": "nonCompliant",
+      "level": "high",
+      "clauseRef": "第十七条",
+      "descriptionKeywords": [
+        "告知",
+        "处理目的",
+        "方式"
+      ],
+      "evidenceText": "我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。"
+    }
+  ],
+  "expectedHighRiskCount": 2,
+  "entities": [
+    {
+      "name": "我们",
+      "role": "controller"
+    },
+    {
+      "name": "合作营销商",
+      "role": "processor"
+    },
+    {
+      "name": "信息",
+      "role": "dataCategory"
+    },
+    {
+      "name": "个人信息",
+      "role": "dataCategory"
+    }
+  ],
+  "relations": [
+    {
+      "source": "我们",
+      "type": "share",
+      "target": "信息"
+    },
+    {
+      "source": "我们",
+      "type": "collect",
+      "target": "个人信息"
+    }
+  ],
+  "notes": "d4ThirdParty: 第二十二条 (我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。)；d2Notice: 第十七条 (我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。)"
+}
