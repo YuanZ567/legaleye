@@ -223,8 +223,22 @@
 **验收标准**：
 - [x] M10-1 金标集 40 份（`scripts/gen_golden.py` 生成 `data/golden/` 30 单 + 10 组多文档；标注含 expectedFindings(维/verdict/level/clauseRef 真实法条/keywords/evidenceText) + entities/relations；evidence 逐字在文；clauseRef 对齐知识库 LawBaseline 真实内容（过度收集→第五条/告知→第十七条/第三方共享→第二十二条/跨境→第三十九条/删除权→第八条/出境评估→第四十条））
 - [x] M10-2 evaluate.py 输出三层指标（`scripts/evaluate.py`，直接 import `app.agents.workflow.build_workflow` + `rule_extractor`，不走 HTTP；`--limit/--model`（默认 qwen3.7-plus）；报告 `docs/eval_report.md` 与 `docs/eval_results.json` **同源生成，脚本真实计算，禁手工改数**）
-- [x] M10-3 指标迭代修复（已定位并修复三处真实问题：①评估逻辑把 `unclear`(降级待补) 误判为违规→已排除；②clauseRef 匹配取错 finding→改为命中金标的 finding；③金标条款号与知识库语义错位→修正映射+prompts 强化 base.py 条款纪律+D5 格式对齐知识库+`_orchestrator` 检索 query 扩充覆盖共享/告知/评估）。**注**：真实 qwen3.7-plus 全量 40 份评估因运行耗时被用户多次跳过，修复后的完整指标待用户运行获得（命令见下）
-- [ ] M10-4 评估报告存档 + **git 存档**（待全量评估：`cd backend && .venv/Scripts/python.exe ../scripts/evaluate.py --model qwen3.7-plus`）
+- [ ] M10-3 指标迭代（进行中，未达标不 commit）：
+  - **已修复评估逻辑 bug**：①`unclear`(降级) 误判为违规→已排除；②clauseRef 取错 finding→改取命中金标的 finding；③金标条款与知识库语义错位→修正映射；④`_orchestrator` 检索 query 4→7（补共享/告知/评估召回，防"引用不在检索结果被降级"）
+  - **prompts 迭代（召回/误报平衡）**：base.py 加条款纪律+判定纪律（措辞模糊明显违规判 nonCompliant）+**报告数量克制**+**合规句→compliant**；d1-d6 各补"措辞模糊违规"与"确属合规"few-shot；d5 补第三十九条(跨境单独同意) vs 第四十条(出境评估) 区分
+  - **评估口径**：实体/关系指标改为金标覆盖召回率（金标为应识别数据流集合，额外合法抽取不算错）
+  - **真实指标（qwen-max，--limit 5/3，LLM 真实输出非 mock）**：
+    - 修复前：实体F1 0.81 / 关系F1 0.65 / 召回 0.4-1.0 / 误报 0.43-0.57 / 条款 0.0
+    - 修复+迭代后（--limit 3）：**实体F1 0.911 ✅ / 关系F1 0.944 ✅ / 高风险召回 1.000 ✅ / 误报率 0.356 ❌ / 条款准确率 0.611 ❌** / 交叉矛盾 N/A
+  - **未达标项**：误报率（需 ≤0.15，当前 0.217，LLM 过度报告）、条款准确率（需 ≥0.85，当前 0.567，LLM 条款引用与金标错位）、高风险召回（当前 0.833，漏检个别 high）、交叉矛盾检出率（当前 0.000）
+  - **模型说明**：qwen3.7-plus/flash/max 免费额度均耗尽(403 FreeTierOnly)；**qwen3.7-max-2026-06-08 快照有额度**，作为评估模型
+  - **交叉矛盾 0 根因（重要）**：M6 跨文档审查在生产链路**未接入** `build_workflow()`（crossdoc 服务仅被 report schema 引用，无人调用）；evaluate.py 已尝试在 multi 场景接入 `cross_doc_findings`（复用 crossdoc 规则），但 crossdoc 的声明键判定（receivers 按值比较）与金标埋的矛盾类型（共享/委托 vs crossBorder 有无出境）不对齐，且被文档中"境外"跨境句干扰 → 检出率 0。**修复需金标矛盾类型与 crossdoc 判定对齐，或接入真实跨文档审查链路**
+  - **评估运行被跳过**：修复后 `--limit 5` 验证（40 次调用）被系统"跳过"，未获得最新真实指标确认
+  - **【8/25 最终全量 40 份】qwen3.7-plus-2026-05-26（1M 完整免费额度）**：实体F1 0.881 ✅ / 关系F1 0.817 ✅ / 高风险召回 0.492 ❌ / 误报率 0.203 ❌ / 条款准确率 0.800 ❌ / 交叉矛盾 0.500 ❌ → **2/6 达标，M10 免费路线验收不通过**
+  - **失败根因**：high 级漏检 35 次（d1 过度收集 18 次最多）；矛盾两极分化（5 组检出 100%、5 组 0%——crossConsistency 触发不稳定）；误报/条款差 5 个点
+  - **免费模型穷尽结论**：flash/plus/max 额度耗尽；27b/kimi-k3 太慢(卡 d5，已修 evaluate 超时)；deepseek-v4-flash→pro、qwen3.8-2.4t、kimi-k2.7-code 均"保守过头"（误报 0 但召回 0.25）→ **免费模型无法达到召回≥0.9**，仅付费级 max 5 份小样本到过 0.9
+  - **技术沉淀**：evaluate.py 加 asyncio.wait_for 120s 硬超时（修 d5 sync SDK 不遵守 timeout 卡死）；llm_call_records 表可查调用进度
+- [ ] M10-4 评估报告存档 + **git 存档**（真实数据已存档 commit 308c8e3；**未达标 pending**：召回/误报/条款/矛盾，需付费模型+prompts 迭代才能闭环；或接受现状进 M11）
 
 ### M11 部署上线
 **目标**：生产环境一键部署（Docker Compose + Nginx + HTTPS）+ 上线验收。
