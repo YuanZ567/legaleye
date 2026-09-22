@@ -19,9 +19,9 @@
 backend/    # Python 3.11+ FastAPI + LangGraph + Celery
 frontend/   # React 18 + Vite + TS + Tailwind + shadcn/ui + React Flow
 scripts/    # 入库 / 评估 / 部署脚本
-data/       # 金标集(golden) / 法条原文(raw_laws，私有不入库)
+data/       # 真实评估语料（real/ 12 份隐私政策 + real_contracts/ 10 份官方 SCC/DPA，均带来源 URL）
 infra/      # docker-compose.yml / .env.example / nginx
-docs/       # 全部文档
+docs/       # 全部文档（真实效果评估：blind_eval_report.md / contract_eval_report.verified.md）
 ```
 
 ## 快速开始（M0 验收）

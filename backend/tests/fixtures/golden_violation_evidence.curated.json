@@ -1,0 +1,44 @@
+[
+ {
+  "id": "m01",
+  "dimension": "d5CrossBorder",
+  "keyword": "安全评估",
+  "evidence": "我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。"
+ },
+ {
+  "id": "m01",
+  "dimension": "d5CrossBorder",
+  "keyword": "出境",
+  "evidence": "我们将处理的重要数据直接提供给境外合作方，未申报数据出境安全评估。"
+ },
+ {
+  "id": "m04",
+  "dimension": "d1Collection",
+  "keyword": "生物识别",
+  "evidence": "我们处理您的生物识别信息以用于登录，无需您单独同意。"
+ },
+ {
+  "id": "m05",
+  "dimension": "d2Notice",
+  "keyword": "说明",
+  "evidence": "我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。"
+ },
+ {
+  "id": "m06",
+  "dimension": "d4ThirdParty",
+  "keyword": "共享",
+  "evidence": "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。"
+ },
+ {
+  "id": "m08",
+  "dimension": "d1Collection",
+  "keyword": "敏感个人信息",
+  "evidence": "为了丰富用户画像，我们会收集与业务无关的生物识别信息、账号信息等敏感个人信息。"
+ },
+ {
+  "id": "g03",
+  "dimension": "d6DataRights",
+  "keyword": "删除",
+  "evidence": "您已提交的个人信息将长期保存，且不提供删除或更正渠道。"
+ }
+]
