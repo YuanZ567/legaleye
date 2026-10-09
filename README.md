@@ -19,6 +19,14 @@
 
 ---
 
+## 项目预览
+
+| 登录 / 注册 | 任务工作台 |
+|---|---|
+| <img src="docs/screenshots/login.png" width="360" alt="登录页"/> | <img src="docs/screenshots/dashboard.png" width="620" alt="任务工作台"/> |
+
+*账号体系（邮箱注册 / GitHub OAuth）、任务管理、审查工作台、数据流图谱、合规报告、模型配置等完整功能界面。*
+
 ## 核心特性
 
 - **六维并行审查管线**：LangGraph 编排 6 个维度 agent（收集范围 / 告知义务 / 目的限制 / 第三方共享 / 跨境传输 / 数据主体权利）并行审查，经 Critic 交叉评审与跨文档矛盾检测，Reflect 反思（≤ 2 轮）后输出结构化报告
