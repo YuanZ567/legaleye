@@ -1,0 +1,183 @@
+# Temu Privacy & Cookie Policy (EN) | Last Updated: 25 June 2026
+# 来源: https://www.temu.com/om-en/privacy-and-cookie-policy.html?rpes=212554
+# 抓取日期: 2026-09-15
+======================================================================
+
+# Temu | Oman | Privacy Policy
+
+Last Updated: 25 June 2026
+
+- What Information We Collect
+- How and Why We Use Your Information
+- How and Why We Share Your Information
+- Your Rights and Choices
+- Children
+- Data Security and Retention
+- Changes to the Privacy Policy
+- Contact Us
+
+This Privacy Policy describes how Elementary Innovation Pte. Ltd., a Singaporean company ("Temu", "we", "us" or "our") handles personal information that we collect through our digital properties that link to this Privacy Policy, including our website (www.temu.com) and mobile application (collectively, the "Service"), and other activities as described in this Privacy Policy. At Temu, we care deeply about privacy. We strive to be transparent about our privacy practices, including how we treat your personal information. This Privacy Policy explains how we collect, use, share, and otherwise process the personal information of our registered account holders, those who purchase items on Temu without an account, and those who browse the Service ("users"). In this Privacy Policy, we also explain the rights you have with regard to your personal information. For more information, see the "Your Rights and Choices" section below.
+
+Please read this Privacy Policy before accessing or using our Service. By continuing to use our Service, you acknowledge that you have read this Privacy Policy and agree to the practices described herein.
+
+## What Information We Collect
+
+In the course of providing and improving our Service, we collect your personal information for the purposes described in this Privacy Policy. The following are the types of personal information that we collect:
+
+### Information that you provide
+
+When you create an account, browse the Service, place an order at checkout, contact us directly, or otherwise use the Service, you may provide some or all of the following information:
+
+- **Account and profile.** We collect your login credentials (e.g., mobile phone number and/or email address) for your account and assign a user identification number to your account. If you choose to register or log in via external third-party services, such as Facebook or Google, you agree we may collect your profile photo, username, and/or email address associated with the relevant third-party service provider. We also collect information in your profile, account settings and preferences in your Temu account. We also collect your country/region.
+
+- **Purchases.** We collect data related to your orders on the Service (e.g., transaction ID, transaction history, product identification number), payment information required to complete the transaction (e.g., payment card number or other third-party payment information required for payment, billing address), information provided by you for product sizing purposes, your shipping address (e.g., city, state, country/region, postal code), information relating to package collection (e.g., city, state, country/region and postal code of your designated package collection point, collection verification code) in countries where we enable this functionality, and recipient contact information (e.g., name, mobile phone number). In accordance with applicable laws and/or requirements of public authorities (e.g., customs authorities), we may collect information that may personally identify you (e.g., your ID number and passport number) for the purpose of customs clearance to fulfil orders, and this information will be stored securely.
+
+- **Customer support activity.** When you communicate with our customer service team through our customer support functions on the Service, either with a customer service agent or with our virtual assistant (via the chatbot or hotline), through social media, or by any other means, we will collect your communication history with us, which includes any text, images, video, audio, or supporting documents exchanged between us.
+
+- **Information you provide when you contact us.**  When you contact us, we collect the information you send us, such as reports, feedback, or inquiries about your use of the Service or information about possible violations of our Terms of Use or other policies.
+
+- **Chats with merchandise partners.**  When you chat with merchandise partners (directly or via virtual assistant) on Temu, we collect your chat communications and other related information.
+
+- **User-generated content.** When you provide any content (e.g., images, videos, or text) to leave product reviews and ratings, search for items, or customise products, we collect this information and its associated metadata to support and enable your use of the Service.
+
+- **Participation in promotions and other events.** We collect your information on the Service through your participation in contests, promotions, surveys or other events, as part of the participation process, such as your interactions with such events (i.e., participation records). We recommend that you read the rules and other relevant information for each event that you participate in. In addition, we collect information categories including account and profile (e.g., your preferences for receiving marketing communications from us).
+
+- **Other information not explicitly listed above.** We will collect other information that you provide for purposes as described in this Privacy Policy or for any other purpose disclosed to you before or at the time we collect your information.
+
+### Information from third-party sources
+
+To the extent permitted by applicable laws, we may receive and collect your personal information from other third-party sources, such as:
+
+- **Data providers.** We receive and collect your personal information, such as identity verification information and fraud-prevention risk scoring, from information services to help us detect fraud regarding payments, prevent unauthorised transactions, and safeguard the Service.
+
+- **Marketing and advertising partners.** We receive and collect your personal information from our marketing and advertising partners, such as business partners with whom we collaborate on marketing events and promotion of the Service and advertising analytics providers who help us understand the performance of the advertisements. Specifically, we receive from these partners information including, for example, the specific advertisements you clicked on, attribution information via cookies and similar technologies to help us determine the origin of traffic to our Service, device data if you clicked on certain advertisements, responses to marketing emails, advertisements and offers, and audience information from marketing partners where they have the authority to share that information with us.
+
+- **Public authorities, public sources, and rights holders.** We obtain your personal information which may include username, address, email, mobile phone number, purchase and/or payment information from third party sources, for example, as necessary to comply with our obligations, prevent, investigate and detect an alleged claim or crime, or for a party to assert their legal rights.
+
+- **Our payment processors.**  We obtain your personal information from our third-party payment processors who help us process transactions, provide our Service, and prevent fraudulent or illegal activity. The personal information our payment processors pass to us includes your name, email address, billing address, and phone number.
+
+- **Merchandise partners.** We may collect certain information about you, such as your package information, delivery progress, and proof of delivery from our merchandise partners, where applicable. For example, if you have any questions regarding the delivery of your package, we may request relevant information from the merchandise partner responsible for shipping the package in order to assist in resolving the issue.
+
+- **Other third-party services.** We collect your personal information from other third-party services, such as:
+
+    - **Social media services**, from whom we may collect your username, profile picture, and/or email address associated with the relevant third-party services, if you choose to register or log in via said third-party service. In addition, if you contact us via any third-party services for questions relating to the Service, we may receive the information necessary to help address your questions.
+
+    - **Logistics service providers**, from whom we may collect certain information about you, such as your package information, delivery progress, proof of delivery, and delivery address, and make this information available to you within your account, to effectively complete order fulfilment.
+
+    - **Third-party mapping platforms**, from whom we may receive, collect and locate the geographical coordinates of the address you have provided to us (e.g., Google maps), to easily direct you to the most appropriate package collection point for deliveries in countries where we enable this functionality.
+
+### Information collected automatically
+
+To enhance your experience with the Service and support the other purposes for which we collect personal information as outlined in this Privacy Policy, we may automatically collect information about you, your computer, or mobile device, your interactions with the Service, and our communications over time, such as:
+
+- **Device data.** We collect personal information about the device you use to access the Service, such as device model, operating system information, internet service provider, language settings, unique identifiers (e.g., identifiers used for advertising purposes where permitted by applicable laws), and IP address.
+
+- **Service usage information.** We collect personal information about your interactions with the Service, including the source from which you arrived at our pages, the pages you viewed, other interactions with the Service (e.g., your browsing history, searching and purchasing history), the items saved to your wish list and in your shopping cart and whether you opened our emails or clicked on the links within our emails. We also collect service-related, diagnostic, and performance information, including crash reports and performance logs.
+
+- **Location Data:** We collect your approximate location data based on your technical information (e.g., IP address). In order to select address faster and accurately to fill in your shipping address, with your permission, we collect the precise location data of your device. You can manage or disable the use of precise location services in the settings menu of your mobile device and/or browser.
+
+- **Data collected via cookies and similar technologies.** We collect information via cookies and similar technologies stored on your device. These cookies are either necessary and required to provide our Service (for example, the cookies we use to remember your settings) or optional (for example, the cookies used to measure the performance of advertisements shown to you). To learn more, including how to disable certain cookies, please read our Cookies and Similar Technologies Policy.
+
+### Declining to provide information
+
+We need to collect certain personal information from you to provide the Service and certain related services. If you do not provide the information we require to provide the Service, we cannot provide the Service. However, we also collect some optional information from you; this information is optional, meaning we can still provide the Service, but without it, the quality of your experience of the Service may be affected.
+
+## How and Why We Use Your Information
+
+We use the personal information that we collect for various purposes, including to develop, improve, support, and provide the Service, allowing you to use its features while fulfilling and enforcing our Terms of Use. We may use your personal information for the following purposes:
+
+**Create and maintain your account.** We use your personal information to create and maintain your account on the Service and enable account security features (e.g., sending security codes via email or text messages).
+
+**Orders and delivery of products and services.** We use your personal information to receive and process orders, deliver products and services, process payments, communicate with you regarding orders, products, services, and promotional offers, and facilitate order disputes, refunds and/or returns of your orders.
+
+**Improve and optimise services and troubleshooting.** We use your personal information to optimise features, analyse performance metrics, fix errors, and maintain and improve the Service and our business. As part of these activities, we may create aggregated or otherwise deidentified data based on the personal information we collect.
+
+**Personalise your experience.** We use your personal information to recommend features, products, and services that may be of interest to you. Personal information will also be used to determine your preferences and personalise your experience with the Service.
+
+**Communicate with you and provide customer support.** We use your personal information to communicate with you (e.g., announcements, updates, security alerts, support, and administrative messages) and provide customer support for your requests, questions, disputes, complaints and feedback.
+
+**Promotions and other events.** We use your personal information to provide and facilitate promotions and other events to you. For example, we use your account and profile information to identify you in promotions and to facilitate your invitations to friends whom you want to invite to join the Service.
+
+**Marketing.** We and our service providers collect and use your personal information for marketing purposes in accordance with applicable laws. To the extent permitted by applicable laws, we may send you direct marketing communications, such as emails, text messages and push notifications. You may opt out of our marketing communications as described in the "Your Rights and Choices" section below.
+
+**Advertising.** We and our third-party advertising partners may collect and use your personal information for advertising purposes, including to serve advertisements and to measure the performance of advertisements shown to you. In providing interest-based advertising off the platform, we follow the Self-Regulatory Principles for Online Behavioral Advertising as set forth by the Digital Advertising Alliance (DAA), which is an advocacy organisation for responsible digital marketing and consumer privacy. We may also use your interactions with the Service (e.g., your browsing, searching and purchasing history on the Service), and information included in your account profile (e.g., your country if recorded) to show you personalised advertised listings on our platform, which display a merchandise partner's products more prominently. You can learn more about your opt-out choices here.
+
+**Fraud prevention and security.** We use your personal information to prevent, detect, investigate, and respond to fraud, unauthorised access to or use of the Service, violations of the Terms of Use and other Temu policies, or other misconduct.
+
+**Compliance, legal obligations and protection.** We may use your personal information for compliance purposes and to comply with applicable laws, including lawful requests and legal processes (e.g., responding to subpoenas or other lawful requests from government or regulatory authorities); to protect our, your, and other users' rights, privacy, safety, or property (e.g., the establishment, exercise or defence of legal claims); to audit internal processes to ensure compliance with legal and contractual requirements and our internal policies; to enforce the terms and conditions that govern the Service; to prevent, identify, investigate, and deter fraudulent, harmful, unauthorised, unethical, or illegal activities, including cyberattacks and identity theft.
+
+**Purposes for which we seek your consent.** In some cases, we may ask for your consent to collect, use, or share your personal information for a specific purpose that we communicate to you, in accordance with applicable laws.
+
+**Cookies and similar technologies for technical operations, performance enhancement, advertising, analytics, etc.** For more information about cookies and how we use them, please read our Cookies and Similar Technologies Policy.
+
+## How and Why We Share Your Information
+
+At Temu, we care deeply about privacy. We may share your personal information with the following parties for the purposes outlined below:
+
+**Affiliates.** As a global company, our Service is supported by entities within our corporate group. We share some of your personal information with Temu subsidiaries and affiliates as necessary to provide organisational, technical, legal and compliance support for the Service, including for the purposes of order fulfilment, and other core platform functions. Such personal information includes shipping address and contact information. These subsidiaries and affiliates either follow the same practices described in this Privacy Policy or follow practices at least as protective as those described in this Privacy Policy.
+
+**Service providers.**  We share your personal information with third parties who provide services on our behalf or help us operate the Service or our business (e.g., hosting, information technology, customer support, content delivery, email delivery, order fulfilment and delivery, marketing, fraud detection, compliance, security and website analytics). These third-party service providers only have access to personal information needed to perform their functions and services, and we require these service providers to use personal information only as necessary to perform their services or comply with applicable legal obligations.
+
+**Payment processors.** We share your personal information with our payment processors as necessary to complete payments, process disputes, process refunds and/or prevent fraud.
+
+**Advertising partners.** We may share your personal information with third-party advertising partners for the interest-based advertising and analytics purposes described in our Cookies and Similar Technologies Policy. For additional information and to learn about your right to opt out of such practices, see the "Your Rights and Choices" section and the Cookies and Similar Technologies Policy.
+
+**Third parties designated by you.** We may share your personal information with third parties where you have instructed us or provided your consent to do so. We may share the personal information required for the services you request with third parties designated by you, for example, where you choose to share a link to a Temu product listing via a third-party social media service. Please be aware that when you use third-party sites or services, their own terms and privacy policies will govern your use of those sites or services.
+
+**Business and marketing partners.** We may share your personal information with third parties with whom we collaborate in order to offer or promote the Service. For example, depending on your communication preferences, we may share your personal information with third-party service providers we have partnered with to send you marketing communications, for example via messages and/or emails.
+
+**Professional advisors, public authorities, institutions, and regulators.** We may share your personal information with our professional advisors (e.g., lawyers, auditors, bankers and insurers); public authorities, such as law enforcement authorities in response to legal processes (e.g., subpoenas or other lawful requests from government or regulatory authorities); and with other parties (e.g., financial institutions) in order to enforce our agreements or policies, protect the rights, property and safety of Temu, users and others, and to detect, prevent and address actual or suspected fraud, violations of Temu's Terms of Use, other illegal activities, security issues or when it is required by applicable laws.
+
+**Business transferees.** In the rare event of a business transaction such as a merger, acquisition, or reorganisation, we may share some of your personal information with relevant parties (e.g., a buyer or successor) in order to facilitate such a transaction. If we intend to transfer information about you, we will inform you either by publishing a notice on the Service or by other means.
+
+**Merchandise partners.** We may share your personal information with the merchandise partners related to the product reviews you leave, the return or refund reasons you provide, and customisation information for customised/personalised items. To fulfil your order, we may share with the merchandise partners your name, shipping address, contact information, communications with our customer support functions, and your order information, for example, to address a query or complaint, or when merchandise partners connect directly with logistics service providers.
+
+**Other users.** Please note that, in using our Service, your personal information may be visible to other users. In accordance with your settings and preferences, we may display your profile photo and username to other users, including when you participate in a promotion or marketing program (e.g., referring friends to our Service and accepting invitations from other users), or when you review or rate a product. To opt out of this profile photo and username sharing, please visit the "Notifications" menu and disable "Avatar and username sharing" and/or edit your reviews.
+
+## Your Rights and Choices
+
+We provide you with the ability to exercise certain rights and choices regarding our collection, use and sharing of your personal information. In accordance with applicable laws, your rights and choices may include those listed below. If you would like to exercise any of these rights, please click here.
+
+**Right to access, correct, update, complete and delete your personal information.** You may have the right to access, correct, update, complete and delete your personal information. You may also delete your account in the "settings" section of the Temu mobile application.
+
+In addition, depending on your country of residence, you may be entitled to additional privacy rights under applicable laws, including the right to be informed about how your personal information is processed and, where applicable, the right to data portability, which allows you to transfer your personal information to another data controller.
+
+**Opt-out from marketing communications.**  To manage your preferences or opt-out of marketing communications you may receive, you may go to the "Notifications" menu to take further actions or follow the instructions provided below. Rest assured that you can continue to use Temu even if you opt out of marketing communications.
+
+- **Email promotional offers:**  When you provide us with your email address, we may send you certain marketing emails subject to the requirements of applicable laws. Standard data rates may apply. If you do not want to receive any marketing emails from us, you may also follow the unsubscribe options at the bottom of each email to stop receiving such emails.
+
+- **Mobile promotional offers:**  When you provide us with your mobile phone number, we may send you certain marketing text messages subject to the requirements of applicable laws. Standard data and messaging rates may apply. If you no longer wish to receive any marketing text messages from us, you may also follow the instructions provided in these messages.
+
+- **Promotional offers via messaging applications:** When you provide us with your accounts on messaging applications or your contact information (e.g., mobile phone number) associated with your accounts on messaging applications, we may send you certain marketing messages via your accounts on messaging applications or via the accounts on messaging applications associated with your contact information, subject to the functionality enabled and the requirements of applicable laws. Standard data rates may apply. If you no longer wish to receive marketing messages via such messaging applications from us, you may also follow the instructions provided in the messages.
+
+- **Push notifications:**  You may receive push notifications sent by the Temu mobile application subject to the requirements of applicable laws. Standard data rates may apply. If you no longer wish to receive marketing push notifications from us, you may also adjust push notification settings on your device.
+
+**Change settings for cookies and similar technologies.** Most browsers let you remove or reject cookies. To do this, follow the instructions in your browser settings. Many browsers accept cookies by default until you change your settings. Please note that if you set your browser to disable cookies, the Service may not work properly. For more information about cookies and similar technologies, including how to see what cookies and similar technologies have been set on your browser and how to manage and delete them, visit https://www.allaboutcookies.org. You can also configure your device to prevent images from loading to prevent web beacons from functioning.
+
+**Links to third-party platforms.** The Service may contain links to websites, mobile applications, and other online services operated by third parties. In addition, our content may be integrated into web pages or other online services that are not associated with us. If you choose to connect to the Service through your social media account or another third-party platform, you may be able to use your settings in your account with that platform to limit the information we receive from it. However, please note that these links and integrations are not an endorsement of, or representation that we are affiliated with, any third party. Moreover, we do not control websites, mobile applications or online services operated by third parties, and we are not responsible for their actions. Therefore, we encourage you to read the policies and terms of use or service of the other websites, mobile applications and online services you use. If you revoke our ability to access information from a third-party platform, that choice will not apply to information that we have already received from that third party.
+
+**Do Not Track.** Some Internet browsers may be configured to send "Do Not Track" signals to the online services that you visit. We currently do not respond to "Do Not Track" or similar signals.
+
+**Other choices.** Please see the Cookies and Similar Technologies Policy for additional rights and choices you may have and how to exercise such rights and choices.
+
+## Children
+
+The Service is neither intended for, nor aimed at, children. Temu does not sell products for purchase by children. We sell children's products for purchase by adults. We do not knowingly collect personal information from users who are under the age of 18 or are considered minors under applicable national laws through the Service. If we become aware that we have unintentionally collected personal information from a minor through the Service, we will delete this information in compliance with applicable laws. If you are a parent or guardian of a child about whom you believe we have collected personal information, please contact us as specified in the "Contact Us" section of this Privacy Policy or through our online reporting form.
+
+## Data Security and Retention
+
+The security of your personal information is important to us. We use appropriate technical and organisational measures to help protect your personal information from loss, theft, misuse, unauthorised access, disclosure, alteration, and/or destruction. We also follow the Payment Card Industry Data Security Standard ("PCI-DSS") in handling your credit card information. However, security risks are inherent in all internet and information technologies.
+
+We generally retain personal information as long as necessary to fulfil the purposes for which we collected it, as well as for the purposes of satisfying any applicable legal, accounting, or reporting requirements, to establish, exercise or defend legal claims, or for fraud prevention purposes. To determine the appropriate retention period for personal information, we may consider factors such as the amount, nature, and sensitivity of the personal information, the potential risk of harm from unauthorised use or disclosure of your personal information, the purposes for which we process your personal information and whether we can achieve those purposes through other means, and the applicable legal requirements.
+
+Data of Temu's users will be stored on the infrastructure of cloud service providers. As a global one-stop shopping destination, Temu may need to engage and share your personal information with various parties, including our service providers, as described in the "How and Why We Share Your Information" section. These parties may be located in countries or jurisdictions that have data protection laws that are different in some aspects from the laws of the country or jurisdiction in which you reside. When we transfer your personal information outside the country or jurisdiction in which you reside, we implement appropriate measures to ensure that your personal information will remain protected in accordance with this Privacy Policy and applicable laws.
+
+## Changes to the Privacy Policy
+
+We reserve the right to modify this Privacy Policy at any time. If we make material changes to this Privacy Policy, we will notify you by updating the date of this Privacy Policy, posting it on the Service or providing any notice required by applicable laws. Any modifications to this Privacy Policy will be effective from the time of posting the modified version (or as otherwise indicated at the time of posting). We recommend that you review the Privacy Policy each time you visit our Service to stay informed of our privacy practices.
+
+## Contact Us
+
+If you have any questions or comments about our Privacy Policy or the terms mentioned, you may contact us at any time through this web form. You may also contact our Data Protection Officer directly here.
+
+You may also send mail to our postal address: Elementary Innovation Pte. Ltd., 6 Raffles Quay, #14-06, Singapore (Postal 048580).

@@ -1,0 +1,165 @@
+# eBay User Privacy Notice | 生效 2025-04-21（eBay Inc. 隐私中心页面）
+# 来源: https://www.ebayinc.com/company/privacy-center/privacy-notice/
+# 抓取日期: 2026-09-16
+# 备注: 官方隐私中心页面（折叠目录结构），含范围/重要信息/人工智能/区域披露等正文；完整各章节正文见 ebay.com 帮助页
+======
+
+In our User Privacy Notice we have compiled all essential information about our handling of your personal data and your corresponding rights. This User Privacy Notice is effective from April 21, 2025.
+
+### Controller
+
+### Data protection officer and contact
+
+### What personal data we collect and process
+
+### Purposes and legal bases for data processing and categories of recipients
+
+### Cross-border data transfers
+
+### Storage duration and erasure
+
+### Rights as a data subject
+
+### Cookies & similar technologies
+
+### Data security
+
+### Scope and updates of this User Privacy Notice
+
+This User Privacy Notice applies to your use of this website and all eBay applications, services (including payment services), products and tools (collectively the "Services") provided by eBay Inc. or its affiliates (eBay Inc. and the companies it directly or indirectly controls are referred to as "eBay Affiliates"). This User Privacy Notice applies regardless of how you access or use these Services, including access via mobile devices and apps. For additional regional and state disclosures, please see Regional and State Privacy Disclosures below.
+
+This User Privacy Notice also applies if reference is made to it via a link or in a similar manner, e.g. on websites of partners on which Services from eBay are offered.
+
+We may change this User Privacy Notice at any time by posting the revised User Privacy Notice on this website and indicating the effective date of the revised User Privacy Notice. As a registered user, you will be notified of any material changes to this User Privacy Notice via My Messages in My eBay and/or by email.
+
+### Other important information regarding data protection
+
+This section contains important additional information about the protection of personal data in connection with the use of our Services, including whether you are required to provide personal data.
+
+**What happens when you share your personal data on our sites or applications?**
+
+Other users have access to the information you share on eBay or disclose to other users. For example, other users can see your bids, purchases, items for sale, saved interests, sellers and searches, storefronts, feedback, ratings, product reviews and associated comments. Other users can also see any information you choose to share in your profile.
+
+When you use our Services, your public username may be displayed and available to the public and associated with all of your public eBay activity. Notices sent to other users about suspicious activity and notice violations on our sites may refer to your public username and specific items. Accordingly, if you use a username that allows others to identify you, these others may be able to identify your eBay activities.
+
+To help protect your personal data, we allow only limited access to other users' contact, shipping and financial information as necessary to facilitate your transactions and collect payments. However, when users are involved in a transaction, they have access to each other's name, username, (alias) email address and other contact and shipping information. For example, we may allow users to exchange telephone numbers in order to contact each other prior to completing a transaction (e.g. a seller may opt to share their telephone number with a buyer so that the buyer may call with questions about a listed item). In this case, sellers are prohibited from using a buyer's telephone number for other purposes (e.g. completing a transaction off eBay or adding the buyer to a marketing list).
+
+**Use of our Services through third-party applications**
+
+If you use our Services from within a third-party application, that application may also collect your data in accordance with their separate privacy policies. When accessing our Services from a web browser within a third-party application (e.g., Facebook's in-app browser), you should also review that application's privacy policy for information about the application's processing of your personal data.
+
+**Your responsibilities over transactional information you receive through eBay**
+
+When you complete a transaction with another user (or a transaction has been cancelled, failed, or subsequently invalidated), we will provide you with the other user's personal data (such as name, username, (alias) email address, contact information, shipping and billing information, or return address). Independent from us, you are the controller of such data and responsible for any processing that you perform after we have shared this data with you, including compliance with any limitations imposed by this User Privacy Notice and our User Agreement.
+
+Unless you act for purely personal purposes, we recommend that you explain your data processing activities in your own privacy notice and protect the privacy of other users. As a seller, you must in any case comply with the applicable data protection laws and in particular protect the rights of other users as data subjects, e.g. give them the opportunity to access the personal data collected by you and demand that it be erased.
+
+You may only use the personal data that you have access to for eBay transaction-related purposes, or for other Services offered through eBay (such as shipping, fraud complaints, and member-to-member communications), and for purposes expressly consented by the user to whom the data relates. Using personal data of other users that you have access to for any other purpose, such as adding them to a mailing list without their express consent, constitutes a violation of our User Agreement.
+
+**Personal data relating to third parties**
+
+If you provide us with personal data relating to another person, you must obtain the consent of this person or the disclosure of the data to us must be otherwise legally permissible. You must inform the other person of how we process personal data in accordance with our User Privacy Notice.
+
+**Filtering of messages sent via our messaging tools**
+
+All messages sent via our messaging tools (including chat messages and emails sent to eBay alias email addresses) are first received by us and then forwarded to the recipient. All messages are automatically filtered according to certain criteria. If necessary, conspicuous messages are checked manually by our customer service. In the event of a violation of our User Agreement (including any of our rules and policies), we reserve the right to block the transmission of the message and to restrict the purchase and sales functions of your eBay account or to block your eBay account.
+
+This is to protect our legitimate interests such as protecting against fraudulent or suspicious activities (e.g. spam, viruses, phishing, or other illegal activities) or enforcing our User Agreement and our other rules and policies (e.g. illegal and other prohibited content), including but not limited to enforcing the prohibition of purchases and sales outside of eBay.
+
+**Use of Artificial Intelligence or AI-Powered Tools**
+
+We may use artificial intelligence or AI-powered tools and products to improve our Services, to offer you new or enhanced features, a customized and personalized experience, to provide you with enhanced customer service, and to support fraud detection.
+
+**Are you obliged to provide your personal data to us?**
+
+Some of the personal data that you provide to us (e.g. data by which we can identify you) are required to enter into the User Agreement and the Payments Terms of Use and/or to comply with legal obligations. For example, under the Payments Terms of Use you must provide us with certain identification information including legal name, date of birth, and tax identification number or social security number so that we may fulfil our legal "Know Your Customer" (KYC) obligations. As described in our User Privacy Notice and in the Payments Terms of Use, we may share this data with other eBay Affiliates in order to facilitate transactions and with service providers, including payment processors, credit agencies and bureaus. Although the provision of any other personal data (e.g. address and shipping data) is voluntary, it may be necessary for the use of our Services, such as bidding, purchase and sales data to complete a transaction.
+
+**Children's Privacy**
+
+Our services are not intended for the use by children. We do not knowingly collect personal data from users who are considered children under applicable national laws. Under our User Agreement, children are not permitted to use our Services.
+
+**Staying Signed in**
+
+When you sign into your account on our Services, we give you the option to stay signed into your account for a certain amount of time. If you are using a public or shared computer, we encourage you to decline. You or any other user of the computer/browser you signed in on will be able to view and access most parts of your account and take certain specific actions during this signed in period without any further authorization. The specific actions and account activities that you or any other user of this computer/browser may take include:
+
+- Bid, buy or make an offer on an item
+
+- Check out or add items to your cart
+
+- Purchase an item with PayPal using Faster Checkout (if enabled in your account)
+
+- View the activity header
+
+- View the My eBay page
+
+- View or edit the Watchlist or order details
+
+- View the profile page
+
+- Send member-to-member messages
+
+- Conduct after-sale activities, like leaving feedback, canceling orders, requesting returns or submitting claims
+
+If you attempt to change your password or username, update any other account information or attempt other account activity beyond those listed above, you may be required to enter your password.
+
+You can typically end your signed in session by either signing out and/or clearing your cookies. If you have certain browser privacy settings enabled, simply closing your browser may also end your signed in session. If you are using a public or shared computer, you should sign out and/or clear your cookies when you are done using our Services to protect your account and your personal data.
+
+**Blockchain and Controllership**
+
+Certain features in our marketplace may enable tokens, smart contracts, and/or other digital assets (e.g., immutable tokens for eBay Authenticity Certificates) to be deployed to a public blockchain with your separate agreement to certain terms and conditions. Please note that notwithstanding other provisions in this User Privacy Notice addressing data controllership, the blockchain is an inherently public and decentralised infrastructure that cannot be controlled by any one person or group and is therefore outside of our ability to control. For example, details of blockchain-based transactions are immutable and cannot be deleted by any one person or group.
+
+To the extent that certain Services involve personal data processed on eBay websites or applications such as through account or wallet registration, customer service interactions, or marketing activities, one of the eBay Affiliates is responsible for the processing of your personal data depending on the region in which you reside (see section Controller above). Such eBay Affiliate is also the controller for its independent activities involving your personal data on the blockchain to verify and manage risk involving digital wallets or to enable features for brands, collectors, sellers, traders, or such eBay Affiliate for user engagement or marketing purposes. By contrast, neither eBay Inc. nor an eBay Affiliate is the controller for activities you choose to conduct via the blockchain, publicly visible digital wallets, or other decentralized networks (e.g., which allow you to engage in transactions on public blockchains and which inherently involve personal data placed on the public blockchain ledger). In addition, we may engage third-party partners who may act as independent data controllers to assist to facilitate transactions you request, and your interactions with that third party partner as an independent data controller are governed by the applicable terms of service and privacy policy of that third party.
+
+### eBay and AI
+
+**Responsible AI**
+
+We are committed to developing and using artificial intelligence (AI) responsibly, ensuring that we use AI to enhance the eBay experience and respect the needs of the entire eBay community. To achieve this, we have invested in a robust Responsible AI (RAI) approach at eBay which leverages the RAI principles set out in our RAI Policy. These principles direct the development, deployment, and use of AI at eBay.
+
+**Use of AI**
+
+We may use AI-powered tools and products for various purposes, including:
+
+- To improve and enhance our Services.
+
+- To offer you new or enhanced features and products (such as AI-powered listing generation, image background enhancement and AI assistants).
+
+- To make information about listings and services more accessible, such as by offering AI-generated summaries of product reviews.
+
+- To offer you a more customized and personalized experience.
+
+- To provide you with enhanced customer service, for example, to bring real-time answers to chat, to analyze customer service interactions to improve their quality or to better understand customer pain points, and to help respond to customer queries.
+
+- To support fraud detection, and compliance checks, and to detect suspicious activity on our properties.
+
+- To analyze data for specific patterns (e.g. for market research purposes).
+
+- To support us in our day-to-day work (e.g. to create summaries, to translate text or to generate images).
+
+AI-powered tools and products may involve personal data processing, but this is not necessarily the case. We use both our own AI models and third-party AI models and systems to deliver AI-powered tools and products. If our use of AI involves the processing of personal data, we rely on the legal bases set out in section Purposes and legal bases for data processing and categories of recipients above for the purposes mentioned therein. If we use any AI system that interacts directly with you, we will let you know.
+
+**AI development and training**
+
+Where permitted under applicable law, we use personal data collected from our users to train, test, validate, and align our own AI models as well as third-party AI models and systems that we use for the purposes outlined in this User Privacy Notice. This may include the personal data set out in section What personal data we collect and process. We may combine personal data from our users with data from external sources (e.g. from publicly available sources). The use of personal data for AI development and training is based on our legitimate interest to achieve the objectives outlined under "Use of AI" above.
+
+When training, testing, validating and aligning AI models, we take appropriate steps to mitigate potential privacy impacts (e.g. through filtering, data masking, differential privacy techniques). Where applicable, our steps are based on data protection impact assessments and the legitimate interest assessment that we carry out. These take into account the purpose of the model, the need and suitability of certain training data, as well as measures that can be reasonably taken during training and thereafter.
+
+**AI-related individual rights**
+
+You have rights with regard to your personal data. See section Rights as a data subject above for more details. Your rights also include the right to object to our processing of your personal data for AI development and training purposes.
+
+### Regional and State Privacy Disclosures
+
+For additional regional disclosures for residents of certain U.S. states, including California, please review our U.S. State Privacy Disclosures page. For U.S. sellers (including those in California, Nevada, North Dakota, and Vermont), please follow the link to eBay Commerce Inc.'s U.S. Consumer Privacy Notice. For additional disclosures for specific regions or countries, including Brazil, mainland of People's Republic of China, and the United Kingdom, please review our Regional Privacy Disclosures page.
+
+### Careers Website and Talent Privacy Notice
+
+If you are applying for a job at eBay, please refer to our Talent Privacy Notice. If you wish to manage cookie settings on our Careers website, please visit the eBay Careers Website Cookie Settings page. If you wish to review or delete your personal information from our recruiting systems, please submit a request via the Data Privacy eRequest Tool.
+
+### Biometric Information Privacy Policy
+
+Please see our Biometric Information Privacy Policy for more information about eBay's collection and use of biometric information.
+
+The General Data Protection Regulation (GDPR) is a comprehensive update to existing EU laws that becomes enforceable on May 25, 2018. It is meant to strengthen the protections placed on personal data by introducing robust requirements that will raise and harmonize standards for data protection, security and compliance.
+
+Learn how to contact the Data Protection Officer in your region.
