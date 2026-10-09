@@ -131,6 +131,77 @@ def test_chat_completion_records_call(db: Session, monkeypatch):
     assert record.node == "d1"
 
 
+def test_task_token_usage_synced(db: Session, monkeypatch):
+    """M10 回归：带 task_id 调用后，ReviewTask.token_usage 累加且发布 tokenUsage 事件。
+
+    此前 _record_call 只写 LLMCallRecord → 任务表 token 恒 0、SSE 无 tokenUsage
+    事件 → 前端"已用 token"恒为 0。
+    """
+    from app.models.review_task import ReviewTask
+    from app.core.sse import publish_token_usage
+
+    _seed_config(db)
+    tid = uuid.uuid4()
+    db.add(ReviewTask(id=tid, document_id=uuid.uuid4(), status="running", progress=10))
+    db.commit()
+
+    published: list[dict] = []
+    monkeypatch.setattr(
+        factory, "publish_token_usage", lambda *a, **kw: published.append(kw)
+    )
+
+    def fake_openai(client, model, messages):
+        return {"text": "ok", "input_tokens": 100, "output_tokens": 20, "latency_ms": 10}
+
+    monkeypatch.setattr(factory, "_openai_completion", fake_openai)
+
+    factory.chat_completion(
+        db=db,
+        provider=Provider.BAILIAN,
+        model=None,
+        messages=[{"role": "user", "content": "x"}],
+        node="d1",
+        task_id=str(tid),  # 调用方传 str，验证 UUID 归一化
+    )
+    factory.chat_completion(
+        db=db,
+        provider=Provider.BAILIAN,
+        model=None,
+        messages=[{"role": "user", "content": "y"}],
+        node="d2",
+        task_id=str(tid),
+    )
+
+    task = db.get(ReviewTask, tid)
+    assert task.token_usage == 240  # (100+20) * 2 次调用累加
+    assert len(published) == 2
+    assert published[0]["input_tokens"] == 100
+    assert published[0]["output_tokens"] == 20
+
+
+def test_task_token_usage_skipped_without_task(db: Session, monkeypatch):
+    """task_id 不对应真实任务（如评估脚本）→ 不报错、不推事件。"""
+    _seed_config(db)
+
+    def fake_openai(client, model, messages):
+        return {"text": "ok", "input_tokens": 5, "output_tokens": 5, "latency_ms": 1}
+
+    monkeypatch.setattr(factory, "_openai_completion", fake_openai)
+    called = []
+    monkeypatch.setattr(
+        factory, "publish_token_usage", lambda *a, **kw: called.append(kw)
+    )
+
+    factory.chat_completion(
+        db=db,
+        provider=Provider.BAILIAN,
+        model=None,
+        messages=[{"role": "user", "content": "x"}],
+        task_id=uuid.uuid4(),  # 不存在任务
+    )
+    assert called == []
+
+
 def test_provider_routing(monkeypatch):
     """四 provider 路由：bailian/deepseek/openai 走 OpenAI 兼容，anthropic 走 Anthropic。"""
     routed = []

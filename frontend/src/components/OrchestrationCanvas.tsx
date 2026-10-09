@@ -46,7 +46,7 @@ function StageNode({ data }: { data: { label: string; state: string } }) {
     data.state === "running" ? "#1570EF" : data.state === "done" ? "#12B76A" : data.state === "failed" ? "#D92D20" : "#8A93A6";
   return (
     <div
-      className="rounded-lg border-2 bg-white px-3 py-2 text-sm"
+      className="rounded-lg border-2 bg-card px-3 py-2 text-sm"
       style={{ borderColor: color, minWidth: 110, textAlign: "center" }}
     >
       <span className="font-medium" style={{ color }}>

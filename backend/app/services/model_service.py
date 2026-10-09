@@ -21,8 +21,11 @@ from app.models import ModelConfig
 PROVIDER_DISPLAY: dict[Provider, str] = {
     Provider.BAILIAN: "阿里云百炼",
     Provider.DEEPSEEK: "DeepSeek",
-    Provider.OPENAI: "OpenAI",
+    Provider.OPENAI: "OpenAI（GPT）",
     Provider.ANTHROPIC: "Anthropic",
+    Provider.MODELSCOPE: "魔搭社区",
+    Provider.ZHIPU: "智谱 BigModel",
+    Provider.SILICONFLOW: "硅基流动",
 }
 
 
@@ -93,6 +96,21 @@ def list_models(db: Session) -> list[dict]:
     """列出所有模型配置（含 apiKeyTail 脱敏）。"""
     configs = db.scalars(select(ModelConfig).order_by(ModelConfig.created_at)).all()
     return [to_dict(c) for c in configs]
+
+
+def delete_model(*, db: Session, model_id: uuid.UUID) -> bool:
+    """删除模型配置（激活中的模型不允许删除，避免审查无可用模型）。
+
+    返回是否删除；不存在返回 False。
+    """
+    cfg = db.get(ModelConfig, model_id)
+    if cfg is None:
+        return False
+    if cfg.is_active:
+        raise ValidationError("激活中的模型不可删除，请先启用其他模型", code="model_active")
+    db.delete(cfg)
+    db.commit()
+    return True
 
 
 def test_model(*, provider: Provider, api_key: str, model: str) -> dict:

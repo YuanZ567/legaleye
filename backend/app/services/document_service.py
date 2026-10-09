@@ -45,7 +45,7 @@ def _validate_upload(filename: str, file_bytes: bytes) -> None:
     ext = get_file_extension(filename)
     if ext not in SUPPORTED_EXTENSIONS:
         raise ValidationError(
-            "不支持的文件格式，请上传 PDF 或 Word（.pdf / .docx）",
+            "不支持的文件格式，请上传 PDF、Word 或 Markdown（.pdf / .docx / .md / .txt）",
             code="unsupported_format",
         )
 
@@ -76,6 +76,9 @@ def _extract_text(filename: str, file_bytes: bytes) -> str:
             text = extract_pdf_text(file_bytes)
         elif ext == ".docx":
             text = extract_docx_text(file_bytes)
+        elif ext in {".md", ".markdown", ".txt"}:
+            # Markdown / 纯文本：直接按 UTF-8 解码（金标样例与轻量文档走此通道）
+            text = file_bytes.decode("utf-8", errors="replace")
         else:  # 已在 _validate_upload 拦截，防御性兜底
             raise ValidationError("不支持的文件格式", code="unsupported_format")
     except ScannedPdfError:

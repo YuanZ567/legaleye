@@ -1,10 +1,7 @@
 /** 报告 API（DATA_CONTRACT 4.9）：GET /reports/{taskId} + /export.md。 */
 
-import { get } from "@/api/client";
+import { downloadFile, get } from "@/api/client";
 import type { Report } from "@/api/types";
-
-/** 后端地址（与 client.ts 保持一致）。 */
-const BASE_URL = "http://localhost:8000";
 
 /** GET /reports/{taskId} 拉取报告 JSON。 */
 export async function fetchReport(taskId: string): Promise<Report> {
@@ -12,7 +9,7 @@ export async function fetchReport(taskId: string): Promise<Report> {
   return resp.data;
 }
 
-/** GET /reports/{taskId}/export.md 导出 Markdown 的下载链接。 */
-export function reportMarkdownUrl(taskId: string): string {
-  return `${BASE_URL}/reports/${taskId}/export.md`;
+/** GET /reports/{taskId}/export.md 导出 Markdown（带 JWT 的 blob 下载，M10 修复 401）。 */
+export function exportReportMarkdown(taskId: string): Promise<void> {
+  return downloadFile(`/reports/${taskId}/export.md`, `report-${taskId}.md`);
 }

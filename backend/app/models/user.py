@@ -47,6 +47,10 @@ class User(SQLModel, table=True):
     )
     api_key_tail: str | None = Field(default=None, sa_column=Column(String(8), nullable=True))
 
+    # 账户管理（M10+）：显示名 + 头像（emoji 字符；颜色由前端按 id 派生，不落库）
+    display_name: str | None = Field(default=None, sa_column=Column(String(64), nullable=True))
+    avatar: str | None = Field(default=None, sa_column=Column(String(16), nullable=True))
+
     created_at: Any = Field(
         sa_column=Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     )

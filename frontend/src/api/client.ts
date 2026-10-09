@@ -41,6 +41,11 @@ export function clearAuth(): void {
   window.dispatchEvent(new Event(AUTH_LOGOUT_EVENT));
 }
 
+/** 更新本地存储的当前用户（改资料/头像后同步，token 不变）。 */
+export function updateStoredUser(user: unknown): void {
+  localStorage.setItem(AUTH_USER_KEY, JSON.stringify(user));
+}
+
 /** API 统一响应包裹：{data: T}。 */
 export interface ApiResponse<T> {
   data: T;
@@ -102,6 +107,66 @@ export async function put<T>(path: string, body?: unknown): Promise<T> {
   });
 }
 
+export async function patch<T>(path: string, body?: unknown): Promise<T> {
+  return request<T>(path, {
+    method: "PATCH",
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
+}
+
+/** multipart 上传：自动附加 JWT；禁止手动设置 Content-Type（浏览器自动生成 boundary）。 */
+export async function upload<T>(path: string, formData: FormData): Promise<T> {
+  const token = getToken();
+  const headers: Record<string, string> = {};
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  const resp = await fetch(`${BASE_URL}${path}`, { method: "POST", headers, body: formData });
+  if (!resp.ok) {
+    let detail = `请求失败 (${resp.status})`;
+    try {
+      const body = await resp.json();
+      detail = body?.error?.message ?? detail;
+    } catch {
+      // 非 JSON 响应，保留默认错误
+    }
+    throw new ApiError(detail, resp.status === 401 ? "unauthorized" : "unknown");
+  }
+  return (await resp.json()) as T;
+}
+
 export async function del<T>(path: string): Promise<T> {
   return request<T>(path, { method: "DELETE" });
+}
+
+/** 文件下载：带 JWT 的 GET，响应转 blob 触发浏览器下载（attachment 类接口）。
+ *
+ * M10 修复：报告导出原来是 <a href> 直跳后端，不带 Authorization 头 → 401 导不出。
+ */
+export async function downloadFile(path: string, fallbackName: string): Promise<void> {
+  const token = getToken();
+  const headers: Record<string, string> = {};
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  const resp = await fetch(`${BASE_URL}${path}`, { method: "GET", headers });
+  if (!resp.ok) {
+    let detail = `下载失败 (${resp.status})`;
+    try {
+      const body = await resp.json();
+      detail = body?.error?.message ?? body?.detail ?? detail;
+    } catch {
+      // 非 JSON 响应，保留默认错误
+    }
+    throw new ApiError(detail, resp.status === 401 ? "unauthorized" : "unknown");
+  }
+  const blob = await resp.blob();
+  // 优先用服务端 Content-Disposition 的文件名
+  const dispo = resp.headers.get("Content-Disposition") ?? "";
+  const match = /filename="?([^";]+)"?/i.exec(dispo);
+  const name = match?.[1] ?? fallbackName;
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
 }

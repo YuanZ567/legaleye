@@ -20,7 +20,8 @@ async def _ok_llm(**kwargs):
     return (
         '{"dimension":"d1Collection","verdict":"nonCompliant","level":"high",'
         '"clauseRef":"第五条第1款","description":"超出最小必要","remediation":"缩减",'
-        '"confidence":0.9,"needsHumanReview":false}'
+        '"confidence":0.9,"needsHumanReview":false,'
+        '"evidence":{"text":"超出最小必要范围收集用户个人信息","charRange":[0,0]}}'
     )
 
 
@@ -34,9 +35,17 @@ async def _raise_llm(**kwargs):
 
 
 def test_node_returns_valid_finding():
-    """LLM 返回合法 JSON 且 clauseRef 命中检索 → 过 validators 返回合法 finding。"""
+    """LLM 返回合法 JSON 且 clauseRef 命中检索 → 过 validators 返回合法 finding。
+
+    M10 证据锚定（2026-09-04）：nonCompliant 需能锚定文档原文证据，
+    故 mock 文档文本须包含 description 所述违规内容。
+    """
     node = build_dimension_node("d1", _ok_llm)
-    result = _run(node, retrieval="[第五条第1款 · 个人信息保护法] 收集应当最小必要")
+    result = _run(
+        node,
+        retrieval="[第五条第1款 · 个人信息保护法] 收集应当最小必要",
+        document_text="平台隐私政策称：我们超出最小必要范围收集用户个人信息。",
+    )
     finding = result["findings"][0]
     assert finding["dimension"] == "d1Collection"
     assert finding["verdict"] == "nonCompliant"

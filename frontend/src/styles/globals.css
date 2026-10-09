@@ -2,25 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/* DESIGN.md 14.2：shadcn/ui CSS 变量映射（法眼靛蓝品牌色） */
+/* M10+ 主题改版：公文卷宗风（暖纸底 / 墨色文字 / 朱砂红强调）。
+ * shadcn/ui CSS 变量映射 —— 全站颜色统一走令牌，组件内禁止硬编码。 */
 @layer base {
   :root {
-    --background: #f7f7f5;
-    --foreground: #0e1526;
-    --card: #ffffff;
-    --card-foreground: #0e1526;
-    --primary: #4055e0;
-    --primary-foreground: #ffffff;
-    --secondary: #eef1fd;
-    --secondary-foreground: #3346c4;
-    --muted: #f2f4f7;
-    --muted-foreground: #8a93a6;
-    --border: #e3e7ef;
-    --input: #e3e7ef;
-    --destructive: #d92d20;
-    --destructive-foreground: #ffffff;
-    --ring: #4055e0;
-    --radius: 0.5rem;
+    --background: #f7f5f0;      /* 宣纸底 */
+    --foreground: #1c1917;      /* 墨色 */
+    --card: #fffdf9;            /* 纸面（微暖白） */
+    --card-foreground: #1c1917;
+    --primary: #9e3423;         /* 朱砂印章红（白字对比 7:1） */
+    --primary-foreground: #fffdf9;
+    --secondary: #f1ece1;       /* 淡茶色块 */
+    --secondary-foreground: #7f2a1c;
+    --muted: #f1ece1;
+    --muted-foreground: #7c756b;
+    --border: #dfd9cd;          /* 发丝线 */
+    --input: #dfd9cd;
+    --destructive: #b42318;
+    --destructive-foreground: #fffdf9;
+    --ring: #9e3423;
+    --radius: 0.375rem;         /* 圆角收紧：公文感，不用大圆角 */
   }
 
   * {
@@ -29,5 +30,27 @@
 
   body {
     @apply bg-background font-sans text-foreground antialiased;
+  }
+
+  /* 纸张颗粒氛围层：3% 透明度噪点，替代玻璃/渐变，给纯色底加质感 */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* 键盘焦点：朱砂描边，全局可见 */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  /* 数据密集界面：等宽数字 */
+  table, .font-mono {
+    font-variant-numeric: tabular-nums;
   }
 }

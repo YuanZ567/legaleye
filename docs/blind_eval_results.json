@@ -1,0 +1,2178 @@
+{
+  "generated_at": "2026-09-19T13:40:55.396841",
+  "items": [
+    {
+      "file": "r01_taobao.txt",
+      "raw_chars": 17186,
+      "truncated": true,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "第五条",
+          "evidence": "为实现向您提供我们产品及/或服务的基本功能，您须授权我们收集、使用的必要的信息。如您拒绝提供相应信息，您将无法正常使用我们的产品及/或服务。",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：最小必要、敏感信息单独同意。文档收集个人信息未完全遵循最小必要原则，部分信息收集超出实现处理目的的最小范围",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "satisfied",
+              "evidence": "文档在'二、信息收集及使用'部分列出了不同功能场景下需要收集的个人信息种类与范围"
+            },
+            {
+              "name": "最小必要",
+              "status": "missing",
+              "evidence": "文档提到'为实现向您提供我们产品及/或服务的基本功能，您须授权我们收集、使用的必要的信息。如您拒绝提供相应信息，您将无法正常使用我们的产品及/或服务。'，暗示所有收集信息都是必要且无法拒绝的"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "文档在收集实名认证信息、身份证件信息等敏感个人信息时，未明确提及取得用户单独同意，而是作为提供服务的必要条件"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "本隐私政策将帮助您了解以下内容：一、适用范围 二、信息收集及使用 三、数据使用过程中涉及的合作方及转移、公开个人信息 四、您的权利 五、信息的存储 六、政策的更新 七、未成年人个人信息保护 八、联系我们",
+          "description": "文档基本符合告知与同意要求，提供了处理目的、方式和个人信息种类的说明，以及撤回同意的途径，但对保存期限的说明不够明确，对敏感信息单独同意的表述不够清晰。",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "satisfied",
+              "evidence": "为实现向您提供我们产品及/或服务的基本功能，您须授权我们收集、使用的必要的信息。"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "unknown",
+              "evidence": "为实现认证目的，您需要主动提供相关真实身份信息（姓名、证件号码等证件信息或面部识别信息，根据实际情况可能有所不同，以页面提示为准）并授权我们通过国家权威可信身份认证机构进行信息核验"
+            },
+            {
+              "name": "撤回同意",
+              "status": "satisfied",
+              "evidence": "如您不想接受我们给您发送的广告或商业性消息，您可通过短信、邮件或电话回复退订或通过客服等我们提供的其他方式进行退订或关闭"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "",
+          "description": "purpose_minimization_agent LLM 调用失败，已降级为待人工复核",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "第二十二条",
+          "evidence": "为向您展示和推荐您可能感兴趣的商品或服务信息，我们会基于您的偏好特征在淘宝及其他第三方应用程序或终端向您推送您可能感兴趣的商业广告及其他信息",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：告知共享、取得同意、同等保护。文档向第三方提供个人信息，未告知接收方信息亦未取得单独同意",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "missing",
+              "evidence": "文档未明确告知接收方的名称、联系方式、处理目的、处理方式和个人信息的种类"
+            },
+            {
+              "name": "取得同意",
+              "status": "missing",
+              "evidence": "文档提到'我们会在获取您的同意后与该关联方或第三方共享必要信息'，但未明确说明是单独同意"
+            },
+            {
+              "name": "同等保护",
+              "status": "missing",
+              "evidence": "文档未说明接收方是否有同等保护措施或签订数据保护协议"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "第三十九条",
+          "evidence": "例如 涉及跨境交易时您需要提供您的身份证件信息以完成清关。",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：单独同意、告知境外接收方、合法出境路径。文档未明确说明向境外提供个人信息时的单独同意和告知义务，也未提及合法出境路径",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "合法出境路径",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "如对本政策内容有任何疑问、意见或建议，您可通过本政策文末的联系方式与我们联系。",
+          "description": "文档未明确提供查询、复制、更正、删除个人信息的便捷途径，也未说明响应时限",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "更正补充",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "删除注销",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "响应时限",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "第三十九条",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "r02_jd.txt",
+      "raw_chars": 11348,
+      "truncated": true,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "compliant",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "evidence": "在您使用上述功能过程中，我们会收集使用与您有关的必要个人信息，包括手机号码、收货人姓名、收货地址、联系电话、支付时间、支付金额、支付方式等，具体字段详见本隐私政策中加粗的个人信息",
+          "description": "文档明确告知收集范围，遵循最小必要原则，对敏感信息收集有授权说明",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "satisfied",
+              "evidence": "在您使用上述功能过程中，我们会收集使用与您有关的必要个人信息，包括手机号码、收货人姓名、收货地址、联系电话、支付时间、支付金额、支付方式等，具体字段详见本隐私政策中加粗的个人信息"
+            },
+            {
+              "name": "最小必要",
+              "status": "satisfied",
+              "evidence": "除基本功能外，我们还为您提供部分附加功能...您可选择单独同意或不同意我们收集使用的这部分涉及的个人信息"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "satisfied",
+              "evidence": "在您明确授权后，您在首页、秒送、搜索页浏览商品时，我们会收集您的位置相关信息（GPS位置信息、WLAN接入点、经纬度、wifi列表、基站信息、wifi mac）"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "除基本功能外，我们还为您提供部分附加功能...您可选择单独同意或不同意我们收集使用的这部分涉及的个人信息",
+          "description": "文档未明确区分敏感信息并说明其单独同意机制，且未提供完整的撤回同意途径",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "satisfied",
+              "evidence": "在您使用上述功能过程中，我们会收集使用与您有关的必要个人信息，包括手机号码、收货人姓名、收货地址、联系电话、支付时间、支付金额、支付方式等"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "除基本功能外，我们还为您提供部分附加功能...您可选择单独同意或不同意我们收集使用的这部分涉及的个人信息"
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": "如您不想接收商业性短信，可以通过短信提示回复退订或提供的其他方式进行退订或关闭来取消我们给您发送的手机促销短信"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "evidence": "我们会根据您的上述信息以及您的收货地址，进行数据分析、预测您的偏好特征，向您推送可能感兴趣的商品/服务、商业广告、商业性短信及其他营销信息",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：目的明确、无目的外使用。文档存在目的外使用行为，将用户信息用于商业广告和营销推送，超出基本功能目的；附加功能的处理目的指向不明，不符合目的明确性要求",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "missing",
+              "evidence": "除基本功能外，我们还为您提供部分附加功能，包括基于权限的购物体验提供服务以及信息公开发布功能。您可选择单独同意或不同意我们收集使用的这部分涉及的个人信息，如您拒绝提供，您将无法正常使用相关附加功能，但不会影响您使用我们的基本功能。"
+            },
+            {
+              "name": "无目的外使用",
+              "status": "missing",
+              "evidence": "我们会根据您的上述信息以及您的收货地址，进行数据分析、预测您的偏好特征，向您推送可能感兴趣的商品/服务、商业广告、商业性短信及其他营销信息"
+            },
+            {
+              "name": "个性化推荐控制",
+              "status": "satisfied",
+              "evidence": "如您不想接收搜索页为您综合推荐的商品或服务，可以选择按销量、价格或者其他页面可选的维度接收相应的搜索结果展示"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "第二十二条",
+          "evidence": "如果您是以香港手机号码注册使用京东服务，您理解并同意，我们可能会向帮助我们进行市场推广或营销的第三方公司分享您的个人信息。",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：告知共享、取得同意、同等保护。文档向第三方提供个人信息，未完全告知接收方信息，且部分共享场景未明确取得单独同意",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "missing",
+              "evidence": "文档提到'共享内容及目的详见此处'，但未提供具体共享对象、范围与目的的详细信息"
+            },
+            {
+              "name": "取得同意",
+              "status": "missing",
+              "evidence": "对于香港用户，文档仅提到'您理解并同意'，未明确说明是否取得单独同意"
+            },
+            {
+              "name": "同等保护",
+              "status": "missing",
+              "evidence": "文档仅明确提到了跨境传输时的数据保护协议要求，未说明其他共享场景的同等保护措施"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "第三十九条",
+          "evidence": "如您使用跨境交易服务，且需要向境外传输您的个人信息完成交易的，我们会单独获取您的授权同意并要求接收方按照双方签署的数据保护协议、本隐私政策以及相关法律法规要求来处理您的个人信息。",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：告知境外接收方。文档未明确告知用户境外接收方的名称、联系方式、处理目的、处理方式和个人信息的种类，违反个人信息保护法第39条",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "satisfied",
+              "evidence": "如您使用跨境交易服务，且需要向境外传输您的个人信息完成交易的，我们会单独获取您的授权同意"
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "合法出境路径",
+              "status": "satisfied",
+              "evidence": "要求接收方按照双方签署的数据保护协议、本隐私政策以及相关法律法规要求来处理您的个人信息"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "第八条",
+          "evidence": "除法律法规规定外，您有权随时访问和更正您的个人信息，具体包括：（1）账号信息\nPC端路径：进入网站-点击\"我的京东\"-点击\"账户设置\"菜单中\"个人信息\"，如您需要变更您的实名认证信息，您可拨打95118服务",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：查阅复制、删除注销、响应时限、撤回同意。文档未提供完整的个人信息查询、复制、删除、撤回同意途径及响应时限",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "missing",
+              "evidence": "文档仅提供PC端查询路径，未提供移动端路径，且未提及复制个人信息途径"
+            },
+            {
+              "name": "更正补充",
+              "status": "satisfied",
+              "evidence": "PC端路径：进入网站-点击\"我的京东\"-点击\"账户设置\"菜单中\"个人信息\""
+            },
+            {
+              "name": "删除注销",
+              "status": "missing",
+              "evidence": "文档仅提及删除权利，未提供具体删除途径或操作方法"
+            },
+            {
+              "name": "响应时限",
+              "status": "missing",
+              "evidence": "文档中未说明个人信息请求响应时限"
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": "文档仅提及撤回同意权利，未提供具体撤回途径或操作方法"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "第八条",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "r03_wechat.txt",
+      "raw_chars": 20328,
+      "truncated": true,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "notApplicable",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "为优化服务体验，我们可能需要您提供更多个人信息，包括手机号、身份证号等，以便为您打造更精准的个性化推荐。",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档收集的个人信息范围超出实现处理目的的最小必要范围，违反最小必要原则",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "satisfied",
+              "evidence": "1.我们收集、使用的信息\n在你使用微信服务的过程中，我们会按照如下方式收集、使用你在使用服务时主动提供或因为使用服务而产生的信息："
+            },
+            {
+              "name": "最小必要",
+              "status": "missing",
+              "evidence": "为优化服务体验，我们可能需要您提供更多个人信息，包括手机号、身份证号等，以便为您打造更精准的个性化推荐。"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "为说明我们会如何收集、使用和存储你的个人信息及你享有何种权利，我们将通过《微信隐私保护指引摘要》以及本指引向你阐述相关事宜",
+          "description": "文档未以显著方式清晰告知处理种类、目的与保存期限，敏感信息未明确说明取得单独同意",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "missing",
+              "evidence": "为说明我们会如何收集、使用和存储你的个人信息及你享有何种权利，我们将通过《微信隐私保护指引摘要》以及本指引向你阐述相关事宜"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "当你使用某些功能时，我们会在取得你的同意后，收集你的敏感个人信息。如你在使用推荐通讯录朋友功能时，我们会收集你的手机联系人信息。"
+            },
+            {
+              "name": "撤回同意",
+              "status": "unknown",
+              "evidence": "你可以通过本指引所列途径及方式查阅、更正、复制、删除你的个人信息，也可以撤回同意、注销账号、投诉举报以及设置个性化广告等隐私功能。"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "",
+          "description": "purpose_minimization_agent LLM 调用失败，已降级为待人工复核",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "第二十二条",
+          "evidence": "我们不会主动共享或转让你的个人信息至深圳市腾讯计算机系统有限公司外的第三方。如存在其他共享或转让你的个人信息，或你需要我们将你的个人信息共享或转让至深圳市腾讯计算机系统有限公司外的第三方情形时，我们会直接取得或确认第三方取得你对上述行为的明示同意，但法律法规另有规定或因保护用户权益或保护微信生态安全需要的除外。此外，我们会对对外提供信息的行为进行风险评估。",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：告知共享、同等保护。文档在第三方委托与共享方面未完全满足合规要求，缺少对共享对象、范围与目的的明确告知，且未明确说明接收方是否有同等保护措施或签订数据保护协议",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "missing",
+              "evidence": "文档未明确告知接收方的名称、联系方式、处理目的、处理方式和个人信息的种类"
+            },
+            {
+              "name": "取得同意",
+              "status": "satisfied",
+              "evidence": "文档提到'我们会直接取得或确认第三方取得你对上述行为的明示同意'"
+            },
+            {
+              "name": "同等保护",
+              "status": "missing",
+              "evidence": "文档未明确说明接收方是否有同等保护措施或签订数据保护协议"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": null,
+          "description": "文档未明确说明跨境数据传输的具体情况，也未提及是否取得单独同意、是否告知境外接收方信息等，需要人工审查",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "合法出境路径",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "第八条",
+          "evidence": "5.你可以通过本指引所列途径及方式查阅、更正、复制、删除你的个人信息，也可以撤回同意、注销账号、投诉举报以及设置个性化广告等隐私功能。",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：查阅复制、更正补充、删除注销、响应时限、撤回同意。文档未提供查询、更正、删除个人信息的具体途径和响应时限",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "更正补充",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "删除注销",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "响应时限",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "第八条",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "r04_shein.txt",
+      "raw_chars": 23673,
+      "truncated": true,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "notApplicable",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "Your personal information is collected and used by us to support a range of different activities or business purposes. The purposes and types of information we collect are listed in the chart below and should be understood to include uses of your personal data that are compatible with the purposes listed.",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确列出收集的个人信息种类和范围，也未明确说明收集的信息是否限于实现处理目的的最小必要范围",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "unknown",
+              "evidence": "The purposes and types of information we collect are listed in the chart below and should be understood to include uses of your personal data that are compatible with the purposes listed."
+            },
+            {
+              "name": "最小必要",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "satisfied",
+              "evidence": "We do not collect or store sensitive information or special categories of information."
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "Your personal information is collected and used by us to support a range of different activities or business purposes. The purposes and types of information we collect are listed in the chart below and should be understood to include uses of your personal data that are compatible with the purposes listed.",
+          "description": "文档未以显著方式清晰告知处理目的、方式、个人信息种类与保存期限，且未提供撤回同意的明确途径",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "missing",
+              "evidence": "The purposes and types of information we collect are listed in the chart below and should be understood to include uses of your personal data that are compatible with the purposes listed."
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "unknown",
+              "evidence": "We do not collect or store sensitive information or special categories of information."
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "Your personal information is collected and used by us to support a range of different activities or business purposes.",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确具体处理目的，且存在可能超出初始目的使用的情况",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "missing",
+              "evidence": "Your personal information is collected and used by us to support a range of different activities or business purposes."
+            },
+            {
+              "name": "无目的外使用",
+              "status": "missing",
+              "evidence": "We may disclose your personal information for any purpose with your valid, documented consent."
+            },
+            {
+              "name": "个性化推荐控制",
+              "status": "missing",
+              "evidence": "While these cookies can be disabled, this may result in less functionality during your use of our Site."
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "notApplicable",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "We may share your personal information with our related group companies and, in some cases, other affiliates of our corporate group, based on our legitimate interests for business maintenance purposes, or to provide you with the Site. We may share your personal information with the following types of third-party service providers as set out in the table below:",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档向第三方提供个人信息，未明确告知接收方信息（名称、联系方式等）且未明确取得单独同意",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "missing",
+              "evidence": "文档未明确告知接收方的名称或联系方式"
+            },
+            {
+              "name": "取得同意",
+              "status": "missing",
+              "evidence": "文档仅提到'valid, documented consent'，未明确说明是单独同意"
+            },
+            {
+              "name": "同等保护",
+              "status": "unknown",
+              "evidence": "文档提到'strict contracts'，但未明确说明合同中是否包含数据保护条款"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "notApplicable",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "The Site is owned and operated by Roadget Business Pte. Ltd., 12 Marina Boulevard, #15-01, Marina Bay Financial Centre, Singapore 018982.",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确说明向境外提供个人信息的情况，未取得单独同意，也未告知境外接收方详细信息",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "合法出境路径",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "The Company is operating the Site, and therefore, may act as a \"controller\" of your personal data, and is also responsible for processing and protecting your personal data or personal information.",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未提供查询、复制、更正、删除个人信息的便捷途径及撤回同意的机制",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "更正补充",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "删除注销",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "响应时限",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "r05_temu.txt",
+      "raw_chars": 30607,
+      "truncated": true,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "notApplicable",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "We will collect other information that you provide for purposes as described in this Privacy Policy or for any other purpose disclosed to you before or at the time we collect your information.",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档收集个人信息可能超出实现处理目的的最小必要范围，且未明确说明收集敏感个人信息是否取得单独同意",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "satisfied",
+              "evidence": "In the course of providing and improving our Service, we collect your personal information for the purposes described in this Privacy Policy. The following are the types of personal information that we collect:"
+            },
+            {
+              "name": "最小必要",
+              "status": "missing",
+              "evidence": "We will collect other information that you provide for purposes as described in this Privacy Policy or for any other purpose disclosed to you before or at the time we collect your information."
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "In the course of providing and improving our Service, we collect your personal information for the purposes described in this Privacy Policy. The following are the types of personal information that we collect:",
+          "description": "文档未以显著方式清晰告知处理目的、方式、个人信息种类与保存期限，且敏感信息处理未明确取得单独同意",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "missing",
+              "evidence": "In the course of providing and improving our Service, we collect your personal information for the purposes described in this Privacy Policy. The following are the types of personal information that we collect:"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "In accordance with applicable laws and/or requirements of public authorities (e.g., customs authorities), we may collect information that may personally identify you (e.g., your ID number and passport number) for the purpose of customs clearance to fulfil orders, and this information will be stored securely."
+            },
+            {
+              "name": "撤回同意",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "In the course of providing and improving our Service, we collect your personal information for the purposes described in this Privacy Policy.",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确列出所有处理目的，仅笼统表述'for the purposes described in this Privacy Policy'，违反了个人信息保护法第5条关于处理目的应当明确、合理且与处理目的直接相关的规定",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "missing",
+              "evidence": "文档仅笼统表述'for the purposes described in this Privacy Policy'，未明确列出所有具体处理目的"
+            },
+            {
+              "name": "无目的外使用",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "notApplicable",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "We receive and collect your personal information from other third-party sources, such as: Data providers. Marketing and advertising partners. Public authorities, public sources, and rights holders. Our payment processors. Merchandise partners.",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未告知接收方具体信息且未取得单独同意",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "missing",
+              "evidence": "We receive and collect your personal information from other third-party sources, such as: Data providers. Marketing and advertising partners."
+            },
+            {
+              "name": "取得同意",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "同等保护",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "",
+          "description": "文档未明确涉及向境外提供个人信息的处理行为",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "In this Privacy Policy, we also explain the rights you have with regard to your personal information. For more information, see the \"Your Rights and Choices\" section below.",
+          "description": "文档提及'Your Rights and Choices'部分，但未提供具体内容，无法确认是否提供数据主体权利的行使途径",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "r06_meituan.txt",
+      "raw_chars": 15839,
+      "truncated": true,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "基于法律法规要求以及保护您的人身财产安全、依照平台规则处理用户纠纷之需要，通过记录用户行为收集您的行程信息，如：出发地、到达地、行踪轨迹、时长及里程数信息等",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：敏感信息单独同意。文档在收集敏感个人信息（如行踪轨迹）时未明确说明是否取得单独同意，违反敏感个人信息单独同意要求",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "satisfied",
+              "evidence": "在您注册成为美团打车用户时，您需要至少提供手机号码以创建美团打车账号，并完善相关的网络身份识别信息（如头像、昵称及登录密码等）"
+            },
+            {
+              "name": "最小必要",
+              "status": "satisfied",
+              "evidence": "除法律另有规定外，我们仅会在实现目的所必需的最短时间内留存您的相关个人信息"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "基于法律法规要求以及保护您的人身财产安全、依照平台规则处理用户纠纷之需要，通过记录用户行为收集您的行程信息，如：出发地、到达地、行踪轨迹、时长及里程数信息等"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "除法律另有规定外，我们仅会在实现目的所必需的最短时间内留存您的相关个人信息。如您希望详细了解我们所收集的具体各项个人信息及对应的场景，请查阅概要后的隐私政策正文。",
+          "description": "文档未以显著方式清晰告知各类个人信息的具体保存期限，仅笼统表述'在实现目的所必需的最短时间内留存'",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "missing",
+              "evidence": "除法律另有规定外，我们仅会在实现目的所必需的最短时间内留存您的相关个人信息。"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "satisfied",
+              "evidence": "您可以通过我们的App中提供的功能设置进行上述操作。如果您无法通过上述方式进行管理，您可以通过我们以下提供的联系方式联系我们，我们将在15天内回复您的要求。"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "compliant",
+          "level": "low",
+          "clauseRef": "第五条",
+          "evidence": "经您授权，我们会收集您的地理位置信息，以便您不需要手动输入地理坐标即可获得位置推荐、帮助您选择上车、下车点、顺利与驾驶员会面等出行服务",
+          "description": "文档明确了各类个人信息的收集目的，并承诺不会将信息用于未载明的其他用途",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "satisfied",
+              "evidence": "经您授权，我们会收集您的地理位置信息，以便您不需要手动输入地理坐标即可获得位置推荐、帮助您选择上车、下车点、顺利与驾驶员会面等出行服务"
+            },
+            {
+              "name": "无目的外使用",
+              "status": "satisfied",
+              "evidence": "如果我们将信息用于本政策未载明的其他用途，或者将基于特定目的收集而来的信息用于其他目的时，会单独征求您的授权同意。"
+            },
+            {
+              "name": "个性化推荐控制",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "第二十二条",
+          "evidence": "我们可能会与我们的关联公司以及其他合作商等第三方共享或委托其处理您的部分个人信息。目前，除再次获得您明确同意或授权外，此类共享或委托处理涉及的主要情形包括：根据行政、司法等有权机关的要求提供必要信息；为提供账号一致性服务与关联公司共享必要信息；为提供如代表我们发出推送通知的通讯服务商、处理银行卡的支付机构、第三方验证机构等。",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：告知共享、取得同意。文档向第三方提供个人信息，未明确告知接收方名称、联系方式、处理目的、处理方式和个人信息的种类，也未明确说明是否取得单独同意",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "取得同意",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "同等保护",
+              "status": "satisfied",
+              "evidence": "我们会与其签署严格的信息保护和保密协定，要求他们遵守协议并采取相关的安全措施来保护您的个人信息。"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "文档中未找到与跨境、境外、出境相关的明确表述，仅提到与关联公司及第三方共享信息，但未说明这些方是否位于境外",
+          "description": "文档未涉及跨境提供个人信息的行为，未提及任何境外接收方或跨境传输措施",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "合法出境路径",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "unclear",
+          "level": "low",
+          "clauseRef": "",
+          "evidence": "您有权管理您的个人信息，包括查询、更正和删除您的账户信息、订单信息、常用地址、信息删除，改变您的授权同意的范围或撤回授权，以及注销您的账号。您可以通过我们的App中提供的功能设置进行上述操作。如果您无法通过上述方式进行管理，您可以通过我们以下提供的联系方式联系我们，我们将在15天内回复您的要求。",
+          "description": "文档提供了查询、更正、删除个人信息的途径，并支持撤回同意和注销账号",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "satisfied",
+              "evidence": "您有权管理您的个人信息，包括查询、更正和删除您的账户信息、订单信息、常用地址、信息删除"
+            },
+            {
+              "name": "更正补充",
+              "status": "satisfied",
+              "evidence": "您有权管理您的个人信息，包括查询、更正和删除您的账户信息、订单信息、常用地址、信息删除"
+            },
+            {
+              "name": "删除注销",
+              "status": "satisfied",
+              "evidence": "您有权管理您的个人信息，包括查询、更正和删除您的账户信息、订单信息、常用地址、信息删除，以及注销您的账号"
+            },
+            {
+              "name": "响应时限",
+              "status": "satisfied",
+              "evidence": "如果您无法通过上述方式进行管理，您可以通过我们以下提供的联系方式联系我们，我们将在15天内回复您的要求。"
+            },
+            {
+              "name": "撤回同意",
+              "status": "satisfied",
+              "evidence": "您有权管理您的个人信息，包括改变您的授权同意的范围或撤回授权"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "第三十八条",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "r07_alipay.txt",
+      "raw_chars": 15715,
+      "truncated": true,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "第五条",
+          "evidence": "为了提升您的服务体验及改进服务质量，或者为您推荐更优质或更适合的服务，我们会收集您使用我们服务的操作记录、您与客户服务团队联系时提供的信息及您参与问卷调查时向我们发送的信息",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：最小必要、敏感信息单独同意。文档收集个人信息部分超出实现处理目的的最小必要范围，且未明确说明收集敏感个人信息时是否取得单独同意",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "satisfied",
+              "evidence": "根据相关法律法规及国家标准，我们可能在下列情形下依法处理您的个人信息：（1）取得您的同意；（2）根据您的要求订立和履行合同所必需的；..."
+            },
+            {
+              "name": "最小必要",
+              "status": "missing",
+              "evidence": "为了提升您的服务体验及改进服务质量，或者为您推荐更优质或更适合的服务，我们会收集您使用我们服务的操作记录、您与客户服务团队联系时提供的信息及您参与问卷调查时向我们发送的信息"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "当您的个人信息处理属于前述第（2）至第（10）项情形时，我们可能会依据所适用法律法规的要求而无需再征得您的同意。",
+          "description": "文档未明确说明对敏感个人信息的处理是否需要单独同意",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "satisfied",
+              "evidence": "本政策将帮助您了解以下内容：1 我们如何收集个人信息 2 我们如何使用Cookie、Beacon、Proxy等技术 3 我们如何存储和保护个人信息 4 我们如何使用个人信息 5 我们如何对外提供个人信息 6 您如何实现您的个人信息权利 7 对第三方责任的声明 8 我们如何保护未成年人的信息 9 本政策的适用及更新 10 本政策中关键词说明"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "当您的个人信息处理属于前述第（2）至第（10）项情形时，我们可能会依据所适用法律法规的要求而无需再征得您的同意。"
+            },
+            {
+              "name": "撤回同意",
+              "status": "satisfied",
+              "evidence": "如您不想接受我们给您发送的商业电子信息，您可通过接收信息的短信、邮件或电话回复退订，通过客户端发送的消息通知，您可以通过终端设备的通知设置页面进行设置修改。您也可以通过客服等我们提供的其他方式进行退订或关闭；"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "evidence": "为了提升用户服务体验，为用户推荐更为优质或适合的信息内容、商品和服务，我们会在合法合规的前提下将收集的基于支付宝账号形成的个人信息（包括身份特征、设备信息、位置信息、网络信息、交易信息、操作记录以及其他您主动授权的个人信息）进行综合分析，形成用户画像，提取用户的相关特征，用于在我们和/或我们的关联公司提供的产品和服务中，向用户推荐其可能感兴趣的广告、商业性电子信息和其他信息内容。",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：无目的外使用。文档将收集的信息用于用户画像和个性化广告推荐，可能超出原始服务目的，且未明确说明这些用途与原始目的的直接相关性",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "satisfied",
+              "evidence": "我们如何在收集个人信息部分列出了处理个人信息的10种情形，包括取得同意、履行合同必需、履行法定义务等。"
+            },
+            {
+              "name": "无目的外使用",
+              "status": "missing",
+              "evidence": "将收集的基于支付宝账号形成的个人信息用于用户画像和广告推荐，可能超出原始服务目的。"
+            },
+            {
+              "name": "个性化推荐控制",
+              "status": "satisfied",
+              "evidence": "如您希望管理我们在支付宝客户端向您发送的个性化广告，您可以在\"我的-设置-用户保护中心-隐私保\""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "第二十二条",
+          "evidence": "此外，我们也会在前述关联方履行向您提供服务的必要范围内共享您的其他账号信息（如实名信息、绑定手机号、地址和其他您主动授权的账号信息），无需您另行手动提交。",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：取得同意。文档向第三方提供个人信息时，未明确告知是否取得您的单独同意",
+          "requirement_check": [
+            {
+              "name": "取得同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "第三十九条",
+          "evidence": "我们在中华人民共和国境内收集和产生的个人信息将存储在中华人民共和国境内。如部分产品涉及跨境业务，我们需要向境外机构传输境内收集的相关个人信息的，我们会按照法律法规和相关监管部门的规定执行，并通过签订协议、现场核查等有效措施，要求境外机构为所获得的您的个人信息保密。",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：单独同意、告知境外接收方。文档提及向境外机构传输个人信息，但未明确说明是否取得单独同意和告知境外接收方信息，违反个人信息保护法第39条",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "合法出境路径",
+              "status": "unknown",
+              "evidence": "我们会按照法律法规和相关监管部门的规定执行，并通过签订协议"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "如您希望管理我们在支付宝客户端向您发送的个性化广告，您可以在\"我的-设置-用户保护中心-隐私保",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未提供查询、复制、更正、删除个人信息的完整便捷途径，未明确说明响应时限",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "更正补充",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "删除注销",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "响应时限",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "第三十九条",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "r08_douyin.txt",
+      "raw_chars": 27865,
+      "truncated": true,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "compliant",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "evidence": "根据《常见类型移动互联网应用程序必要个人信息范围规定》，抖音属于短视频类应用程序。结合该类别的基本功能服务界定，并结合用户日常在抖音内的使用情况，我们划定了基础服务的范围，包括内容浏览、搜索、账号服务、信息发布、互动交流等功能。",
+          "description": "文档明示了个人信息收集范围，并区分基本功能模式和完整功能模式，收集信息限于实现处理目的的最小必要范围",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "satisfied",
+              "evidence": "1.我们如何收集和使用个人信息部分详细说明了不同场景下收集的个人信息种类与范围。"
+            },
+            {
+              "name": "最小必要",
+              "status": "satisfied",
+              "evidence": "如您希望我们仅在履行法定义务的限度内，收集您的必要信息，您可点击\"了解基本功能模式\"或相关设置按钮了解该模式并选择进行设置。在该模式下，我们仅能向您提供一定时长的视频浏览及搜索的基本功能。"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "我们将在隐私政策中逐项说明相关情况，有关您个人信息权益的重要条款已用加粗形式提示，请特别关注。",
+          "description": "文档未以显著方式清晰告知个人信息种类与保存期限，敏感信息单独同意机制不明确，且未提供撤回同意的明确途径",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "missing",
+              "evidence": "文档未明确告知各类个人信息的具体种类和保存期限，仅提及'将在隐私政策中逐项说明'，但未提供具体内容。"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "文档提及'该脸部图像或视频属于您的个人敏感信息'和'精确定位信息是个人敏感信息'，但未明确说明是否已取得用户的单独同意。"
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": "文档未提供明确的撤回同意途径，虽然提及'您可以通过本隐私政策第3.1.4条中描述的路径自行设置内容的可见范围'，但未明确说明这是撤回同意的途径。"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "部分搜索结果、相关搜索词将可能根据您的搜索/浏览历史、位置信息、日志信息等进行展示",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档存在超出初始目的的使用情况，且未提供充分的个性化推荐控制选项",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "satisfied",
+              "evidence": "我们收集这些信息是为了帮助您完成注册。收集手机号码是履行国家法律法规关于网络实名制（真实身份信息认证）要求的必要信息"
+            },
+            {
+              "name": "无目的外使用",
+              "status": "missing",
+              "evidence": "部分搜索结果、相关搜索词将可能根据您的搜索/浏览历史、位置信息、日志信息等进行展示"
+            },
+            {
+              "name": "个性化推荐控制",
+              "status": "missing",
+              "evidence": "您可以根据本隐私政策第3.1.5条的介绍关闭个性化的内容推荐；关闭后，在您发布内容前，我们不会收集素材特征"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "第二十二条",
+          "evidence": "您可以使用第三方账号注册、登录抖音，但需要授权我们获取您在第三方平台的信息（头像、昵称等公开信息以及您授权的其他信息），用于生成与该第三方账号绑定的抖音账号",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：告知共享、取得同意、同等保护。文档向第三方提供个人信息，未告知接收方信息亦未取得单独同意",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "missing",
+              "evidence": "文档未明确告知向第三方提供个人信息的接收方具体信息"
+            },
+            {
+              "name": "取得同意",
+              "status": "missing",
+              "evidence": "文档仅提到'授权'，未明确说明已取得您的单独同意"
+            },
+            {
+              "name": "同等保护",
+              "status": "missing",
+              "evidence": "文档未说明接收方的同等保护措施或签订的数据保护协议"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "",
+          "description": "文档未提及跨境提供个人信息的相关内容",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "notApplicable",
+          "level": "low",
+          "clauseRef": "",
+          "evidence": "下文将帮您详细了解我们如何收集、使用、存储、传输、公开与保护个人信息；帮您了解查询、更正、补充、删除、复制、转移个人信息的方式。其中，有关您个人信息权益的重要内容已用加粗形式提示，请特别关注。",
+          "description": "文档提及将提供查询、更正、补充、删除、复制、转移个人信息的方式，但未在提供的文本片段中包含这些具体内容",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "更正补充",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "删除注销",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "响应时限",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "r09_pdd.txt",
+      "raw_chars": 8456,
+      "truncated": true,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "第五条",
+          "evidence": "为实现网上购物、优化我们的产品与/服务及保障安全所必须的功能，您须授权拼多多收集、使用您的如下信息: 用户注册所需信息 您使用本人手机号码注册成为拼多多用户时，我们将通过发送短信验证码的方式来验证您的身份是否有效。在注册成为拼多多用户的过程中，若您提供以下额外信息补全个人资料，将有助于我们给您提供更优质更个性化的服务，上述额外信息包括您的头像、昵称、性别、常住地、生日、个性签名等。若您不提供这些额外信息，不会影响您网上购物的基本功能。",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：最小必要、敏感信息单独同意。文档收集超出实现处理目的最小必要范围的信息，违反最小必要原则",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "satisfied",
+              "evidence": "文档明确列出了收集的个人信息种类与范围，包括用户注册所需信息、展示商品与/服务所需信息、交易及售后所需信息等"
+            },
+            {
+              "name": "最小必要",
+              "status": "missing",
+              "evidence": "文档收集'头像、昵称、性别、常住地、生日、个性签名'等额外信息，虽然不影响基本功能，但超出了实现注册和购物目的的最小必要范围"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "文档收集位置信息、摄像头信息、相册信息、麦克风信息、通讯录信息等敏感信息，但仅通过'当您开启任一权限即代表您授权我们收集和使用该项信息'的概括性同意，未明确取得单独同意"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "我们只会在达成本政策所述目的所需期限内保留您的个人信息，除非需要延长保留期或应法律法规的允许或要求。根据部分商品或服务的特点，您可能还需提供相关身份信息(如您的身份证、军官证、护照、港澳台通行证、驾驶证、社保卡、学生证或相关证件号码等)、电子邮箱、您本人的照片或视频等",
+          "description": "文档未明确列出每种个人信息的具体保存期限，且未明确说明对敏感个人信息的处理需要单独同意",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "missing",
+              "evidence": "我们只会在达成本政策所述目的所需期限内保留您的个人信息，除非需要延长保留期或应法律法规的允许或要求。"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "根据部分商品或服务的特点，您可能还需提供相关身份信息(如您的身份证、军官证、护照、港澳台通行证、驾驶证、社保卡、学生证或相关证件号码等)、电子邮箱、您本人的照片或视频等"
+            },
+            {
+              "name": "撤回同意",
+              "status": "satisfied",
+              "evidence": "您可在您的设备中逐项查看上述权限的状态，并可自行决定这些权限的开启或关闭。当您开启任一权限即代表您授权我们收集和使用该项信息来实现对应目标。您一旦关闭任一权限即代表您取消了授权，我们将不再继续收集和使用该项个人信息，也无法为您实现该授权所对应目标。"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "evidence": "我们可能会收集您的订单信息、浏览记录、浏览习惯等进行数据分析以描述用户特征，用来为您展示或推荐您感兴趣的商品或服务信息",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：无目的外使用。文档中存在超出初始目的的使用行为，如将订单信息、浏览记录等用于描述用户特征并推荐商品，将不同服务的信息结合用于提供更个性化的服务",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "satisfied",
+              "evidence": "为实现网上购物、优化我们的产品与/服务及保障安全所必须的功能，您须授权拼多多收集、使用您的如下信息"
+            },
+            {
+              "name": "无目的外使用",
+              "status": "missing",
+              "evidence": "我们可能会收集您的订单信息、浏览记录、浏览习惯等进行数据分析以描述用户特征，用来为您展示或推荐您感兴趣的商品或服务信息"
+            },
+            {
+              "name": "个性化推荐控制",
+              "status": "satisfied",
+              "evidence": "如您不希望接收上述信息，可通过退订功能退订"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "第二十二条",
+          "evidence": "我们可能会向合作伙伴(如提供商品或技术、广告等服务的供应商、拼多多商家、委托我们进行推广的合作伙伴、代表我们发出信息的通讯服务商、支付机构等)或其他第三方共享您的信息，以保障为您提供的服务顺利完成。但我们仅会出于合法、正当、必要、特定且明确的目的共享您的信息，并且仅共享提供服务所必要的个人信息。",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：告知共享、取得同意、同等保护。文档向第三方提供个人信息时，未明确告知接收方信息、处理目的、处理方式和个人信息种类，也未明确说明是否取得单独同意",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "missing",
+              "evidence": "我们可能会向合作伙伴(如提供商品或技术、广告等服务的供应商、拼多多商家、委托我们进行推广的合作伙伴、代表我们发出信息的通讯服务商、支付机构等)或其他第三方共享您的信息，以保障为您提供的服务顺利完成。但我们仅会出于合法、正当、必要、特定且明确的目的共享您的信息，并且仅共享提供服务所必要的个人信息。"
+            },
+            {
+              "name": "取得同意",
+              "status": "missing",
+              "evidence": "在征得您同意的情况下与拼多多的合作伙伴共享信息以便他们向您发送有关其产品和服务的信息。如您不希望接收上述信息，可通过退订功能退订。"
+            },
+            {
+              "name": "同等保护",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "第三十九条",
+          "evidence": "您的个人信息将全部被存储于中华人民共和国境内，但以下情形除外: 6.1.1. 法律法规另有明确规定; 6.1.2. 获得您的明确授权; 6.1.3. 您通过互联网进行跨境交易等个人主动行为; 6.1.4. 针对以上情形，我们会依据本政策及相关法律法规对您的个人信息提供保护。",
+          "description": "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），原判定 nonCompliant 降级待人工复核：【要件核查】缺失要件：单独同意、告知境外接收方、合法出境路径。文档未明确取得单独同意即向境外提供个人信息，且未告知境外接收方详细信息，违反个人信息保护法第39条",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "合法出境路径",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "对于您合理的请求，我们原则上不收取费用，但对多次重复、超出合理限度的请求，我们将视情况收取一定成本费用。对于那些无端重复、需要过多技术手段(例如，需要开发新系统或从根本上改变现行惯例)、给他人合法权益带来风险或者非常不切实际的请求，我们可能会予以拒绝。",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确说明查询个人信息的响应时限，且未明确提供注销账号的途径",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "satisfied",
+              "evidence": "您可登录账号通过'个人中心-我的资料'执行此类操作。您可登录账号通过'搜索'访问或清除您的搜索记录。您可登陆账号通过'个人中心-我的足迹'访问或清除您的浏览记录。您可登录账号通过'个人中心-我的订单'访问或清除您的订单记录、拼单记录、交易记录等。"
+            },
+            {
+              "name": "更正补充",
+              "status": "satisfied",
+              "evidence": "当您发现您的个人信息有误或需要补充时，您可通过'6.2用户个人信息的访问'中列明的方式提出更正或补充申请。"
+            },
+            {
+              "name": "响应时限",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "第三十九条",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "r10_aliexpress.txt",
+      "raw_chars": 71426,
+      "truncated": true,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "notApplicable",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "当您选择提供此类信息时，我们可能会收集无法识别您的一般个人数据，如体型、个人身高、胸围/腰围/臀围和重量。例如，我们可能使用这些信息来推荐服装尺码或款式、个性化，或为您提供合身预测服务。",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档收集的个人信息范围超出实现处理目的的最小必要，且未明确说明对敏感个人信息的单独同意",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "satisfied",
+              "evidence": "文档在'A. COLLECTION OF INFORMATION'部分明确列出了买家和卖家需要提供的个人信息种类与范围，包括账户信息、支付信息、购买信息等。"
+            },
+            {
+              "name": "最小必要",
+              "status": "missing",
+              "evidence": "文档提到收集'体型、个人身高、胸围/腰围/臀围和重量'等个人信息用于推荐服装尺码或个性化服务，这些信息可能超出实现处理目的的最小必要范围。"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "文档中未明确说明对敏感个人信息（如身份信息、体型数据等）的单独同意要求。"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "This Privacy Policy sets out the ways in which we collect, use and disclose information in connection with the operation of the Platform, including personal information about you, Platform users, visitors and representatives.",
+          "description": "文档未以显著方式清晰告知处理目的、方式与保存期限",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "missing",
+              "evidence": "文档仅列举了收集的信息类型，未明确说明处理目的、方式和保存期限"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "For example, this information may be used by us to recommend clothing sizes or styles, personalization, or to provide fit prediction services for you.",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确提供用户拒绝或关闭个性化推荐的选项，违反了个人信息处理应遵循目的明确、直接相关的原则",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "unknown",
+              "evidence": "This Privacy Policy sets out the ways in which we collect, use and disclose information in connection with the operation of the Platform, including personal information about you, Platform users, visitors and representatives."
+            },
+            {
+              "name": "无目的外使用",
+              "status": "unknown",
+              "evidence": "For example, this information may be used by us to recommend clothing sizes or styles, personalization, or to provide fit prediction services for you."
+            },
+            {
+              "name": "个性化推荐控制",
+              "status": "missing",
+              "evidence": "For example, this information may be used by us to recommend clothing sizes or styles, personalization, or to provide fit prediction services for you."
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "",
+          "description": "文档未包含第三方委托与共享相关内容",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "取得同意",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "同等保护",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "notApplicable",
+          "level": "low",
+          "clauseRef": "",
+          "evidence": "",
+          "description": "文档未包含第N节'INTERNATIONAL TRANSFERS OF PERSONAL DATA'的具体内容，无法判断跨境提供合规性",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "合法出境路径",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "notApplicable",
+          "level": "low",
+          "clauseRef": "",
+          "evidence": "",
+          "description": "文档未提供E. RIGHT. S REGARDING PERSONAL DATA部分的具体内容，无法评估数据主体权利相关条款",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "更正补充",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "删除注销",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "响应时限",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "r11_amazon.txt",
+      "raw_chars": 22731,
+      "truncated": true,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "notApplicable",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "We collect your personal information in order to provide and continually improve our products and services. You can choose not to provide certain information, but then you might not be able to take advantage of many of our Amazon Services.",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档收集个人信息未明确限于实现处理目的的最小范围，违反最小必要原则",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "satisfied",
+              "evidence": "We collect your personal information in order to provide and continually improve our products and services. Here are the types of personal information we collect: Information You Give Us: We receive and store any information you provide in relation to Amazon Services. Automatic Information: We automatically collect and store certain types of information about your use of Amazon Services... Information from Other Sources: We might receive information about you from other sources."
+            },
+            {
+              "name": "最小必要",
+              "status": "missing",
+              "evidence": "We collect your personal information in order to provide and continually improve our products and services. You can choose not to provide certain information, but then you might not be able to take advantage of many of our Amazon Services."
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "When you use our voice, image and camera services, we use your voice input, images, videos, and other personal information to respond to your requests, provide the requested service to you, and improve our services."
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "By using Amazon Services, you are consenting to the practices described in this Privacy Notice.",
+          "description": "文档未明确告知个人信息保存期限，未提供敏感信息单独同意机制，未提供撤回同意途径",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "missing",
+              "evidence": "文档未明确说明个人信息的保存期限"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "文档未提及敏感信息需要单独同意"
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": "文档未提供撤回同意的途径"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确说明个性化推荐的控制选项，且广告用途可能超出初始目的范围",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "satisfied",
+              "evidence": "We collect your personal information in order to provide and continually improve our products and services."
+            },
+            {
+              "name": "无目的外使用",
+              "status": "missing",
+              "evidence": "We use your personal information to display interest-based ads for features, products, and services that might be of interest to you."
+            },
+            {
+              "name": "个性化推荐控制",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "notApplicable",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "We share customers' personal information only as described below and with subsidiaries Amazon.com, Inc. controls that either are subject to this Privacy Notice or follow practices at least as protective as those described in this Privacy Notice.",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档向第三方提供个人信息未明确告知接收方信息亦未取得单独同意",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "satisfied",
+              "evidence": "We share customers' personal information only as described below and with subsidiaries Amazon.com, Inc. controls that either are subject to this Privacy Notice or follow practices at least as protective as those described in this Privacy Notice."
+            },
+            {
+              "name": "取得同意",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "同等保护",
+              "status": "satisfied",
+              "evidence": "These third-party service providers have access to personal information needed to perform their functions, but may not use it for other purposes."
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "notApplicable",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "We share customers' personal information only as described below and with subsidiaries Amazon.com, Inc. controls that either are subject to this Privacy Notice or follow practices at least as protective as those described in this Privacy Notice.",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档提及与第三方共享个人信息，但未明确说明跨境提供情况，也未取得单独同意或告知境外接收方信息",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "合法出境路径",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未提供查询、复制、更正、删除个人信息的便捷途径及撤回同意途径",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "更正补充",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "删除注销",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "响应时限",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "r12_ebay.txt",
+      "raw_chars": 17278,
+      "truncated": true,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "evidence": "What personal data we collect and process",
+          "description": "文档中虽有提及个人信息收集，但未提供完整的个人信息收集范围清单，无法全面评估合规性",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "unknown",
+              "evidence": "What personal data we collect and process"
+            },
+            {
+              "name": "最小必要",
+              "status": "unknown",
+              "evidence": "we allow only limited access to other users' contact, shipping and financial information as necessary to facilitate your transactions and collect payments"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "In our User Privacy Notice we have compiled all essential information about our handling of your personal data and your corresponding rights.",
+          "description": "文档未以显著方式清晰告知处理目的、方式、个人信息种类与保存期限，且未提供撤回同意的明确途径",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "missing",
+              "evidence": "文档仅提及已编译了处理个人信息的必要信息，但未具体说明处理目的、方式、个人信息种类与保存期限"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "文档未提及敏感信息的定义及单独同意机制"
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": "文档未提供撤回同意的明确途径"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "We may use artificial intelligence or AI-powered tools and products to improve our Services, to offer you new or enhanced features, a customized and personalized experience, to provide you with enhanced customer service, and to support fraud detection.",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确告知所有处理目的，且在提供个性化体验时未提供用户拒绝或关闭的选项",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "missing",
+              "evidence": "文档虽然有'Purposes and legal bases for data processing and categories of recipients'标题，但未提供具体内容，未明确告知用户所有处理目的。"
+            },
+            {
+              "name": "无目的外使用",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "个性化推荐控制",
+              "status": "missing",
+              "evidence": "文档提到使用AI提供'customized and personalized experience'，但未提供用户拒绝或关闭个性化推荐的选项。"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "notApplicable",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "When you complete a transaction with another user (or a transaction has been cancelled, failed, or subsequently invalidated), we will provide you with the other user's personal data (such as name, username, (alias) email address, contact information, shipping and billing information, or return address).",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档向第三方提供个人信息时，未明确告知接收方信息亦未取得单独同意",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "satisfied",
+              "evidence": "Other users have access to the information you share on eBay or disclose to other users. For example, other users can see your bids, purchases, items for sale, saved interests, sellers and searches, storefronts, feedback, ratings, product reviews and associated comments. Other users can also see any information you choose to share in your profile."
+            },
+            {
+              "name": "取得同意",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "同等保护",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "",
+          "description": "文档中包含'Cross-border data transfers'章节，但提供的文本片段未包含该章节具体内容，无法判断跨境提供个人信息合规性",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "notApplicable",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "Rights as a data subject",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未提供查询、复制、更正、删除个人信息的便捷途径及撤回同意方式",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "更正补充",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "删除注销",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "响应时限",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "第八条",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    }
+  ]
+}

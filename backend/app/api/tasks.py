@@ -29,9 +29,19 @@ from app.services.task_service import (
 router = APIRouter(prefix="/tasks", tags=["tasks"])
 
 
-def _dump_task(task) -> dict:
-    """序列化任务核心字段（契约 TaskOut，findings 明细由详情端点单独提供）。"""
-    return TaskOut.model_validate(task, from_attributes=True).model_dump(by_alias=True)
+def _dump_task(task, db: Session | None = None) -> dict:
+    """序列化任务核心字段（契约 TaskOut，findings 明细由详情端点单独提供）。
+
+    M10：附带 documentFilename（关联文档原始文件名），任务卡片展示用。
+    """
+    data = TaskOut.model_validate(task, from_attributes=True).model_dump(by_alias=True)
+    if db is not None and task.document_id is not None:
+        from app.models import Document
+
+        doc = db.get(Document, task.document_id)
+        if doc is not None:
+            data["documentFilename"] = doc.filename
+    return data
 
 
 @router.get("")
@@ -41,7 +51,7 @@ async def list_review_tasks(
 ) -> dict:
     """列出审查任务（可按 status 筛选，倒序）。"""
     tasks = list_tasks(db=db, status=status)
-    return {"data": [_dump_task(t) for t in tasks]}
+    return {"data": [_dump_task(t, db) for t in tasks]}
 
 
 @router.post("")
@@ -117,7 +127,7 @@ async def get_review_task(
     task = get_task(db=db, task_id=task_id)
     if task is None:
         raise HTTPException(status_code=404, detail="任务不存在")
-    return {"data": _dump_task(task)}
+    return {"data": _dump_task(task, db)}
 
 
 @router.get("/{task_id}/events")

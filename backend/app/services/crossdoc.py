@@ -26,11 +26,12 @@ KEY_PATTERNS: dict[DeclarationKey, list[re.Pattern]] = {
         re.compile(r"(处理|使用)目的[是为]?[^。；]{2,40}"),
     ],
     DeclarationKey.RECEIVERS: [
-        re.compile(r"(向|共享给|提供给)[^。；]{2,40}(第三方|接收方|境外|子公司|云服务商|合作方|推广方|广告商)"),
+        # 从句子开头匹配，保留否定前缀（"不会将…共享给" 归为否定句）
+        re.compile(r"[^。；]*?(共享给|提供给|提供|委托给|委托|不共享|不委托|不向|不提供|向)[^。；]{0,40}(第三方|接收方|境外|子公司|云服务商|合作方|推广方|广告商|物流商)"),
         re.compile(r"(接收方|第三方|合作方)[为是][^。；]{2,40}"),
     ],
     DeclarationKey.CROSS_BORDER: [
-        re.compile(r"(不向境外|不出境|境内存储|不跨境|向境外|跨境|境外提供)[^。；]{0,30}"),
+        re.compile(r"[^。；]*?(不向境外|不出境|不跨境|不提供至境外|境内存储|向境外|传输至境外|提供至境外|跨境|境外提供|至境外)[^。；]{0,30}"),
     ],
     DeclarationKey.RETENTION: [
         re.compile(r"(保存|保留|存储)[^。；]{0,10}(?:期限|时间)[^。；]{0,20}(年|月|日|天)"),
@@ -91,6 +92,57 @@ def extract_declarations(text: str) -> dict[DeclarationKey, Declaration]:
                 )
                 break
     return result
+
+
+# 否定/不出境表达（用于多声明集合对比）
+NEGATIVE_KW = (
+    "不共享",
+    "不会将",
+    "不会向",
+    "不向",
+    "不提供",
+    "不出境",
+    "不跨境",
+    "境内存储",
+    "不会",
+    "不委托",
+)
+
+
+def extract_declaration_sets(text: str) -> dict[DeclarationKey, list[str]]:
+    """M6 多声明提取：每键收集**所有**命中的声明句（不限于首个）。
+
+    修复点：单文档可能有多条 receivers/crossBorder 声明（如"不共享"+"跨境提供"），
+    只取首个会漏掉矛盾（m01: A"不会共享给第三方" vs B"共享给广告合作方"）。
+    """
+    result: dict[DeclarationKey, list[str]] = {}
+    for key, patterns in KEY_PATTERNS.items():
+        hits: list[str] = []
+        for pattern in patterns:
+            hits.extend(m.group(0).strip() for m in pattern.finditer(text))
+        if hits:
+            result[key] = hits
+    return result
+
+
+def declaration_sets_conflict(a_hits: list[str], b_hits: list[str]) -> bool:
+    """多声明集合对比：一侧否定声明、另一侧肯定声明 → 矛盾。
+
+    覆盖金标 multi 矛盾模式：共享（"不会共享" vs "共享给广告合作方"）、
+    委托（"不委托" vs "委托给第三方物流商"）、跨境（"不出境" vs "传输至境外"）。
+    """
+    if not a_hits or not b_hits:
+        return False
+    a_neg = [h for h in a_hits if any(k in h for k in NEGATIVE_KW)]
+    b_neg = [h for h in b_hits if any(k in h for k in NEGATIVE_KW)]
+    a_pos = [h for h in a_hits if not any(k in h for k in NEGATIVE_KW)]
+    b_pos = [h for h in b_hits if not any(k in h for k in NEGATIVE_KW)]
+    # 一侧明确否定、另一侧明确肯定 → 矛盾
+    if a_neg and b_pos:
+        return True
+    if b_neg and a_pos:
+        return True
+    return False
 
 
 def _value_is_negative(value: str) -> bool:

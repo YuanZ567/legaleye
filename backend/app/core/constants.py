@@ -7,8 +7,8 @@ MAX_PDF_PAGES: int = 200  # ≤200 页（仅 PDF 校验）
 # 文本预览长度（DATA_CONTRACT 4.3：textPreview 前 500 字）
 TEXT_PREVIEW_LENGTH: int = 500
 
-# 支持的上传扩展名 → DocType（格式清单，用于 E1 校验）
-SUPPORTED_EXTENSIONS: set[str] = {".pdf", ".docx"}
+# 支持的上传扩展名 → DocType（格式清单，用于 E1 校验；.md/.markdown/.txt 按纯文本解析）
+SUPPORTED_EXTENSIONS: set[str] = {".pdf", ".docx", ".md", ".markdown", ".txt"}
 
 # URL 解析（PRD F3 / E3）：超时 10s，失败重试 1 次（指数退避）
 URL_FETCH_TIMEOUT_SECONDS: float = 10.0

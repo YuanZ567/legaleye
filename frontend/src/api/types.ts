@@ -31,7 +31,7 @@ export interface SSEEvent {
   data: TaskStatusEvent | NodeEvent | TokenUsageEvent;
 }
 
-/** 审查任务（DATA_CONTRACT 4.4 核心）。 */
+/** 审查任务（DATA_CONTRACT 4.4 核心，对齐后端 TaskOut）。 */
 export interface ReviewTask {
   id: string;
   status: string;
@@ -39,6 +39,11 @@ export interface ReviewTask {
   tokenUsage: number;
   findingCount: number;
   error?: string | null;
+  /** 关联文档（单文档审查；后端契约只有单个 documentId）。 */
+  documentId?: string | null;
+  /** 关联文档原始文件名（卡片标题展示用；文档已删除 → null）。 */
+  documentFilename?: string | null;
+  createdAt: string;
 }
 
 /** 风险等级（DATA_CONTRACT 3.1 RiskLevel）。 */
@@ -103,6 +108,10 @@ export interface User {
   createdAt: string;
   /** 用户级 API Key 尾号（M9-8；未配置 → null；展示格式 ****abcd）。 */
   apiKeyTail?: string | null;
+  /** 显示名（未设置 → null，前端回退邮箱前缀）。 */
+  displayName?: string | null;
+  /** emoji 头像字符（未设置 → null）。 */
+  avatar?: string | null;
 }
 
 /** 认证响应（DATA_CONTRACT 4.1 AuthOut）：{token, user}。 */
@@ -111,10 +120,25 @@ export interface AuthResponse {
   user: User;
 }
 
-/** LLM Provider（DATA_CONTRACT 3.1 Provider）。 */
-export type Provider = "bailian" | "deepseek" | "openai" | "anthropic";
+/** LLM Provider（DATA_CONTRACT 3.1 Provider，与后端 app.core.enums.Provider 对齐）。 */
+export type Provider =
+  | "bailian"
+  | "deepseek"
+  | "openai"
+  | "anthropic"
+  | "modelscope"
+  | "zhipu"
+  | "siliconflow";
 
-export const PROVIDERS: Provider[] = ["bailian", "deepseek", "openai", "anthropic"];
+export const PROVIDERS: Provider[] = [
+  "bailian",
+  "modelscope",
+  "zhipu",
+  "deepseek",
+  "openai",
+  "anthropic",
+  "siliconflow",
+];
 
 /** 模型配置（DATA_CONTRACT 4.2 ModelConfig）：Key 仅 apiKeyTail 末 4 位。 */
 export interface ModelConfig {

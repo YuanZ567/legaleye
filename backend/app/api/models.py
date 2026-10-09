@@ -5,6 +5,7 @@
 - POST /models                       → {data: ModelConfig}（Key Fernet 存储 + apiKeyTail 脱敏）
 - PUT  /models/{id}/activate         → {data: ModelConfig}（事务切换 active）
 - POST /models/test                  → {data:{ok}}（真实打通 provider，无效 Key 保存前拦截）
+- DELETE /models/{id}                → {data:{ok:true}}（激活中的不可删）
 
 所有端点需 admin 角色（require_admin）。
 """
@@ -22,6 +23,7 @@ from app.schemas.model import ModelCreateIn, ModelTestIn, ModelTestOut
 from app.services.model_service import (
     activate_model,
     create_model,
+    delete_model,
     list_models,
     test_model,
     to_dict,
@@ -73,3 +75,16 @@ async def test_model_config(
     """真实验证打通 provider（无效 Key 保存前拦截）。"""
     result = test_model(provider=payload.provider, api_key=payload.api_key, model=payload.model)
     return {"data": ModelTestOut(**result).model_dump(by_alias=True)}
+
+
+@router.delete("/{model_id}")
+async def delete_model_config(
+    model_id: uuid.UUID,
+    _admin: Annotated[User, Depends(require_admin)],
+    db: Session = Depends(get_db),  # noqa: B008 (FastAPI 注入)
+) -> dict:
+    """删除模型配置（激活中的模型不可删，需先启用其他模型）。"""
+    deleted = delete_model(db=db, model_id=model_id)
+    if not deleted:
+        raise HTTPException(status_code=404, detail="模型不存在")
+    return {"data": {"ok": True}}

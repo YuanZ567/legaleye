@@ -1,4 +1,4 @@
-"""规则抽取通道（M3-2）：词典 + 正则，从文档文本提取实体/关系。
+"""规则抽取通道：词典 + 正则，从文档文本提取实体/关系。
 
 - 词典：按角色关键词识别实体（controller/processor/trustee/overseasReceiver/dataCategory）；
 - 关系正则：识别 收集/存储/共享/委托/跨境/匿名化 等动作 → EdgeType；
@@ -14,12 +14,37 @@ from app.core.enums import EdgeType, EntityRole
 from app.graph.builder import EdgeSpec, EntitySpec
 
 # ── 实体词典：关键词 -> 角色 ──
+# M10 双语：英文关键词用 \b 词边界正则匹配（_kw_in_sentence），避免子串误命中
+# （如 "we" 命中 "answer"）。中文关键词仍用子串匹配。
 ENTITY_DICT: dict[EntityRole, tuple[str, ...]] = {
-    EntityRole.CONTROLLER: ("处理者", "我方", "平台", "公司", "控制者", "我们"),
-    EntityRole.PROCESSOR: ("受托方", "服务商", "云服务商", "供应商", "第三方处理者", "合作方"),
-    EntityRole.TRUSTEE: ("托管方", "受托人", "保管方"),
-    EntityRole.OVERSEAS_RECEIVER: ("境外接收方", "境外", "海外", "跨境接收", "国外"),
-    EntityRole.DATA_CATEGORY: ("个人信息", "手机号", "账号", "身份证", "数据", "信息", "生物识别"),
+    EntityRole.CONTROLLER: (
+        "处理者", "我方", "平台", "公司", "控制者", "我们",
+        # EN
+        "we", "our", "the company", "data controller",
+    ),
+    EntityRole.PROCESSOR: (
+        "受托方", "服务商", "云服务商", "供应商", "第三方处理者", "合作方",
+        # EN
+        "service provider", "processor", "vendor", "supplier", "third party",
+    ),
+    EntityRole.TRUSTEE: (
+        "托管方", "受托人", "保管方",
+        # EN
+        "trustee", "custodian",
+    ),
+    EntityRole.OVERSEAS_RECEIVER: (
+        "境外接收方", "境外", "海外", "跨境接收", "国外",
+        # EN
+        "overseas recipient", "foreign recipient", "overseas", "foreign",
+        "abroad", "international", "outside the country", "outside of the country",
+        "outside the eea", "united states", "other countries",
+    ),
+    EntityRole.DATA_CATEGORY: (
+        "个人信息", "手机号", "账号", "身份证", "数据", "信息", "生物识别",
+        # EN
+        "personal information", "personal data", "phone number",
+        "identity card", "ID number", "biometric", "data", "information",
+    ),
 }
 
 # 敏感数据类别关键词（标记 is_sensitive）
@@ -30,6 +55,13 @@ SENSITIVE_KEYWORDS: tuple[str, ...] = (
     "健康",
     "行踪",
     "敏感个人信息",
+    # EN
+    "phone number",
+    "identity card",
+    "biometric",
+    "health",
+    "location data",
+    "sensitive personal",
 )
 
 # ── 关系正则：动作 -> EdgeType ──
@@ -37,17 +69,64 @@ SENSITIVE_KEYWORDS: tuple[str, ...] = (
 # 保证"委托...存储"这类句子识别为 entrust 而非 store。
 RELATION_PATTERNS: list[tuple[re.Pattern, EdgeType]] = [
     (re.compile(r"跨境|向境外|传输到境外|境外提供|出境"), EdgeType.CROSS_BORDER),
+    # EN cross-border：transfer 与 abroad/overseas 同句才算跨境，普通 transfer 归 share
+    (
+        re.compile(
+            r"cross[- ]?border|outside (?:of )?(?:the )?(?:eea|country|region)|"
+            r"transfer(?:s|red|ring)?[^.;]{0,40}(?:abroad|overseas|foreign|outside)|"
+            r"(?:abroad|overseas)[^.;]{0,40}transfer",
+            re.IGNORECASE,
+        ),
+        EdgeType.CROSS_BORDER,
+    ),
     (re.compile(r"委托|委托处理"), EdgeType.ENTRUST),
+    (re.compile(r"on behalf of|entrust(?:s|ed|ing)?", re.IGNORECASE), EdgeType.ENTRUST),
     (re.compile(r"共享|转让|提供给|披露给"), EdgeType.SHARE),
+    (
+        re.compile(
+            r"shar(?:e|es|ed|ing)|disclos(?:e|es|ed|ing)|sell(?:s|ing)?|"
+            r"transfer(?:s|red|ring)?|provid(?:e|es|ed|ing)",
+            re.IGNORECASE,
+        ),
+        EdgeType.SHARE,
+    ),
     (re.compile(r"匿名化|去标识化"), EdgeType.ANONYMIZE),
+    (
+        re.compile(r"anonymiz(?:e|es|ed|ing)|de[- ]?identif(?:y|ies|ied)|pseudonymiz(?:e|es|ed|ing)", re.IGNORECASE),
+        EdgeType.ANONYMIZE,
+    ),
     (re.compile(r"收集|采集"), EdgeType.COLLECT),
+    (
+        re.compile(r"collect(?:s|ed|ing)?|gather(?:s|ed|ing)?|obtain(?:s|ed|ing)?", re.IGNORECASE),
+        EdgeType.COLLECT,
+    ),
     (re.compile(r"存储|保存|存放"), EdgeType.STORE),
+    (
+        re.compile(r"stor(?:e|es|ed|ing)|retain(?:s|ed|ing)?", re.IGNORECASE),
+        EdgeType.STORE,
+    ),
 ]
 
 # 关系触发词（用于定位关系句）
 RELATION_TRIGGER = re.compile(
     r"收集|采集|存储|保存|共享|提供|公开|委托|跨境|向境外|匿名化|去标识化"
+    r"|collect|gather|obtain|stor|retain|shar|disclos|transfer|provid|sell"
+    r"|entrust|cross[- ]?border|abroad|overseas|anonymiz|de[- ]?identif|pseudonymiz",
+    re.IGNORECASE,
 )
+
+_ASCII_KW_CACHE: dict[str, re.Pattern] = {}
+
+
+def _kw_in_sentence(sent: str, kw: str) -> bool:
+    """关键词句子匹配：英文用 \b 词边界（忽略大小写），中文用子串。"""
+    if all(ord(c) < 128 for c in kw):
+        pat = _ASCII_KW_CACHE.get(kw)
+        if pat is None:
+            pat = re.compile(r"\b" + re.escape(kw) + r"\b", re.IGNORECASE)
+            _ASCII_KW_CACHE[kw] = pat
+        return pat.search(sent) is not None
+    return kw in sent
 
 
 @dataclass
@@ -86,12 +165,12 @@ def _match_role(name: str) -> EntityRole | None:
 
 
 def _is_sensitive(name: str) -> bool:
-    return any(kw in name for kw in SENSITIVE_KEYWORDS)
+    return any(_kw_in_sentence(name, kw) for kw in SENSITIVE_KEYWORDS)
 
 
 def _split_sentences(text: str) -> list[str]:
-    """按句号/分号/换行切句（保留中文语义单元）。"""
-    return [s.strip() for s in re.split(r"[。；;\n]", text) if s.strip()]
+    """按句号/分号/换行切句（保留中文语义单元；M10 双语：英文句号 . ! ? 也切分）。"""
+    return [s.strip() for s in re.split(r"[。；;.!?\n]", text) if s.strip()]
 
 
 def extract_by_rules(text: str) -> RuleExtraction:
@@ -103,11 +182,11 @@ def extract_by_rules(text: str) -> RuleExtraction:
     for sent in sentences:
         if not RELATION_TRIGGER.search(sent):
             continue
-        # 该句中出现的实体（词典匹配）
+        # 该句中出现的实体（词典匹配；英文词边界 / 中文子串）
         found: dict[str, EntityRole] = {}
         for role, keywords in ENTITY_DICT.items():
             for kw in keywords:
-                if kw in sent:
+                if _kw_in_sentence(sent, kw):
                     found[kw] = role
         if not found:
             continue
@@ -121,13 +200,29 @@ def extract_by_rules(text: str) -> RuleExtraction:
         if edge_type is None:
             continue
 
-        # 源实体：取最长的 controller 关键词（避免"处理者/我们/公司"同义分身）
+        # 源实体：取最长的 controller 关键词（避免"处理者/我们/公司"同义分身）；
+        # 无 controller 但同时命中 数据类别 + 境外接收方（典型跨境句，如
+        # "personal data may be transferred outside the country"）→
+        # 以数据实体为主语连向境外接收方（保证 R2 跨境风险路径可达）。
         controllers = [k for k, r in found.items() if r == EntityRole.CONTROLLER]
-        source = max(controllers, key=len) if controllers else next(iter(found))
-        source_role = EntityRole.CONTROLLER if controllers else found[source]
-
-        # 目标实体：排除源自身及与源同角色（同义分身）的实体
-        targets = [k for k, r in found.items() if k != source and r != source_role]
+        overseas_kw = [k for k, r in found.items() if r == EntityRole.OVERSEAS_RECEIVER]
+        if controllers:
+            source = max(controllers, key=len)
+            source_role = EntityRole.CONTROLLER
+            # 目标实体：排除源自身及与源同角色（同义分身）的实体
+            targets = [k for k, r in found.items() if k != source and r != source_role]
+        elif overseas_kw and edge_type == EdgeType.CROSS_BORDER:
+            data_kw = [k for k, r in found.items() if r == EntityRole.DATA_CATEGORY]
+            if not data_kw:
+                continue
+            source = data_kw[0]
+            source_role = EntityRole.DATA_CATEGORY
+            targets = overseas_kw
+        else:
+            source = next(iter(found))
+            source_role = found[source]
+            # 目标实体：排除源自身及与源同角色（同义分身）的实体
+            targets = [k for k, r in found.items() if k != source and r != source_role]
         if not targets:
             continue
 

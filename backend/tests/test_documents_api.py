@@ -75,15 +75,30 @@ def test_upload_pdf_success(client: TestClient):
 
 
 def test_upload_unsupported_format_400(client: TestClient):
-    """非支持格式（.txt）→ 400。"""
+    """非支持格式（.exe）→ 400。（.md/.markdown/.txt 自 M10+ 起按纯文本支持）"""
     resp = client.post(
         "/documents",
-        files={"file": ("note.txt", b"hello", "text/plain")},
+        files={"file": ("setup.exe", b"MZ...", "application/octet-stream")},
         data={"docType": "privacyPolicy"},
     )
     assert resp.status_code == 400
     assert resp.json()["error"]["code"] == "unsupported_format"
     assert "PDF" in resp.json()["error"]["message"]
+
+
+def test_upload_markdown_text_ok(client: TestClient):
+    """Markdown / 纯文本（M10+ 新增）→ 200 并正常解析。"""
+    content = "# 测试隐私政策\n\n我们会收集必要的个人信息。".encode("utf-8")
+    for name, mime in [("policy.md", "text/markdown"), ("policy.txt", "text/plain")]:
+        resp = client.post(
+            "/documents",
+            files={"file": (name, content, mime)},
+            data={"docType": "privacyPolicy"},
+        )
+        assert resp.status_code == 200, resp.text
+        data = resp.json()["data"]
+        assert data["charCount"] > 0
+        assert "收集" in data["textPreview"]
 
 
 def test_upload_too_large_400(client: TestClient):

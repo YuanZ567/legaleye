@@ -80,10 +80,10 @@ def test_e1_invalid_doc_type_400(client: TestClient):
 
 
 def test_e1_unsupported_format_400(client: TestClient):
-    """非支持格式（.txt）→ 400 unsupported_format。"""
+    """非支持格式（.exe）→ 400 unsupported_format。（.txt 已支持，见 document_service）"""
     resp = client.post(
         "/documents",
-        files={"file": ("note.txt", b"hello", "text/plain")},
+        files={"file": ("note.exe", b"hello", "application/octet-stream")},
         data={"docType": "privacyPolicy"},
     )
     assert resp.status_code == 400

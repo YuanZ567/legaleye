@@ -80,7 +80,7 @@ def test_workflow_produces_complete_findings():
                 "task_id": "t",
                 "document_id": "",
                 "document_text": "隐私政策文本",
-                "retrieval": "（检索）",
+                "retrieval": "（检索）第一条 个人信息处理规则 第五条第1款 最小必要",
                 "graph_summary": "",
             }
         )

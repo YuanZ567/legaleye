@@ -43,7 +43,7 @@ def _base_state(**overrides):
         "task_id": "task-1",
         "document_id": "",
         "document_text": "文档原文",
-        "retrieval": "（检索结果）",
+        "retrieval": "（检索结果）第一条 个人信息处理规则 第二十三条 共享",
         "graph_summary": "",
     }
     state.update(overrides)
@@ -60,16 +60,32 @@ _DIM_CONTRACT = {
     "d6": "d6DataRights",
 }
 
+# 维度 → 行为信号词（mock 证据需命中，满足 M10 维度一致性校验）
+_DIM_KW = {
+    "d1Collection": "收集",
+    "d2Notice": "同意",
+    "d3Purpose": "目的",
+    "d4ThirdParty": "共享",
+    "d5CrossBorder": "境外",
+    "d6DataRights": "删除",
+}
+
 
 def _finding_json(dimension: str, clause_ref: str = "第一条", needs_human: bool = False) -> str:
-    """构造合法 finding JSON（mock LLM 返回，dimension 用契约值）。"""
+    """构造合法 finding JSON（mock LLM 返回，dimension 用契约值）。
+
+    M10 证据锚定契约（2026-09-04）：nonCompliant 的 evidence/description 需能锚定
+    文档原文（含"文档原文"）且命中本维度行为信号词（_DIM_KW），否则被降级不适用。
+    """
+    contract = _DIM_CONTRACT.get(dimension, dimension)
+    kw = _DIM_KW.get(contract, "处理")
     return json.dumps(
         {
-            "dimension": _DIM_CONTRACT.get(dimension, dimension),
+            "dimension": contract,
             "verdict": "nonCompliant" if not needs_human else "unclear",
             "level": "medium",
             "clauseRef": clause_ref,
-            "description": f"{dimension} 审查说明",
+            "description": f"{dimension} 审查说明：文档原文显示存在涉及{kw}的违规行为",
             "remediation": "整改建议",
             "confidence": 0.8,
             "needsHumanReview": needs_human,

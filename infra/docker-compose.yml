@@ -80,7 +80,7 @@ services:
       context: ../backend
       dockerfile: Dockerfile
     container_name: legaleye-worker
-    command: ["uv", "run", "celery", "-A", "app.tasks.celery_app", "worker", "--loglevel=info", "--concurrency=2"]
+    command: ["uv", "run", "--no-sync", "celery", "-A", "app.tasks.celery_app", "worker", "--loglevel=info", "--concurrency=2"]
     env_file:
       - .env
     depends_on:

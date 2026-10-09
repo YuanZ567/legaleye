@@ -47,50 +47,105 @@
 
 ---
 
-## 3. 目录结构（Monorepo）
+## 3. 目录结构（Monorepo · 2026-09-22 校准）
 
 ```
-/legaleye
-├── backend/
+legaleye/                                  # 项目根目录
+│
+├── backend/                               # 后端服务：FastAPI + LangGraph + Celery（Python 3.14 + uv）
 │   ├── app/
-│   │   ├── api/            # FastAPI 路由（薄层：参数校验 + 调 services，禁止业务逻辑）
-│   │   ├── core/           # 配置(pydantic-settings) / 鉴权(JWT) / 依赖注入 / 常量
-│   │   ├── services/       # 业务逻辑：任务管理 / 报告生成 / 加密 / 声明键对齐 / 限流
-│   │   ├── agents/         # LangGraph 工作流图定义 + 10 智能体节点 + 反思循环
-│   │   ├── tools/          # Agent 工具（每工具一函数 + JSON schema 注解）
-│   │   ├── graph/          # 数据流图谱构建(networkx) + 推理规则引擎 R1-R4
-│   │   ├── llm/            # ChatModel 工厂（provider 路由 + Key 解密 + token 记账）
-│   │   ├── rag/            # 文档加载/分块/清洗 + pgvector 检索（法规库/案例库）
-│   │   ├── knowledge/      # 法条基线入库 / 版本管理 / SCC 模板解析
-│   │   ├── tasks/          # Celery 任务定义（审查/联合审查/入库）
-│   │   ├── models/         # SQLModel ORM 实体（见计划书第十五章）
-│   │   ├── schemas/        # Pydantic v2 请求/响应模型
-│   │   ├── prompts/        # 提示词集中管理（禁止散落字符串）
-│   │   └── utils/          # Fernet 加密 / loguru 日志 / diff 生成
-│   ├── alembic/            # 数据库迁移
-│   ├── tests/              # pytest：unit/ + integration/
-│   ├── pyproject.toml
-│   └── Dockerfile
-├── frontend/
+│   │   ├── main.py                        # FastAPI 应用入口（含 lifespan：users 表自动补列）
+│   │   ├── api/                           # HTTP 接口层（11 个路由模块）
+│   │   │   ├── auth.py                    #   注册/登录 + 账户管理（改资料/改密码/忘记密码重置）
+│   │   │   ├── oauth.py                   #   第三方 OAuth 登录（GitHub）
+│   │   │   ├── documents.py               #   文档上传（multipart：PDF/Word/Markdown/TXT）
+│   │   │   ├── models.py                  #   模型配置（增/删/激活/连通性测试，admin）
+│   │   │   ├── tasks.py                   #   审查任务（创建/详情/删除/SSE 进度流）
+│   │   │   ├── reports.py                 #   合规报告（JSON + Markdown 导出）
+│   │   │   ├── knowledge.py               #   法条知识库（入库/查询/检索）
+│   │   │   ├── graph.py                   #   数据流图谱查询
+│   │   │   ├── user_api_key.py            #   用户自有 API Key（Fernet 加密存库）
+│   │   │   ├── health.py                  #   健康检查
+│   │   │   └── errors.py                  #   全局异常处理（统一 {error:{code,message}}）
+│   │   ├── agents/                        # ★ 智能体层（审查核心，禁随意改动）
+│   │   │   ├── workflow.py                #   LangGraph 工作流（D1-D6 并行 → Critic → 反思 ≤2 轮）
+│   │   │   ├── dimension_agent.py         #   六维审查节点 + 三道防线
+│   │   │   │                              #   （证据锚定闸门 → 要件核查/合规豁免 → 高危规则兜底）
+│   │   │   ├── critic.py                  #   交叉检查（跨维度一致性，规则引擎）
+│   │   │   └── tools.py                   #   法条检索/图谱查询工具
+│   │   ├── core/                          # 核心基础设施
+│   │   │   ├── config.py                  #   配置（infra/.env 加载）
+│   │   │   ├── db.py / security.py        #   数据库会话 / Fernet 加解密
+│   │   │   ├── auth.py                    #   JWT 签发与校验（Fernet 加密 token）
+│   │   │   ├── sse.py                     #   SSE 事件桥（Redis List；nodeEnd 同步写进度队列）
+│   │   │   ├── constants.py / enums.py / exceptions.py
+│   │   ├── graph/                         # 数据流图谱（规则抽取 → 构建 → R1-R4 推理）
+│   │   ├── knowledge/                     # 知识库（pgvector 语义检索 + 法条管理）
+│   │   ├── llm/
+│   │   │   └── factory.py                 # ★ LLM 工厂（唯一出口；7 家供应商路由 + 记账 + 重试退避）
+│   │   ├── models/                        # ORM：user/document/law_baseline/model_config/review_task/report
+│   │   ├── prompts/                       # 提示词集中管理（base 公共纪律 + d1~d6 六维要件清单）
+│   │   ├── schemas/                       # 数据契约层（validators.py 为 LLM 输出强校验）
+│   │   ├── services/                      # 业务服务层（14 个：task/document/report/model/auth/oauth/
+│   │   │                                  #   user_api_key/rate_limit/embedding/crossdoc/graph 等）
+│   │   ├── tasks/
+│   │   │   ├── celery_app.py              #   Celery 实例（Redis broker）
+│   │   │   └── review_task.py             #   ★ 审查任务（跑工作流→落库→报告；进度跟踪线程；失败降级）
+│   │   └── utils/parsers.py               # PDF/Word/Markdown/HTML 文本解析
+│   ├── tests/                             # 40 个 pytest 测试文件
+│   │   └── fixtures/                      # 证据闸门回归语料（真实证据基线 + 精选违规证据）
+│   ├── alembic/                           # 数据库迁移（11 个版本）
+│   ├── Dockerfile                         # uv sync --no-dev 构建；uv run --no-sync 启动（离线可起）
+│   └── .venv/                             # 本地虚拟环境（不入库）
+│
+├── frontend/                              # 前端：React 19 + Vite + TS + Tailwind + shadcn/ui + ReactFlow
 │   ├── src/
-│   │   ├── pages/          # 登录/任务列表/审查工作台/报告/模型配置/知识库/设置/404
-│   │   ├── components/     # shadcn 基础件 + 专属组件(RiskBadge/ClauseRef/DiffView/GraphCanvas/ChatStream/StatCard/TaskStatusBar)
-│   │   ├── api/            # 后端 REST 封装（axios/fetch）
-│   │   ├── store/          # zustand stores
-│   │   ├── hooks/          # useSSE / useTaskPolling 等
-│   │   ├── styles/         # globals.css（设计 token，见 DESIGN.md 14.2）
-│   │   └── lib/            # 工具（格式化/图谱数据映射）
-│   ├── package.json
-│   └── Dockerfile / nginx.conf
-├── scripts/                # ingest_laws.py / evaluate.py / deploy.sh / seed_demo.py
-├── data/                   # 运行时数据（不入库）
-│   ├── golden/             # 金标集（30 单文档 + 10 多文档 + 标注 JSON）
-│   └── raw_laws/           # 法条原始文本（GB/T 版权文本仅私有，禁止提交 git）
-├── infra/                  # docker-compose.yml / .env.example / nginx/ / sentry/
-├── docs/                   # 计划书/PRD/DESIGN/ARCHITECTURE/AGENTS.md
-├── .github/workflows/      # ci.yml（lint+test）/ deploy.yml
-└── .gitignore
+│   │   ├── api/                           # 后端接口封装（auth/documents/tasks/models/reports/graph/
+│   │   │                                  #   knowledge/userApiKey + client 统一 fetch + types 契约）
+│   │   ├── components/                    # MainLayout（导航+账户管理弹窗）/ ChatPanel / Dashboard /
+│   │   │                                  #   OrchestrationCanvas / GraphCanvas / ReportView 组件族 / ui
+│   │   ├── pages/                         # 9 个页面：Login（三模式）/ Workbench（新建审查+四栏联动）/
+│   │   │                                  #   TaskList / ReportView / GraphPreview / ModelConfig /
+│   │   │                                  #   ApiKeySettings / KnowledgeBase / OAuthCallback
+│   │   ├── hooks/useSSE.ts                # SSE 进度流订阅
+│   │   ├── lib/ styles/ styles/globals.css # 工具函数 / 设计令牌（公文卷宗主题：暖纸+墨色+朱砂红）
+│   ├── dist/                              # 构建产物（Dockerfile 直接 COPY，改前端后需先 pnpm build）
+│   ├── Dockerfile / nginx.conf            # nginx 托管 dist + /index.html 禁缓存 + API/SSE 反代
+│   └── node_modules/                      # pnpm 依赖（不入库）
+│
+├── data/                                  # 评估语料（全部为真实文档，带来源 URL + 抓取日期头注）
+│   ├── real/                              # 12 份真实隐私政策（淘宝/京东/微信/SHEIN/Temu/美团/支付宝/
+│   │                                      #   抖音/拼多多/速卖通/Amazon/eBay）
+│   └── real_contracts/                    # 10 份官方合同（EU SCC×2、中国标准合同、英国 IDTA、
+│                                          #   AWS/Google/Microsoft/Shopify/Stripe/PayPal DPA）
+│
+├── docs/                                  # 项目文档（12 个）
+│   ├── ARCHITECTURE.md / DATA_CONTRACT.md / DESIGN.md / PRD.md / TODO.md / OPENCODE.md
+│   ├── blind_eval_report.md               # ★ 12 份真实隐私政策盲测（误报 0/12）
+│   ├── blind_eval_results.json            # 盲测原始数据（证据闸门回归基线的来源）
+│   ├── contract_eval_report.md            # ★ 10 份官方合同盲测 + 70 项判定人工复核（误报 0/10）
+│   ├── contract_eval_results.json         # 合同盲测原始数据
+│   └── eval_report.md + eval_results.json # 历史记录：合成金标回归基准（已标注弃用作效果证明）
+│
+├── scripts/                               # 工具脚本（6 个）
+│   ├── blind_eval.py                      # ★ 真实语料盲测（复用生产工作流，与线上链路一致）
+│   ├── evaluate.py                        # 合成金标评估（语料已删，运行会提示重建方式）
+│   ├── gen_golden.py                      # 合成金标生成器（可重建已删除的金标语料）
+│   ├── ingest_laws.py                     # 法条入库（→ LawBaseline + pgvector，幂等可重跑）
+│   ├── init_model_config.py               # 模型配置初始化
+│   └── wait_and_eval_modelscope.py        # 魔搭免费额度恢复探针 + 自动续跑
+│
+├── infra/                                 # docker-compose.yml（postgres/redis/minio/backend/worker/frontend）
+├── outputs/                               # 导出文件目录
+├── .github/workflows/ci.yml               # CI
+├── .workbuddy/memory/                     # AI 协作记忆（不入库）
+└── start_full_stack.bat                   # 本地一键启动
 ```
+
+> 语料说明：合成金标语料（原 data/golden，40 份脚本生成文档）已于 2026-09-22 弃用删除
+> ——它仅作为回归测试基准，不作为效果证明；删除后证据闸门回归改由
+> `backend/tests/fixtures/` 中的真实证据基线（28 条）+ 精选违规证据（7 条）承载。
+> 真实效果评估以 docs/ 下两份盲测报告为准。
 
 ---
 

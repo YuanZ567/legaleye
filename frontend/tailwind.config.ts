@@ -7,27 +7,27 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // DESIGN.md 4.1 品牌色（法眼靛蓝）
+        // 品牌色（M10+ 主题改版：公文卷宗风 —— 朱砂印章红，替代原靛蓝）
         brand: {
-          50: "#EEF1FD",
-          100: "#E0E5FA",
-          200: "#C7CEF5",
-          400: "#7B89E8",
-          500: "#5B6DF0",
-          600: "#4055E0",
-          700: "#3346C4",
-          800: "#2A3A9E",
+          50: "#FBF1EE",
+          100: "#F5DDD5",
+          200: "#E9C0B3",
+          400: "#C4704F",
+          500: "#A9502F",
+          600: "#9E3423",
+          700: "#7F2A1C",
+          800: "#64221A",
         },
-        // DESIGN.md 4.3 中性色
+        // 中性色（暖调墨色，替代冷蓝灰）
         ink: {
-          900: "#0E1526",
-          600: "#475069",
-          400: "#8A93A6",
+          900: "#1C1917",
+          600: "#57534E",
+          400: "#A29A8E",
         },
-        paper: "#F7F7F5",
+        paper: "#F7F5F0",
         line: {
-          100: "#EDF0F5",
-          200: "#E3E7EF",
+          100: "#EBE6DC",
+          200: "#DFD9CD",
         },
         // DESIGN.md 4.2 语义风险色
         risk: {
@@ -66,7 +66,13 @@ const config: Config = {
         },
       },
       fontFamily: {
-        // DESIGN.md 5：IBM Plex 家族 + 中文回退
+        // 展示字：思源宋体（法律文书感），回退本机宋体
+        display: [
+          '"Noto Serif SC"',
+          '"Songti SC"',
+          '"SimSun"',
+          "serif",
+        ],
         sans: [
           '"IBM Plex Sans"',
           "-apple-system",
@@ -78,9 +84,9 @@ const config: Config = {
         mono: ['"IBM Plex Mono"', "ui-monospace", "monospace"],
       },
       boxShadow: {
-        xs: "0 1px 2px rgba(14,21,38,.05)",
-        sm: "0 2px 6px rgba(14,21,38,.06)",
-        lg: "0 12px 32px rgba(14,21,38,.12)",
+        xs: "0 1px 2px rgba(28,25,23,.05)",
+        sm: "0 2px 6px rgba(28,25,23,.06)",
+        lg: "0 12px 32px rgba(28,25,23,.12)",
       },
       borderRadius: {
         lg: "var(--radius)",

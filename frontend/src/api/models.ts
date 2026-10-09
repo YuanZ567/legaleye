@@ -1,6 +1,6 @@
-/** 模型配置 API（DATA_CONTRACT 4.2 Models）：列表/新增/激活/测试。 */
+/** 模型配置 API（DATA_CONTRACT 4.2 Models）：列表/新增/激活/测试/删除。 */
 
-import { get, post, put } from "@/api/client";
+import { del, get, post, put } from "@/api/client";
 import type { ApiResponse } from "@/api/client";
 import type { ModelConfig, ModelTestOut, Provider } from "@/api/types";
 
@@ -38,4 +38,9 @@ export async function testModel(
 export async function activateModel(id: string): Promise<ModelConfig> {
   const resp = await put<ApiResponse<ModelConfig>>(`/models/${id}/activate`);
   return resp.data;
+}
+
+/** DELETE /models/{id} 删除模型（激活中的模型后端会拒绝）。 */
+export async function deleteModel(id: string): Promise<void> {
+  await del<ApiResponse<{ ok: boolean }>>(`/models/${id}`);
 }

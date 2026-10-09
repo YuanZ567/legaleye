@@ -1,6 +1,6 @@
-/** 模型配置页（M9-5，M8-3 前端接线）：列表 + 切换激活 + 新增（先 test 后保存）。
+/** 模型配置页（M9-5，M8-3 前端接线；M10+ 支持删除与多 provider）。
  *
- * - 列表展示 displayName/model/provider/apiKeyTail/isActive 高亮；
+ * - 列表展示 displayName/model/provider/apiKeyTail/isActive 高亮，支持删除（激活中不可删）；
  * - 点击"启用" → PUT /models/{id}/activate；
  * - 新增表单：provider 下拉 + model + apiKey → 先 POST /models/test 验证 → 再 POST /models 保存；
  * - Key 只在表单临时存在，提交后清空；不显示明文，仅 apiKeyTail。
@@ -8,16 +8,19 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { activateModel, createModel, fetchModels, testModel } from "@/api/models";
+import { activateModel, createModel, deleteModel, fetchModels, testModel } from "@/api/models";
 import { PROVIDERS } from "@/api/types";
 import type { ModelConfig, Provider } from "@/api/types";
 import { Button } from "@/components/ui/button";
 
 const PROVIDER_LABELS: Record<Provider, string> = {
   bailian: "百炼（阿里）",
+  modelscope: "魔搭社区",
+  zhipu: "智谱 BigModel",
   deepseek: "DeepSeek",
-  openai: "OpenAI",
+  openai: "OpenAI（GPT）",
   anthropic: "Anthropic",
+  siliconflow: "硅基流动",
 };
 
 export default function ModelConfig() {
@@ -57,6 +60,22 @@ export default function ModelConfig() {
     }
   };
 
+  const handleDelete = async (m: ModelConfig) => {
+    if (m.isActive) {
+      setError("激活中的模型不可删除，请先启用其他模型");
+      return;
+    }
+    if (!window.confirm(`确认删除「${PROVIDER_LABELS[m.provider] ?? m.provider} · ${m.model}」？`)) {
+      return;
+    }
+    try {
+      await deleteModel(m.id);
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "删除失败");
+    }
+  };
+
   const handleTestAndSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError(null);
@@ -90,7 +109,8 @@ export default function ModelConfig() {
       <div>
         <h1 className="text-xl font-semibold text-ink-900">模型配置</h1>
         <p className="mt-1 text-sm text-ink-500">
-          配置 LLM Provider；API Key 仅加密存储，前端只显示尾号 4 位。
+          配置 LLM Provider（百炼 / 魔搭 / 智谱 / DeepSeek / OpenAI / Anthropic /
+          硅基流动）；API Key 仅加密存储，前端只显示尾号 4 位。
         </p>
       </div>
 
@@ -147,16 +167,29 @@ export default function ModelConfig() {
                     )}
                   </td>
                   <td className="px-4 py-3">
-                    {m.isActive ? (
-                      <span className="text-xs text-ink-400">使用中</span>
-                    ) : (
+                    <div className="flex items-center gap-3">
+                      {m.isActive ? (
+                        <span className="text-xs text-ink-400">使用中</span>
+                      ) : (
+                        <button
+                          onClick={() => handleActivate(m.id)}
+                          className="text-sm font-medium text-brand-600 hover:text-brand-700"
+                        >
+                          启用
+                        </button>
+                      )}
                       <button
-                        onClick={() => handleActivate(m.id)}
-                        className="text-sm font-medium text-brand-600 hover:text-brand-700"
+                        onClick={() => handleDelete(m)}
+                        className={`text-sm font-medium ${
+                          m.isActive
+                            ? "cursor-not-allowed text-ink-400"
+                            : "text-risk-highText hover:underline"
+                        }`}
+                        title={m.isActive ? "激活中的模型不可删除" : "删除该模型"}
                       >
-                        启用
+                        删除
                       </button>
-                    )}
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -190,7 +223,7 @@ export default function ModelConfig() {
             <input
               value={model}
               onChange={(e) => setModel(e.target.value)}
-              placeholder="如 qwen3.7-flash-2026-07-15"
+              placeholder="如 Qwen/Qwen3-235B-A22B（魔搭）或 glm-4-flash（智谱）"
               className="h-9 w-full rounded-md border border-line-200 bg-surface px-3 text-sm focus:border-brand-600 focus:outline-none"
             />
           </div>

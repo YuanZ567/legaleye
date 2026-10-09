@@ -54,6 +54,9 @@ class WorkflowState(TypedDict, total=False):
     reconsider_dims: Annotated[list[str], _append_dims]
     # 文档是否声明"不出境"（供 Critic 不出境-图谱出境矛盾检测）
     declares_no_outbound: bool
+    # M6 多文档模式：multi 任务传多份原文（Critic 节点调 crossdoc 做跨文档矛盾检测）
+    # single 任务保持 None；d1-d6 节点仍走 document_text（拼接文本）
+    documents: list[str]
 
 
 async def _default_llm_func(**kwargs: Any) -> str:
@@ -131,8 +134,14 @@ def _needs_reflection(state: WorkflowState) -> str:
     round_no = state.get("reflection_round", 0)
     findings = state.get("findings", [])
     reconsidered = state.get("reconsider_dims", [])
+    # has_pending：待补/需人工复核才触发再试一轮。notApplicable 属于确定性结论
+    # （含 M10 证据锚定降级——模型报违规但证据在文档中找不到 → 判不适用），
+    # 其 clauseRef 为空是正常形态，不应触发反思（2026-09-04：否则幻觉维度
+    # 每份文档白跑 2 轮反思 × 6 次 LLM 调用，4.5-flash 慢请求时间成本爆炸）。
     has_pending = any(
-        f.get("clauseRef") in ("", "待补") or f.get("needsHumanReview") for f in findings
+        (f.get("clauseRef") in ("", "待补") or f.get("needsHumanReview"))
+        and f.get("verdict") != "notApplicable"
+        for f in findings
     )
     if (reconsidered or has_pending) and round_no < MAX_REFLECTION_ROUNDS:
         return "agents"
@@ -146,13 +155,45 @@ def _reflect(state: WorkflowState) -> dict:
 
 
 def _critic(state: WorkflowState) -> dict:
-    """Critic 节点（后置）：矛盾检测 + 高风险复核，产出 crossConsistency 与打回维度。"""
+    """Critic 节点（后置）：矛盾检测 + 高风险复核，产出 crossConsistency 与打回维度。
+
+    多文档场景（M6）：调 crossdoc 服务做跨文档声明键对比，检出矛盾追加 crossConsistency finding。
+    """
     critic = Critic(document_declares_no_outbound=state.get("declares_no_outbound", False))
     new_findings, reconsider_dims = critic.analyze(
         task_id=state["task_id"],
         findings=state.get("findings", []),
         graph_summary=state.get("graph_summary", ""),
     )
+    # M6：multi 文档场景接入 crossdoc 规则做确定性矛盾检测
+    documents = state.get("documents") or []
+    if len(documents) >= 2:
+        from app.core.enums import DeclarationKey
+        from app.services.crossdoc import (
+            declaration_sets_conflict,
+            extract_declaration_sets,
+        )
+
+        sets_a = extract_declaration_sets(documents[0])
+        sets_b = extract_declaration_sets(documents[1])
+        for key in DeclarationKey:
+            a_hits, b_hits = sets_a.get(key), sets_b.get(key)
+            if not a_hits or not b_hits:
+                continue
+            if declaration_sets_conflict(a_hits, b_hits):
+                new_findings.append(
+                    {
+                        "dimension": "crossConsistency",
+                        "verdict": "nonCompliant",
+                        "level": "high",
+                        "clauseRef": "",
+                        "statuteVersion": None,
+                        "description": f"跨文档声明矛盾: {key.value}",
+                        "remediation": "统一两份文档的相关声明",
+                        "confidence": 0.9,
+                        "needsHumanReview": False,
+                    }
+                )
     return {
         "findings": new_findings,
         "reconsider_dims": reconsider_dims,

@@ -37,6 +37,8 @@ class TaskOut(APIModel):
     status: str
     progress: int
     document_id: uuid.UUID | None = Field(default=None, alias="documentId")
+    # 关联文档的原始文件名（列表/卡片展示用；文档已删除 → None）
+    document_filename: str | None = Field(default=None, alias="documentFilename")
     token_usage: int = Field(default=0, alias="tokenUsage")
     finding_count: int = Field(default=0, alias="findingCount")
     findings: list[FindingOut] = Field(default_factory=list)

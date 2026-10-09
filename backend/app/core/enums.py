@@ -55,12 +55,15 @@ class PathType(StrEnum):
 
 
 class Provider(StrEnum):
-    """LLM Provider（ARCHITECTURE 6.2，四 provider 路由）。"""
+    """LLM Provider（ARCHITECTURE 6.2，多 provider 路由）。"""
 
     BAILIAN = "bailian"
     DEEPSEEK = "deepseek"
     OPENAI = "openai"
     ANTHROPIC = "anthropic"
+    MODELSCOPE = "modelscope"  # 魔搭社区（OpenAI 兼容接口）
+    ZHIPU = "zhipu"  # 智谱 BigModel（OpenAI 兼容接口，GLM-4.7-Flash 免费）
+    SILICONFLOW = "siliconflow"  # 硅基流动（OpenAI 兼容接口，DeepSeek-V3.2/Qwen3.5 免费）
 
 
 class ReviewDimension(StrEnum):

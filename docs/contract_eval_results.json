@@ -1,0 +1,1833 @@
+{
+  "generated_at": "2026-09-21T16:58:30.296217",
+  "items": [
+    {
+      "file": "c01_eu_scc_2021_915.txt",
+      "raw_chars": 32090,
+      "truncated": true,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "COMMISSION IMPLEMENTING DECISION (EU) 2021/915 of 4 June 2021 on standard contractual clauses between controllers and processors",
+          "description": "文档为欧盟标准合同条款法律框架，未涉及具体个人信息收集行为",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "最小必要",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "notApplicable",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "the standard contractual clauses should also require the controller and processor to set out the subject matter and duration of the processing, its nature and purpose, the type of personal data concerned, the categories of data subjects and the obligations and rights of the controller",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未以显著方式向个人告知处理目的、方式和范围，未提及敏感信息单独同意机制，未提供撤回同意途径",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "missing",
+              "evidence": "the standard contractual clauses should also require the controller and processor to set out the subject matter and duration of the processing, its nature and purpose, the type of personal data concerned, the categories of data subjects and the obligations and rights of the controller"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "THE EUROPEAN COMMISSION, Having regard to the Treaty on the Functioning of the European Union, Having regard to Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data",
+          "description": "文档为欧盟标准合同条款法律框架，未涉及具体个人信息处理行为，仅规范控制器与处理器间的合同关系",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "无目的外使用",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "个性化推荐控制",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "该文档为欧盟标准合同条款(EU SCC 2021/915)，适用于欧盟GDPR和EUDPR，未提及中国用户或向中国境内提供个人信息",
+          "description": "【适用性预筛】文档命中该维度适用信号「subprocessor」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：该文档为欧盟标准合同条款，不涉及中国用户的第三方委托与共享行为",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "取得同意",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "同等保护",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "COMMISSION IMPLEMENTING DECISION (EU) 2021/915 of 4 June 2021 on standard contractual clauses between controllers and processors under Article 28(7) of Regulation (EU) 2016/679 of the European Parliament and of the Council",
+          "description": "【适用性预筛】文档命中该维度适用信号「standardcontractualclauses」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：文档为欧盟标准合同条款(EU SCC 2021/915)，是欧盟关于GDPR和EUDPR的内部法律文件，不涉及向中华人民共和国境外提供个人信息的行为",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "COMMISSION IMPLEMENTING DECISION (EU) 2021/915 of 4 June 2021 on standard contractual clauses between controllers and processors",
+          "description": "【适用性预筛】文档命中该维度适用信号「datasubjects」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未提供查询、更正、删除个人信息的便捷途径，也未提及撤回同意的途径",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "更正补充",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "删除注销",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "响应时限",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "c02_china_standard_contract.txt",
+      "raw_chars": 7487,
+      "truncated": false,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "compliant",
+          "level": "low",
+          "clauseRef": "第五条",
+          "evidence": "出境个人信息范围仅限于实现处理目的所需的最小范围。",
+          "description": "合同规定了个人信息出境范围限于实现处理目的的最小范围，并要求对敏感个人信息取得单独同意，但未明确列出具体的个人信息种类和范围",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "unknown",
+              "evidence": "已向个人信息主体告知境外接收方的名称或姓名、联系方式、附录一'个人信息出境说明'中的相关情况，以及行使个人信息主体权利的方式和程序等事项"
+            },
+            {
+              "name": "最小必要",
+              "status": "satisfied",
+              "evidence": "出境个人信息范围仅限于实现处理目的所需的最小范围。"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "satisfied",
+              "evidence": "如涉及敏感个人信息，已向个人信息主体告知传输敏感个人信息的必要性及对个人的影响；涉及不满十四周岁未成年人个人信息的，已取得未成年人的父母或者其他监护人的同意；法律、行政法规规定应当取得书面同意的，已取得书面同意，相关法律法规规定无需取得书面同意的除外。"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "low",
+          "clauseRef": "",
+          "evidence": "已向个人信息主体告知境外接收方的名称或姓名、联系方式、附录一'个人信息出境说明'中的相关情况，以及行使个人信息主体权利的方式和程序等事项，并已取得个人单独同意",
+          "description": "文档已包含告知义务和单独同意要求，撤回同意途径虽不明确但未明确禁止",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "satisfied",
+              "evidence": "境外接收方应当以显著方式、清晰易懂的语言真实、准确、完整地告知个人信息主体相关信息。"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "satisfied",
+              "evidence": "如涉及敏感个人信息，已向个人信息主体告知传输敏感个人信息的必要性及对个人的影响；涉及不满十四周岁未成年人个人信息的，已取得未成年人的父母或者其他监护人的同意；法律、行政法规规定应当取得书面同意的，已取得书面同意，相关法律法规规定无需取得书面同意的除外。"
+            },
+            {
+              "name": "撤回同意",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "compliant",
+          "level": "low",
+          "clauseRef": "第五条",
+          "evidence": "个人信息系按照相关法律法规进行收集、使用等处理；出境个人信息范围仅限于实现处理目的所需的最小范围。",
+          "description": "合同规定了个人信息处理的最小范围和存储期限限制，并明确告知个人信息主体相关信息",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "satisfied",
+              "evidence": "已向个人信息主体告知境外接收方的名称或姓名、联系方式、附录一'个人信息出境说明'中的相关情况，以及行使个人信息主体权利的方式和程序等事项，并已取得个人单独同意"
+            },
+            {
+              "name": "无目的外使用",
+              "status": "satisfied",
+              "evidence": "按照附录一'个人信息出境说明'所列约定处理个人信息，除非取得个人信息主体的事先同意"
+            },
+            {
+              "name": "个性化推荐控制",
+              "status": "satisfied",
+              "evidence": "利用个人信息进行自动化决策，保证决策的透明度和结果公平、公正，不对个人在交易价格等交易条件上实行不合理的差别待遇。通过自动化决策方式向个人进行信息推送、商业营销，同时提供不针对其个人特征的选项，或者提供便捷的拒绝方式"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "compliant",
+          "level": "medium",
+          "clauseRef": "第二十二条",
+          "evidence": "已向个人信息主体告知境外接收方的名称或姓名、联系方式、附录一'个人信息出境说明'中的相关情况，以及行使个人信息主体权利的方式和程序等事项，并已取得个人单独同意",
+          "description": "文档在向第三方提供个人信息前已告知接收方信息并取得单独同意，且约定了双方的权利义务和保护措施",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "satisfied",
+              "evidence": "已向个人信息主体告知境外接收方的名称或姓名、联系方式、附录一'个人信息出境说明'中的相关情况，以及行使个人信息主体权利的方式和程序等事项"
+            },
+            {
+              "name": "取得同意",
+              "status": "satisfied",
+              "evidence": "并已取得个人单独同意，但相关法律法规规定不需要取得个人单独同意的除外"
+            },
+            {
+              "name": "同等保护",
+              "status": "satisfied",
+              "evidence": "采取有效的技术和管理措施，以确保个人信息的安全，包括防止个人信息遭到意外或非法破坏、丢失、篡改、未经授权提供或访问"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "compliant",
+          "level": "medium",
+          "clauseRef": "第三十九条",
+          "evidence": "",
+          "description": "文档已包含单独同意和告知境外接收方信息的条款，符合个人信息保护法第39条要求",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "satisfied",
+              "evidence": "已向个人信息主体告知境外接收方的名称或姓名、联系方式、附录一\"个人信息出境说明\"中的相关情况，以及行使个人信息主体权利的方式和程序等事项，并已取得个人单独同意，但相关法律法规规定不需要取得个人单独同意的除外。"
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "satisfied",
+              "evidence": "已向个人信息主体告知境外接收方的名称或姓名、联系方式、附录一\"个人信息出境说明\"中的相关情况，以及行使个人信息主体权利的方式和程序等事项"
+            },
+            {
+              "name": "合法出境路径",
+              "status": "satisfied",
+              "evidence": "本合同正文系根据《个人信息出境标准合同规定》的要求拟定"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "境外接收方应当按照个人信息处理者的通知，或根据个人信息主体的请求，在合理时限内实现个人信息主体依照相关法律法规行使的权利。",
+          "description": "文档未明确提供撤回同意的途径，且未规定具体的响应时限",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "satisfied",
+              "evidence": "个人信息主体依据相关法律法规，拥有知情权、决定权、限制或拒绝他人对其个人信息进行处理的权利、查阅权、复制权、更正与补充的权利、删除权，以及要求对其个人信息处理规则进行解释说明的权利。"
+            },
+            {
+              "name": "更正补充",
+              "status": "satisfied",
+              "evidence": "个人信息主体依据相关法律法规，拥有知情权、决定权、限制或拒绝他人对其个人信息进行处理的权利、查阅权、复制权、更正与补充的权利、删除权，以及要求对其个人信息处理规则进行解释说明的权利。"
+            },
+            {
+              "name": "删除注销",
+              "status": "satisfied",
+              "evidence": "个人信息主体依据相关法律法规，拥有知情权、决定权、限制或拒绝他人对其个人信息进行处理的权利、查阅权、复制权、更正与补充的权利、删除权，以及要求对其个人信息处理规则进行解释说明的权利。"
+            },
+            {
+              "name": "响应时限",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "c03_aws_dpa.txt",
+      "raw_chars": 29263,
+      "truncated": true,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "notApplicable",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "Type of Customer Data. Customer Data uploaded to the Services under Customer's AWS accounts.",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确告知具体的个人信息收集种类和详细范围，也未说明收集范围是否限于实现处理目的的最小必要，违反最小必要原则",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "最小必要",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "The purpose of the data processing under this DPA is the provision of the Services initiated by Customer from time to time. Compute, storage and such other Services as described in the Documentation and initiated by Customer from time to time. Customer Data uploaded to the Services under Customer's AWS accounts.",
+          "description": "文档未以显著方式清晰告知处理目的、方式、保存期限及权利行使方式，且未提供撤回同意途径",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "missing",
+              "evidence": "文档仅简单提及处理目的、方式和范围，未以显著方式清晰告知保存期限及权利行使方式"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "文档未提及敏感信息处理及单独同意要求"
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": "文档未提供撤回同意的明确途径"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "compliant",
+          "level": "low",
+          "clauseRef": "第五条",
+          "evidence": "The purpose of the data processing under this DPA is the provision of the Services initiated by Customer from time to time.",
+          "description": "文档明确规定了数据处理目的为提供客户发起的服务，且未发现目的外使用行为",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "satisfied",
+              "evidence": "The purpose of the data processing under this DPA is the provision of the Services initiated by Customer from time to time."
+            },
+            {
+              "name": "无目的外使用",
+              "status": "satisfied",
+              "evidence": "AWS will not access or use, or disclose to any third party, any Customer Data, except, in each case, as necessary to maintain or provide the Services, or as necessary to comply with the law or a valid and binding order of a governmental body"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "待补",
+          "evidence": "Customer provides general authorization to AWS's use of sub-processors to provide processing activities on Customer Data on behalf of Customer",
+          "description": "【适用性预筛】文档命中该维度适用信号「subprocessor」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档向第三方提供个人信息，虽告知接收方信息但未取得您的单独同意，仅提供通用授权",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "satisfied",
+              "evidence": "The AWS website (currently posted at https://aws.amazon.com/compliance/sub-processors/) lists Sub-processors that are currently engaged by AWS. At least 30 days before AWS engages a Sub-processor, AWS will update the applicable website and provide Customer with a mechanism to obtain notice of that update."
+            },
+            {
+              "name": "取得同意",
+              "status": "missing",
+              "evidence": "Customer provides general authorization to AWS's use of sub-processors"
+            },
+            {
+              "name": "同等保护",
+              "status": "satisfied",
+              "evidence": "Where AWS authorizes a Sub-processor as described"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "",
+          "description": "【适用性预筛】文档命中该维度适用信号「standardcontractualclauses」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：文档未明确提及向境外提供个人信息的行为，无法确认跨境提供相关义务",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "合法出境路径",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "Customer can use the Service Controls to assist it with its obligations under Applicable Data Protection Law, including its obligations to respond to requests from data subjects.",
+          "description": "【适用性预筛】文档命中该维度适用信号「datasubjects」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未提供数据主体直接查询、复制、更正、删除个人信息的便捷途径，也未明确说明响应时限和撤回同意的途径",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "更正补充",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "删除注销",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "响应时限",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "c04_google_dpa.txt",
+      "raw_chars": 45155,
+      "truncated": false,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "待补",
+          "evidence": "Categories of Data: Data relating to individuals provided to Google via the Services, by (or at the direction of) Customer or by its End Users.",
+          "description": "【适用性预筛】文档命中该维度适用信号「categoriesofpersonaldata」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确告知收集的具体个人信息类型，仅泛泛提及'与个人相关的数据'，未明示收集范围，违反个人信息保护法第五条关于收集范围应当限于实现处理目的的最小范围的规定",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "missing",
+              "evidence": "文档仅泛泛提及'与个人相关的数据'，未明确列出收集的具体个人信息类型"
+            },
+            {
+              "name": "最小必要",
+              "status": "missing",
+              "evidence": "文档未明确说明收集范围是否限于实现处理目的的最小必要范围"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "unknown",
+              "evidence": "文档未提及敏感个人信息的特殊处理要求或单独同意机制"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "This Addendum describes the parties' obligations, including under applicable privacy, data security, and data protection laws, with respect to the processing and security of Customer Data (as defined below).",
+          "description": "文档未以显著方式告知处理目的、方式、个人信息种类与保存期限，且未提及获取用户同意的机制",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "missing",
+              "evidence": "文档仅定义了Google和客户之间的数据处理义务，未以显著方式告知最终用户处理目的、方式、个人信息种类与保存期限"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "文档未提及敏感信息处理是否需要取得数据主体的单独同意"
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": "文档未提供数据主体撤回同意的途径或机制"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "compliant",
+          "level": "low",
+          "clauseRef": "",
+          "evidence": null,
+          "description": "文档明确说明了处理目的为提供服务和TSS，没有超出初始目的的使用，符合目的直接相关原则",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "satisfied",
+              "evidence": "Nature and Purpose of the Processing: Google will process Customer Personal Data for the purposes of providing the Services and TSS (if applicable) to Customer in accordance with this Addendum."
+            },
+            {
+              "name": "无目的外使用",
+              "status": "satisfied",
+              "evidence": "Customer instructs Google to process Customer Data in accordance with the applicable Agreement (including this Addendum) only as follows: to provide, secure, and monitor the Services and TSS (if applicable);"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "待补",
+          "evidence": "Customer specifically authorizes Google's engagement as Subprocessors of those entities disclosed as described in Section 11.2 as of the Addendum Effective Date. In addition, without prejudice to Section 11.4, Customer generally authorizes Google's engagement of other third parties as Subprocessors",
+          "description": "【适用性预筛】文档命中该维度适用信号「subprocessor」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档向第三方提供个人信息时，未告知接收方信息亦未取得单独同意",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "missing",
+              "evidence": "文档未提及向数据主体告知共享对象、范围与目的"
+            },
+            {
+              "name": "取得同意",
+              "status": "missing",
+              "evidence": "文档仅提及客户授权Google使用子处理者，未提及向数据主体取得单独同意"
+            },
+            {
+              "name": "同等保护",
+              "status": "satisfied",
+              "evidence": "Google将通过书面合同确保子处理者遵守数据保护义务，并对子处理者进行审计"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "待补",
+          "evidence": "Subject to Google's data location commitments under the Service Specific Terms and data transfer commitments under Appendix 3, if applicable, Customer Data may be processed in any country where Google or its Subprocessors maintain facilities.",
+          "description": "【适用性预筛】文档命中该维度适用信号「restrictedtransfer」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确提及向境外提供个人信息需取得用户的单独同意，违反个人信息保护法第39条",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "合法出境路径",
+              "status": "unknown",
+              "evidence": "文档提到了标准合同条款，但没有明确说明是否符合中国网信部门制定的标准合同要求"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "unclear",
+          "level": "low",
+          "clauseRef": "",
+          "evidence": "During the Term, Google will enable Customer, in a manner consistent with the functionality of the Services, to access, rectify and restrict processing of Customer Data, including via the deletion functionality provided by Google as described in Section 6.1, and to export Customer Data.",
+          "description": "文档提供了查询、复制、更正、删除个人信息的途径，并规定了响应时限",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "satisfied",
+              "evidence": "Google will enable Customer... to access... and to export Customer Data"
+            },
+            {
+              "name": "更正补充",
+              "status": "satisfied",
+              "evidence": "Google will enable Customer... to rectify... Customer Data"
+            },
+            {
+              "name": "删除注销",
+              "status": "satisfied",
+              "evidence": "including via the deletion functionality provided by Google as described in Section 6.1"
+            },
+            {
+              "name": "响应时限",
+              "status": "satisfied",
+              "evidence": "Google will comply with this Instruction as soon as reasonably practicable and within a maximum period of 180 days"
+            },
+            {
+              "name": "撤回同意",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "c05_eu_scc_2021_914.txt",
+      "raw_chars": 96108,
+      "truncated": true,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "",
+          "description": "文档为欧盟标准合同条款模板，主要规定数据跨境转移的保护措施，未涉及个人信息收集的具体行为",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "",
+          "description": "文档是欧盟标准合同条款法律框架文件，不是面向数据主体的隐私政策，因此不涉及'告知与同意'维度的处理行为",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "compliant",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "The role of standard contractual clauses is limited to ensuring appropriate data protection safeguards for international data transfers.",
+          "description": "文档作为跨境数据传输的标准合同条款模板，明确了数据传输目的(确保GDPR保护水平)并限制了使用范围，未发现目的外使用行为",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "satisfied",
+              "evidence": "Those responsibilities include an obligation of the controller to provide data subjects with information about the fact that it intends to transfer their personal data to a third country"
+            },
+            {
+              "name": "无目的外使用",
+              "status": "satisfied",
+              "evidence": "The role of standard contractual clauses is limited to ensuring appropriate data protection safeguards for international data transfers"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "待补",
+          "evidence": "数据出口方必须向数据主体提供信息，包括意图将其个人数据传输到第三国的事实",
+          "description": "【适用性预筛】文档命中该维度适用信号「subprocessor」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档向第三方提供个人信息，虽告知接收方信息但未明确提及取得单独同意",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "satisfied",
+              "evidence": "数据出口方必须向数据主体提供信息，包括意图将其个人数据传输到第三国的事实"
+            },
+            {
+              "name": "取得同意",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "同等保护",
+              "status": "satisfied",
+              "evidence": "控制器或处理器可以使用本决定附件中规定的标准合同条款，为向第三国境内的处理者或控制者传输个人数据提供适当的保障措施"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "COMMISSION IMPLEMENTING DECISION (EU) 2021/914 of 4 June 2021 on standard contractual clauses for the transfer of personal data to third countries pursuant to Regulation (EU) 2016/679",
+          "description": "【适用性预筛】文档命中该维度适用信号「crossborder」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：文档为欧盟标准合同条款(EU SCC 2021/914)，是GDPR框架下的法律文件，而非直接面向中国用户的隐私政策，未明确涉及向中国用户提供服务并跨境提供个人信息的场景",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "合法出境路径",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "文档未提供个人查询、复制、更正、删除个人信息的具体途径，也未说明撤回同意的方法",
+          "description": "【适用性预筛】文档命中该维度适用信号「datasubjects」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未提供查询、复制、更正、删除个人信息的便捷途径，也未提供撤回同意的途径",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "更正补充",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "删除注销",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "响应时限",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "c06_microsoft_dpa.txt",
+      "raw_chars": 49111,
+      "truncated": false,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "compliant",
+          "level": "medium",
+          "clauseRef": "第五条",
+          "evidence": "Microsoft在提供产品和服务时处理的个人数据的类型包括：(i)客户选择包含在客户数据和专业服务数据中的个人数据；(ii)GDPR第4条中明确指明的可能由Microsoft生成、派生或收集的数据，包括因客户使用基于服务的能力而发送给Microsoft的数据或Microsoft从本地安装的软件中获取的数据。",
+          "description": "文档在个人信息收集方面满足合法、正当、必要原则，明示了收集范围，遵循最小必要原则，并对敏感个人信息(如生物识别数据)要求取得单独同意",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "satisfied",
+              "evidence": "Microsoft在提供产品和服务时处理的个人数据的类型包括：(i)客户选择包含在客户数据和专业服务数据中的个人数据；(ii)GDPR第4条中明确指明的可能由Microsoft生成、派生或收集的数据"
+            },
+            {
+              "name": "最小必要",
+              "status": "satisfied",
+              "evidence": "当处理这些企业运营时，Microsoft将应用数据最小化原则，不会将客户数据、专业服务数据或个人数据用于：(a)用户画像，(b)广告或类似商业目的，或(c)任何其他目的，本节中设定的目的除外"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "satisfied",
+              "evidence": "如果客户使用产品和服务处理生物识别数据，客户负责：(i)向数据主体提供通知，包括关于保留期和销毁的通知；(ii)从数据主体处获取同意；(iii)删除生物识别数据，所有这些都应根据适用数据保护要求适当且需要"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "The nature and purpose of the processing shall be to provide the Products and Services pursuant to Customer's volume licensing agreement and for business operations incident to providing the Products and Services to Customer",
+          "description": "文档未以显著方式清晰告知处理目的、方式、个人信息种类与保存期限，且未明确提供撤回同意的途径",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "missing",
+              "evidence": "The nature and purpose of the processing shall be to provide the Products and Services pursuant to Customer's volume licensing agreement and for business operations incident to providing the Products and Services to Customer"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "compliant",
+          "level": "low",
+          "clauseRef": "第五条",
+          "evidence": "Microsoft will use and otherwise process Customer Data, Professional Services Data, and Personal Data only as described and subject to the limitations provided below (a) to provide Customer the Products and Services in accordance with Customer's documented instructions and (b) for business operations incident to providing the Products and Services to Customer.",
+          "description": "文档明确说明了处理目的（提供产品和服务、业务运营），并限制了数据使用范围，禁止用于用户画像、广告等目的，除非符合客户书面指示；数据保留期限明确且与业务目的直接相关",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "satisfied",
+              "evidence": "Microsoft will use and otherwise process Customer Data, Professional Services Data, and Personal Data only as described and subject to the limitations provided below (a) to provide Customer the Products and Services in accordance with Customer's documented instructions and (b) for business operations incident to providing the Products and Services to Customer."
+            },
+            {
+              "name": "无目的外使用",
+              "status": "satisfied",
+              "evidence": "When providing Products and Services, Microsoft will not use or otherwise process Customer Data, Professional Services Data, or Personal Data for: (a) user profiling, (b) advertising or similar commercial purposes, or (c) market research aimed at creating new functionalities, services, or products or any other purpose, unless such use or processing is in accordance with Customer's documented instructions."
+            },
+            {
+              "name": "个性化推荐控制",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "待补",
+          "evidence": "Customer consents to this engagement and to Microsoft Affiliates as Subprocessors. The above authorizations will constitute Customer's prior written consent to the subcontracting by Microsoft of the processing of Customer Data, Professional Services Data, and Personal Data if such consent is required under the Standard Contractual Clauses or the GDPR Terms.",
+          "description": "【适用性预筛】文档命中该维度适用信号「subprocessor」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档向第三方提供个人信息，未告知接收方详细信息且未取得单独同意",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "missing",
+              "evidence": "文档提到会通知客户关于Subprocessors的使用，但未明确告知接收方的名称、联系方式、处理目的、处理方式和数据种类"
+            },
+            {
+              "name": "取得单独同意",
+              "status": "missing",
+              "evidence": "文档中的同意是在签订主合同时一并取得，不是针对每次向特定第三方提供个人信息的单独同意"
+            },
+            {
+              "name": "同等保护",
+              "status": "satisfied",
+              "evidence": "Microsoft will ensure that Subprocessors are bound by written agreements that require them to provide at least the level of data protection required of Microsoft by the DPA"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "待补",
+          "evidence": "Customer consents to this engagement and to Microsoft Affiliates as Subprocessors. The above authorizations will constitute Customer's prior written consent to the subcontracting by Microsoft of the processing of Customer Data, Professional Services Data, and Personal Data if such consent is required under the Standard Contractual Clauses or the GDPR Terms.",
+          "description": "【适用性预筛】文档命中该维度适用信号「internationaldatatransfer」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确说明是否取得数据主体的单独同意，也未明确说明是否告知了境外接收方的详细信息，违反个人信息保护法第39条",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "合法出境路径",
+              "status": "satisfied",
+              "evidence": "All transfers of Customer Data, Professional Services Data, and Personal Data out of the European Union, European Economic Area, United Kingdom, and Switzerland to provide the Products and Services shall be governed by the 2021 Standard Contractual Clauses implemented by Microsoft."
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "Microsoft will make available to Customer, in a manner consistent with the functionality of the Products and Services and Microsoft's role as a processor of Personal Data of data subjects, the ability to fulfill data subject requests to exercise their rights under the GDPR. If Microsoft receives a request from Customer's data subject to exercise one or more of its rights under the GDPR in connection with the Products and Services for which Microsoft is a data processor or subprocessor, Microsoft will redirect the data subject to make its request directly to Customer.",
+          "description": "【适用性预筛】文档命中该维度适用信号「datasubjectrights」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未为数据主体直接提供查询、复制、更正、删除个人信息的便捷途径，而是要求数据主体通过客户提出请求",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "更正补充",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "删除注销",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "响应时限",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "c07_shopify_dpa.txt",
+      "raw_chars": 37083,
+      "truncated": false,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "待补",
+          "evidence": "Other information about the Customers' interactions with You. Any other Personal Data you or Your Customers choose to make available to Shopify.",
+          "description": "【适用性预筛】文档命中该维度适用信号「categoriesofpersonaldata」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档收集范围未明确限于实现处理目的的最小必要范围，且未提及对敏感个人信息的单独同意要求",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "satisfied",
+              "evidence": "APPENDIX A: CATEGORIES OF PERSONAL Data: Customer name, email, contact, billing and shipping information. Purchase and other transaction information from Your Store(s). Update(s) about the status of transaction(s) with You or Your Store(s). Customer activity in Your Store(s), including products viewed and/or included in shopping carts. Customer preference signals, including Global Privacy Control (\"GPC\"), opt-out and opt-in signals. Customer device information for device(s) used when visiting Your Store(s), including IP address, browser, and network activity. Other information about the Customers' interactions with You. Any other Personal Data you or Your Customers choose to make available to Shopify."
+            },
+            {
+              "name": "最小必要",
+              "status": "missing",
+              "evidence": "Other information about the Customers' interactions with You. Any other Personal Data you or Your Customers choose to make available to Shopify."
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "This Shopify Data Processing Addendum (\"DPA\") supplements and is incorporated by reference into the Shopify Terms of Service, together with any terms applicable to any additional Shopify services that you choose to use (the \"Terms\") by and between You (or \"Merchant\"), and the Shopify Contracting Entity as set forth in the Terms (\"Shopify\"), which outline the specific business purposes and services related to this DPA.",
+          "description": "文档未以显著方式清晰告知处理目的、方式、个人信息种类与保存期限，且未明确说明敏感信息的单独同意机制",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "missing",
+              "evidence": "文档未以显著方式集中展示处理目的、方式、个人信息种类与保存期限，信息分散在多个章节和附录中"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "文档未明确定义敏感信息，也未提供明确的单独同意机制，仅提及'You represent and warrant that You will not share with Shopify any...sensitive Personal Data of an individual who has not consented to the processing of such sensitive data'"
+            },
+            {
+              "name": "撤回同意",
+              "status": "satisfied",
+              "evidence": "You can disable Shopify's use of Your Customer Personal Data in this manner by disabling Shopify Network Intelligence here, although you will not be able to use certain apps or features"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "Shopify shall process Your Customer Personal Data as a Data Processor or Service Provider only to provide the Services instructed in the Terms and any supplemental Terms and as necessary to provide, develop, and improve its Services and engage in any other purposes permitted by Applicable Data Protection Laws.",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档允许将客户个人数据用于超出初始服务目的的其他用途，包括分析和广告，未明确限制目的范围",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "satisfied",
+              "evidence": "For the performance and improvement of the Services as described in the Terms."
+            },
+            {
+              "name": "无目的外使用",
+              "status": "missing",
+              "evidence": "engage in any other purposes permitted by Applicable Data Protection Laws"
+            },
+            {
+              "name": "个性化推荐控制",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "待补",
+          "evidence": "You acknowledge that Your Customer Personal Data may be transferred and processed in any country in which Shopify, its affiliated companies or third party service providers are located (including in Singapore and Canada).",
+          "description": "【适用性预筛】文档命中该维度适用信号「subprocessor」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未向个人告知接收方的名称、联系方式、处理目的、处理方式和个人信息的种类，也未取得个人的单独同意",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "missing",
+              "evidence": "文档中未明确告知用户将向哪些具体的第三方共享个人信息的详细内容，仅提到'关联公司或第三方服务提供商'，未提供接收方名称、联系方式、处理目的和处理方式的具体信息。"
+            },
+            {
+              "name": "取得同意",
+              "status": "missing",
+              "evidence": "文档中未提及需要取得用户单独同意的内容，仅强调商户有责任确保客户个人数据的处理符合适用的数据保护法律，未涉及最终用户的同意机制。"
+            },
+            {
+              "name": "同等保护",
+              "status": "satisfied",
+              "evidence": "Where Shopify engages a service provider, Shopify will enter into a written agreement with the service provider that imposes contractual obligations that are substantially the same as the ones set out in this DPA."
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "待补",
+          "evidence": "You acknowledge that Your Customer Personal Data may be transferred and processed in any country in which Shopify, its affiliated companies or third party service providers are located (including in Singapore and Canada). Any transfer of Your Customer Personal Data to these recipients will be made in compliance with Applicable Data Protection Laws.",
+          "description": "【适用性预筛】文档命中该维度适用信号「internationaldatatransfer」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确告知境外接收方信息且未取得单独同意，违反个人信息保护法第39条",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "合法出境路径",
+              "status": "satisfied",
+              "evidence": "Where such transfers are made from the EEA and/or Switzerland to another Shopify entity outside the EEA or Switzerland they will be done in accordance with Shopify's Binding Corporate Rules (BCRs). Any International Transfers to countries which do not ensure an adequate level of data protection within the meaning of the European Data Protection Laws, will be subject to appropriate additional safeguards including the following transfer mechanisms: the relevant modules under the 2021 Standard Contractual Clauses approved by the European Commission"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "During Your use of the Services, You may leverage account tools to access, return to yourself, or delete Your Customer Personal Data. You represent and warrant that You provide the ability for Your Customers to exercise Data Rights Requests, as required under Applicable Data Protection Laws, with respect to processing of Your Customer Personal Data by Shopify for which You are the Data Controller.",
+          "description": "【适用性预筛】文档命中该维度适用信号「datasubjects」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确提供复制、更正、注销账号的个人权利途径，也未提供普遍的撤回同意途径和响应时限说明",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "更正补充",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "删除注销",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "响应时限",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "c08_stripe_dpa.txt",
+      "raw_chars": 23187,
+      "truncated": true,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "待补",
+          "evidence": "Sensitive Data: If applicable, Stripe may Process Sensitive Data (e.g., facial recognition data).",
+          "description": "【适用性预筛】文档命中该维度适用信号「personaldataprocessed」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档可能收集面部识别等敏感数据，未明确说明是否取得单独同意，且未证明此类数据收集符合最小必要原则",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "satisfied",
+              "evidence": "Categories of Data Subjects and Personal Data: Stripe as a Data Processor and a Data Controller - Data Subjects: Stripe may Process the Personal Data of Customers, representatives and any natural person who accesses or uses the Stripe Account. - Personal Data: If applicable, Stripe may Process Payment Method Account Details, bank account details, billing/shipping address, name, order description (including date, time, amount, product or service description), device ID, email address, IP address/location, order ID, payment card details, tax ID/status, unique customer identifier, identity information including government issued documents (e.g., national IDs, driver's licenses and passports)."
+            },
+            {
+              "name": "最小必要",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "The purposes of Stripe's Processing of Personal Data in its capacity as a Data Processor are to: service the Stripe platform; and provide, and provide access to, Stripe's products and services. Personal Data: If applicable, Stripe may Process Payment Method Account Details, bank account details, billing/shipping address, name, order description (including date, time, amount, product or service description), device ID, email address, IP address/location, order ID, payment card details, tax ID/status, unique customer identifier, identity information including government issued documents (e.g., national IDs, driver's licenses and passports). Sensitive Data: If applicable, Stripe may Process Sensitive Data (e.g., facial recognition data).",
+          "description": "文档未以显著方式清晰告知处理目的、方式、个人信息种类与保存期限，未明确说明敏感信息处理的单独同意机制，也未提供撤回同意的明确途径",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "missing",
+              "evidence": "文档虽然包含了处理目的、个人信息种类的信息，但未以显著方式清晰展示，且未说明保存期限"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "文档提到'Sensitive Data: If applicable, Stripe may Process Sensitive Data (e.g., facial recognition data)'，但未提及是否取得单独同意"
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": "文档未提供用户撤回同意的明确途径"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "Stripe as a Data Processor: The purposes of Stripe's Processing of Personal Data in its capacity as a Data Processor are to: service the Stripe platform; and provide, and provide access to, Stripe's products and services. Stripe as a Data Controller: The purposes of Stripe's Processing of Personal Data in its capacity as a Data Controller when providing Stripe's products and services are to: determine and utilize third parties (banks and payment method providers); monitor, prevent and detect fraudulent transactions and other fraudulent activity on the Stripe platform; monitor, prevent and mitigate financial loss, security risks, and other harm; implement, maintain and perform internal processes that enable Stripe to provide its products and services, including relationship management, billing and invoicing; comply with Law, including applicable anti-money laundering screening and know-your-customer obligations, and Financial Provider and Governmental Authority requirements and requests; and analyze, improve and develop Stripe's products and services.",
+          "description": "【适用性预筛】文档命中该维度适用信号「processingpurposes」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确告知用户处理目的，且未说明不会将数据用于处理目的之外的其他用途",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "无目的外使用",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "待补",
+          "evidence": "Stripe engages Sub-processors, which may include its Affiliates, as necessary to perform the Services. User consents to Stripe's use of its existing Sub-processors, as set out on the Stripe Sub-processors List, and grants Stripe a general written authorization to engage Sub-processors as necessary to perform the Services.",
+          "description": "【适用性预筛】文档命中该维度适用信号「subprocessor」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确告知向第三方提供个人信息的接收方信息，也未取得用户的单独同意",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "missing",
+              "evidence": "文档提到子处理者列表，但没有明确告知用户将向哪些具体的第三方提供个人信息，以及这些第三方的联系方式。"
+            },
+            {
+              "name": "取得同意",
+              "status": "missing",
+              "evidence": "文档只提到用户同意使用现有的子处理者，并授予Stripe一般性的书面授权，但没有明确说明向第三方提供个人信息前会取得用户的单独同意。"
+            },
+            {
+              "name": "同等保护",
+              "status": "unknown",
+              "evidence": "文档提到会实施和维护信息安全计划，但没有明确说明第三方接收方是否有同等的数据保护措施或协议。"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "User consents to Stripe's use of its existing Sub-processors, as set out on the Stripe Sub-processors List, and grants Stripe a general written authorization to engage Sub-processors as necessary to perform the Services.",
+          "description": "文档涉及数据处理和子处理者，但未明确提及向境外提供个人信息的情况，也未提供跨境数据传输的合规措施",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "合法出境路径",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "Stripe will inform User of each request Stripe receives from Data Subjects (including \"verifiable consumer requests\" as defined under the CCPA) exercising their rights under DP Law to (i) access (e.g., right to know under the CCPA) their Personal Data; (ii) have their Personal Data corrected or erased; (iii) restrict or object to Stripe's Processing; or (iv) data portability (collectively \"Data Subject Request\"). Other than to request further information, identify the Data Subject, and, if applicable, direct the Data Subject to User as Data Controller, Stripe will not respond to these requests unless User instruct Stripe in writing to do so.",
+          "description": "【适用性预筛】文档命中该维度适用信号「datasubjectrequest」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未提供查询、复制、更正、删除个人信息的具体途径，也未说明响应时限和撤回同意途径",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "更正补充",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "删除注销",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "响应时限",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "c09_uk_idta.txt",
+      "raw_chars": 13473,
+      "truncated": true,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "文档为UK ICO International Data Transfer Addendum (IDTA) to the EU SCCs，主要规定数据出口方和进口方之间的数据传输义务",
+          "description": "文档为数据跨境传输合同文件，未涉及个人信息收集的具体行为",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "最小必要",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "This Addendum has been issued by the Information Commissioner for Parties making Restricted Transfers. The Information Commissioner considers that it provides Appropriate Safeguards for Restricted Transfers when it is entered into as a legally binding contract.",
+          "description": "文档为法律合同模板，不直接面向用户提供个人信息的处理目的、方式、种类与保存期限的告知，也不涉及单独同意或撤回同意机制",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "unknown",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "unknown",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "notApplicable",
+          "level": "medium",
+          "clauseRef": "",
+          "evidence": "文档中未明确说明数据传输的具体目的",
+          "description": "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确说明数据传输的具体目的，违反了个人信息保护法第五条关于处理个人信息应当具有明确、合理的目的的规定",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "无目的外使用",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "",
+          "description": "third_party_agent LLM 调用失败，已降级为待人工复核",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "待补",
+          "evidence": "This Addendum has been issued by the Information Commissioner for Parties making Restricted Transfers. The Information Commissioner considers that it provides Appropriate Safeguards for Restricted Transfers when it is entered into as a legally binding contract.",
+          "description": "【适用性预筛】文档命中该维度适用信号「internationaldatatransfer」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档提供了标准合同作为合法出境路径，但未明确提及是否取得个人的单独同意以及是否告知个人境外接收方的详细信息",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "合法出境路径",
+              "status": "satisfied",
+              "evidence": "This Addendum has been issued by the Information Commissioner for Parties making Restricted Transfers. The Information Commissioner considers that it provides Appropriate Safeguards for Restricted Transfers when it is entered into as a legally binding contract."
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "Although Annex 1A and Clause 7 of the Approved EU SCCs require signature by the Parties, for the purpose of making Restricted Transfers, the Parties may enter into this Addendum in any way that makes them legally binding on the Parties and allows data subjects to enforce their rights as set out in this Addendum.",
+          "description": "【适用性预筛】文档命中该维度适用信号「datasubjects」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未提供查询、复制、更正、删除个人信息的便捷途径，也未提供撤回同意的途径",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "更正补充",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "删除注销",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "响应时限",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    },
+    {
+      "file": "c10_paypal_dpa.txt",
+      "raw_chars": 23637,
+      "truncated": false,
+      "model": "glm-4.5-flash",
+      "provider": "zhipu",
+      "findings": [
+        {
+          "dimension": "d1Collection",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "待补",
+          "evidence": "我们的政策要求通过技术控制收集和生成的数据元素应与处理目的相关，并且限于处理目的所必需的。PayPal的隐私影响评估流程确保遵守这些政策。",
+          "description": "【适用性预筛】文档命中该维度适用信号「categoriesofpersonaldata」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档虽然声明遵循数据最小化原则，但未详细说明每种处理目的对应的具体最小必要字段，也未明确说明敏感信息单独同意的获取方式",
+          "requirement_check": [
+            {
+              "name": "告知收集范围",
+              "status": "satisfied",
+              "evidence": "Categories of Personal Data Transferred: The personal data transferred may include the following categories of data: Name, amount to be charged, date/time, bank account details, payment card details, CVC code, post code, country code, address, email address, fax, phone, website, expiry data, shipping details, tax status, unique customer identifier, IP Address, location, and any other data received by PayPal under the Agreement."
+            },
+            {
+              "name": "最小必要",
+              "status": "missing",
+              "evidence": "文档虽然声明遵循数据最小化原则，但未详细说明每种处理目的对应的具体最小必要字段，没有证明收集范围确实限于实现处理目的的最小范围。"
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "文档未明确说明收集敏感个人信息的情况，也没有提到需要获取单独同意。虽然提到'不适用，除非商户配置服务以捕获此类数据'，但没有进一步说明在这种情况下如何获取单独同意。"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d2Notice",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "",
+          "evidence": "The parties acknowledge and agree that PayPal is permitted to use, reproduce and Process Customer Data and payment transaction data for the following limited purposes: as reasonably necessary to provide and improve the Payment Services to Merchant and its Customers, including in connection with its fraud protection tools; to monitor, prevent and detect fraudulent payment transactions and to prevent harm to Merchant, PayPal and to third parties; to comply with legal or regulatory obligations applicable to the Processing and retention of payment data to which PayPal is subject, including applicable anti-money laundering and identity verification obligations; to analyze, develop and improve PayPal's products and services; internal usage, including but not limited to, data analytics and metrics; to compile and disclose Customer Data and payment transaction data in the aggregate where your individual or user Customer Data is not identifiable, including calculating your averages by region or industry; complying with applicable legal requirements and assisting law enforcement agencies by responding to requests for the disclosure of information in accordance with laws; and any other purpose that it notifies Merchant so long as such purpose is in accordance with Data Protection Laws.",
+          "description": "文档未以显著方式清晰告知处理目的、方式、个人信息种类与保存期限，未明确说明敏感信息处理的单独同意机制，未提供撤回同意的途径",
+          "requirement_check": [
+            {
+              "name": "显著告知",
+              "status": "missing",
+              "evidence": "The parties acknowledge and agree that PayPal is permitted to use, reproduce and Process Customer Data and payment transaction data for the following limited purposes: as reasonably necessary to provide and improve the Payment Services to Merchant and its Customers, including in connection with its fraud protection tools; to monitor, prevent and detect fraudulent payment transactions and to prevent harm to Merchant, PayPal and to third parties; to comply with legal or regulatory obligations applicable to the Processing and retention of payment data to which PayPal is subject, including applicable anti-money laundering and identity verification obligations; to analyze, develop and improve PayPal's products and services; internal usage, including but not limited to, data analytics and metrics; to compile and disclose Customer Data and payment transaction data in the aggregate where your individual or user Customer Data is not identifiable, including calculating your averages by region or industry; complying with applicable legal requirements and assisting law enforcement agencies by responding to requests for the disclosure of information in accordance with laws; and any other purpose that it notifies Merchant so long as such purpose is in accordance with Data Protection Laws."
+            },
+            {
+              "name": "敏感信息单独同意",
+              "status": "missing",
+              "evidence": "The personal data transferred concern the following categories of sensitive data: Not applicable, unless Merchant configures the service to capture such data. Applies restrictions and safeguards: Not applicable, unless Merchant configures the service to capture such data."
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d3Purpose",
+          "verdict": "compliant",
+          "level": "low",
+          "clauseRef": "第五条",
+          "evidence": "PayPal is permitted to use, reproduce and Process Customer Data and payment transaction data for the following limited purposes: as reasonably necessary to provide and improve the Payment Services to Merchant and its Customers, including in connection with its fraud protection tools; to monitor, prevent and detect fraudulent payment transactions and to prevent harm to Merchant, PayPal and to third parties; to comply with legal or regulatory obligations applicable to the Processing and retention of payment data to which PayPal is subject, including applicable anti-money laundering and identity verification obligations; to analyze, develop and improve PayPal's products and services; internal usage, including but not limited to, data analytics and metrics; to compile and disclose Customer Data and payment transaction data in the aggregate where your individual or user Customer Data is not identifiable, including calculating your averages by region or industry; complying with applicable legal requirements and assisting law enforcement agencies by responding to requests for the disclosure of information in accordance with laws; and any other purpose that it notifies Merchant so long as such purpose is in accordance with Data Protection Laws.",
+          "description": "PayPal明确列出了处理Customer Data的有限目的，包括提供和改进支付服务、欺诈检测、合规要求等，并声明数据收集限于必要范围",
+          "requirement_check": [
+            {
+              "name": "目的明确",
+              "status": "satisfied",
+              "evidence": "PayPal is permitted to use, reproduce and Process Customer Data and payment transaction data for the following limited purposes: as reasonably necessary to provide and improve the Payment Services to Merchant and its Customers, including in connection with its fraud protection tools; to monitor, prevent and detect fraudulent payment transactions and to prevent harm to Merchant, PayPal and to third parties; to comply with legal or regulatory obligations applicable to the Processing and retention of payment data to which PayPal is subject, including applicable anti-money laundering and identity verification obligations; to analyze, develop and improve PayPal's products and services; internal usage, including but not limited to, data analytics and metrics; to compile and disclose Customer Data and payment transaction data in the aggregate where your individual or user Customer Data is not identifiable, including calculating your averages by region or industry; complying with applicable legal requirements and assisting law enforcement agencies by responding to requests for the disclosure of information in accordance with laws; and any other purpose that it notifies Merchant so long as such purpose is in accordance with Data Protection Laws."
+            },
+            {
+              "name": "无目的外使用",
+              "status": "satisfied",
+              "evidence": "The parties acknowledge and agree that PayPal is permitted to use, reproduce and Process Customer Data and payment transaction data for the following limited purposes"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": false
+        },
+        {
+          "dimension": "d4ThirdParty",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "待补",
+          "evidence": "PayPal shall only transfer Customer Data to third parties, sub-processors or members of the PayPal Group who shall sign written agreements which contain terms for the protection of Customer Data, which are no less protective than the terms set out in this Addendum.",
+          "description": "【适用性预筛】文档命中该维度适用信号「subprocessor」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档向第三方提供个人信息，未告知接收方信息亦未取得单独同意",
+          "requirement_check": [
+            {
+              "name": "告知共享",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "取得同意",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "同等保护",
+              "status": "satisfied",
+              "evidence": "PayPal shall only transfer Customer Data to third parties, sub-processors or members of the PayPal Group who shall sign written agreements which contain terms for the protection of Customer Data, which are no less protective than the terms set out in this Addendum."
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d5CrossBorder",
+          "verdict": "unclear",
+          "level": "high",
+          "clauseRef": "待补",
+          "evidence": "The parties agree that PayPal may transfer Customer Data Processed under this Addendum outside the country where it was collected as necessary to provide the Payment Services.",
+          "description": "【适用性预筛】文档命中该维度适用信号「crossborder」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未明确提及取得个人对跨境数据传输的单独同意，违反个人信息保护法第39条",
+          "requirement_check": [
+            {
+              "name": "单独同意",
+              "status": "missing",
+              "evidence": "文档未明确提及取得个人对跨境数据传输的单独同意"
+            },
+            {
+              "name": "告知境外接收方",
+              "status": "satisfied",
+              "evidence": "附件1中提供了PayPal作为接收方的名称、地址、处理目的和数据类别"
+            },
+            {
+              "name": "合法出境路径",
+              "status": "satisfied",
+              "evidence": "文档提到使用标准合同条款（EU Transfer Clauses和UK Transfer Clauses）进行跨境数据传输"
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "d6DataRights",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "Merchant also shall inform the Customer that they may exercise their data subject rights in connection with the Payment Services with PayPal according to the instructions described in the Privacy Statement available at www.paypal.com.",
+          "description": "【适用性预筛】文档命中该维度适用信号「datasubjectrights」，原判定 notApplicable 疑为漏检（该查没查），转人工复核：【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】文档未提供查询、复制、删除个人信息以及撤回同意的具体途径，仅提及客户可根据隐私声明行使权利，但未说明具体操作方式",
+          "requirement_check": [
+            {
+              "name": "查阅复制",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "更正补充",
+              "status": "satisfied",
+              "evidence": "PayPal's access and quality policy ensures that all personal data is correct, complete, and up to date, enabling individual users to access the system to correct and modify their particulars (e.g., address, contact details etc.)"
+            },
+            {
+              "name": "删除注销",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "响应时限",
+              "status": "missing",
+              "evidence": ""
+            },
+            {
+              "name": "撤回同意",
+              "status": "missing",
+              "evidence": ""
+            }
+          ],
+          "rule_backed": false,
+          "needsHumanReview": true
+        },
+        {
+          "dimension": "crossConsistency",
+          "verdict": "unclear",
+          "level": "medium",
+          "clauseRef": "待补",
+          "evidence": "",
+          "description": "高风险结论待复核：维度 crossConsistency 需人工确认",
+          "requirement_check": null,
+          "rule_backed": false,
+          "needsHumanReview": true
+        }
+      ]
+    }
+  ],
+  "updated_at": "2026-09-21 21:09:43",
+  "note": "M13 修复 + 全文重跑（max-chars 50000）：c04/c06/c07/c10 使用全文结果，其余沿用 M12 版"
+}

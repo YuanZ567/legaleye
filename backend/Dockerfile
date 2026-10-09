@@ -22,4 +22,5 @@ COPY alembic ./alembic
 
 EXPOSE 8000
 
-CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# --no-sync：运行时依赖已在构建期 uv sync 装好；启动时不再联网校验（避免 pypi 抖动导致起不来）
+CMD ["uv", "run", "--no-sync", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -8,6 +8,7 @@
 
 import asyncio
 import logging
+import threading
 import uuid
 
 from app.agents.workflow import build_workflow
@@ -21,6 +22,48 @@ from app.tasks.celery_app import celery_app
 logger = logging.getLogger(__name__)
 
 _DEGRADED_DIMENSIONS = [d for d in ReviewDimension]
+
+# 进度映射：6 维 + critic 共 7 个节点，10%→90% 线性推进（100% 由完成落库时写入）
+_PROGRESS_NODES = 7
+
+
+def _track_progress(task_id: uuid.UUID, stop: threading.Event) -> None:
+    """后台线程：消费 nodeEnd 专用进度队列，按完成节点数更新 DB 进度（10→90）。
+
+    只更新 running 状态的任务；Redis 不可用 / 队列空时轮询等待，stop 置位即退出。
+    """
+    import time
+
+    from app.core.sse import _redis
+
+    done_dims: set[str] = set()
+    while not stop.is_set():
+        try:
+            client = _redis()
+            if client is None:
+                return
+            item = client.lpop(f"task:{task_id}:progress")
+            if not item:
+                time.sleep(1.0)
+                continue
+            if item and item not in done_dims:
+                done_dims.add(item)
+                progress = min(90, 10 + int(80 * len(done_dims) / _PROGRESS_NODES))
+                with SessionLocal() as db:
+                    t = db.get(ReviewTask, task_id)
+                    if t is not None and t.status == "running":
+                        t.progress = progress
+                        db.commit()
+                        # M10 修复：进度同步发布 taskStatus 事件。此前进度只写 DB
+                        # 不发事件，SSE 端会一直卡在任务启动时滞留的 10% 旧事件，
+                        # 与任务列表页（REST 读 DB，显示 90%）不同步。
+                        publish_event(
+                            str(task_id),
+                            "taskStatus",
+                            {"status": "running", "progress": progress},
+                        )
+        except Exception:  # noqa: BLE001 — 进度跟踪失败绝不影响审查主流程
+            time.sleep(2.0)
 
 
 @celery_app.task(bind=True, max_retries=2)
@@ -72,18 +115,26 @@ def _run_workflow(*, task_id: uuid.UUID, document_id: uuid.UUID) -> None:
                 api_key_override = get_user_api_key_plain(db, owner)
         publish_event(str(task_id), "taskStatus", {"status": "running", "progress": 10})
 
-    graph = build_workflow()
-    # LangGraph 是 async 图，用 asyncio.run 同步驱动（Celery worker 内）
-    state = asyncio.run(
-        graph.ainvoke(
-            {
-                "task_id": str(task_id),
-                "document_id": str(document_id),
-                "document_text": text,
-                "api_key_override": api_key_override,
-            }
+    # 后台进度跟踪：nodeEnd 事件 → DB 进度（10→90），工作流结束后停止
+    stop_tracker = threading.Event()
+    tracker = threading.Thread(target=_track_progress, args=(task_id, stop_tracker), daemon=True)
+    tracker.start()
+    try:
+        graph = build_workflow()
+        # LangGraph 是 async 图，用 asyncio.run 同步驱动（Celery worker 内）
+        state = asyncio.run(
+            graph.ainvoke(
+                {
+                    "task_id": str(task_id),
+                    "document_id": str(document_id),
+                    "document_text": text,
+                    "api_key_override": api_key_override,
+                }
+            )
         )
-    )
+    finally:
+        stop_tracker.set()
+        tracker.join(timeout=3.0)
 
     findings = state.get("findings", [])
     with SessionLocal() as db:

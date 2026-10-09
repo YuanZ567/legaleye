@@ -37,13 +37,21 @@ def _event_key(task_id: str) -> str:
 
 
 def publish_event(task_id: str, event_type: str, data: dict[str, Any]) -> None:
-    """发布一条 SSE 事件（入队；Redis 不可用则仅记录日志降级）。"""
+    """发布一条 SSE 事件（入队；Redis 不可用则仅记录日志降级）。
+
+    nodeEnd 事件额外写入独立进度队列 task:{id}:progress（供 worker 内
+    进度跟踪线程消费，不与 SSE 流抢占事件）。
+    """
     payload = json.dumps({"type": event_type, "data": data}, ensure_ascii=False)
     client = _redis()
     if client is not None:
         try:
             client.rpush(_event_key(task_id), payload)
             client.expire(_event_key(task_id), 3600)
+            if event_type == "nodeEnd":
+                progress_key = f"task:{task_id}:progress"
+                client.rpush(progress_key, data.get("dimension") or data.get("node") or "")
+                client.expire(progress_key, 3600)
             return
         except Exception as exc:  # pragma: no cover - 网络异常降级
             logger.warning("SSE 入队失败，降级: %s", exc)

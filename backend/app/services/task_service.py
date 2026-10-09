@@ -51,10 +51,16 @@ def delete_task(db: Session, task_id: uuid.UUID) -> bool:
 
     级联删除依赖 DB 外键 CASCADE（ComplianceFinding/Report 已配 ondelete=CASCADE），
     不手动逐表 DELETE。返回 True 表示删除成功；任务不存在返回 False。
+    运行中/排队中的任务拒绝删除——Celery worker 仍在写 findings，
+    删行会导致审查结束时外键违规、整场审查白跑。
     """
     task = db.get(ReviewTask, task_id)
     if task is None:
         return False
+    if task.status in ("running", "queued"):
+        from app.core.exceptions import ValidationError
+
+        raise ValidationError("任务正在运行中，不可删除；请等待完成或失败后再删除", code="task_running")
     db.delete(task)
     db.commit()
     return True

@@ -4,7 +4,7 @@
 > 本报告基于 `gen_golden.py` 脚本生成的**合成金标语料**（每份程序化埋点 2-4 个违规），
 > 其 F1/召回数字仅作为**回归测试基准**，不代表对真实文档的审查效果。
 > 真实效果评估请见：`docs/blind_eval_report.md`（12 份真实隐私政策盲测，误报 0/12）
-> 与 `docs/contract_eval_report.verified.md`（10 份官方合同盲测 + 70 项判定人工复核，误报 0/10）。
+> 与 `docs/contract_eval_report.md`（10 份官方合同盲测 + 70 项判定人工复核，误报 0/10）。
 > 合成金标语料已随本次整理删除（git 历史可恢复；`scripts/gen_golden.py` 可重建）。
 
 - 评估时间：2026-09-11 15:48

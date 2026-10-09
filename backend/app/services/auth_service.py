@@ -45,3 +45,44 @@ def login(db: Session, email: str, password: str) -> tuple[User, str]:
 
 def get_user_by_id(db: Session, user_id: uuid.UUID) -> User | None:
     return db.get(User, user_id)
+
+
+def update_profile(
+    db: Session,
+    user: User,
+    *,
+    display_name: str | None = None,
+    avatar: str | None = None,
+) -> User:
+    """更新显示名/头像（字段均可选；传 None 表示不改该项）。"""
+    if display_name is not None:
+        user.display_name = display_name.strip() or None
+    if avatar is not None:
+        user.avatar = avatar
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
+
+
+def change_password(db: Session, user: User, *, old_password: str, new_password: str) -> None:
+    """已登录改密：校验旧密码 → 写新哈希。"""
+    if not verify_password(old_password, user.password_hash):
+        raise ValidationError("旧密码错误", code="invalid_credentials")
+    user.password_hash = hash_password(new_password)
+    db.add(user)
+    db.commit()
+
+
+def reset_password(db: Session, *, email: str, new_password: str) -> None:
+    """忘记密码：按注册邮箱直接重置（本项目无邮件服务；生产应改为邮件验证码）。
+
+    邮箱不存在时同样返回成功语义之外——这里选择抛错以便前端提示用户检查邮箱，
+    注册/登录页均可引导。
+    """
+    user = db.scalar(select(User).where(User.email == email))
+    if user is None:
+        raise ValidationError("该邮箱未注册", code="email_not_found")
+    user.password_hash = hash_password(new_password)
+    db.add(user)
+    db.commit()
