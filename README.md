@@ -139,25 +139,28 @@ flowchart TB
         API["REST API · SSE 实时推送"]
         WF["六维并行审查 Agent"]
         GATE["证据闸门 · 规则兜底 · Critic / Reflect"]
-        API --> WF --> GATE
+        API --> WF
+        WF --> GATE
     end
     subgraph INFRA["🗄️ 基础设施 Docker Compose"]
-        PG[("PostgreSQL + pgvector<br/>法条向量检索")]
-        RD[("Redis<br/>Celery 队列")]
-        MI[("MinIO<br/>文档存储")]
+        PG[("PostgreSQL + pgvector")]
+        RD[("Redis")]
+        MI[("MinIO")]
     end
     subgraph LLM["🤖 LLM Provider 矩阵"]
-        direction LR
         P1["百炼"]
         P2["ModelScope"]
         P3["智谱"]
         P4["DeepSeek / OpenAI / Anthropic"]
     end
-    UI -- HTTPS --> API
-    WF -- "按维度检索法条" --> PG
-    API <--> RD
-    API <--> MI
-    GATE --> LLM
+    UI --> API
+    API --> RD
+    API --> MI
+    WF -->|"按维度检索法条"| PG
+    GATE --> P1
+    GATE --> P2
+    GATE --> P3
+    GATE --> P4
 ```
 
 ## 🚀 快速开始
