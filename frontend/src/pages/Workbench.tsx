@@ -74,7 +74,7 @@ export default function Workbench({ initialTaskId }: { initialTaskId?: string })
   const handleCreate = async () => {
     setCreateError(null);
     if (files.length === 0) {
-      setCreateError("请先选择至少一个文档（.md / .txt 等）");
+      setCreateError("请先选择至少一个文档（支持 PDF / Word / Markdown / TXT）");
       return;
     }
     setCreating(true);
@@ -113,10 +113,13 @@ export default function Workbench({ initialTaskId }: { initialTaskId?: string })
               ref={fileInputRef}
               type="file"
               multiple
-              accept=".md,.txt,.markdown,.pdf,.docx"
+              accept=".pdf,.docx,.md,.markdown,.txt"
               onChange={(e) => setFiles(Array.from(e.target.files ?? []))}
               className="block w-full text-sm text-ink-600 file:mr-3 file:rounded-md file:border-0 file:bg-secondary file:px-3 file:py-2 file:text-sm file:font-medium file:text-ink-900 hover:file:bg-line-200"
             />
+            <p className="mt-1 text-xs text-ink-600">
+              支持 PDF / Word(.docx) / Markdown(.md) / TXT，单个 ≤20MB、PDF ≤200 页；扫描版 PDF 不支持，请上传文字版
+            </p>
           </div>
           <div>
             <label className="mb-1 block text-xs font-medium text-ink-600">文档类型</label>
