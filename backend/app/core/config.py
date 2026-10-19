@@ -22,8 +22,6 @@ class Settings(BaseSettings):
     # 应用
     app_env: str = "development"
     log_level: str = "INFO"
-    # JWT 签名密钥（生产必须从环境变量设置强随机值）
-    jwt_secret: str = "legaleye-dev-jwt-secret-change-me"
 
     # 数据 / 队列
     database_url: str = (
@@ -37,9 +35,10 @@ class Settings(BaseSettings):
     minio_root_password: str = "legaleye_minio_password"
     minio_bucket: str = "legaleye-docs"
 
-    # 安全（必填，来自 .env）
+    # 安全（来自 .env；缺省用开发弱值，保证无 .env 时测试可跑）
     legaleye_secret_key: str = ""
-    jwt_secret: str = ""
+    # JWT 签名密钥（生产必须从环境变量设置强随机值）
+    jwt_secret: str = "legaleye-dev-jwt-secret-change-me"
     jwt_access_expire_minutes: int = 120
     jwt_refresh_expire_days: int = 7
 

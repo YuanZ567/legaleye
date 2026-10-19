@@ -41,16 +41,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # setup-node 的 pnpm 缓存需要 pnpm 先可用，否则报 "Unable to locate executable file: pnpm"
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-
+      # 顺序不能反：pnpm 11 要求 Node >=22.13，runner 默认 Node 20；
+      # 且 setup-node 的 pnpm 缓存要求 pnpm 已存在，故先 Node 后 pnpm。
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: pnpm
-          cache-dependency-path: frontend/pnpm-lock.yaml
+
+      # package.json 在 frontend/ 子目录，action-setup 读不到根目录 packageManager，
+      # 必须显式指定版本（与 frontend/package.json 的 packageManager 一致）
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: "11.21.0"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
