@@ -18,7 +18,6 @@ import json
 from pathlib import Path
 
 import pytest
-
 from app.agents.dimension_agent import (
     _evidence_in_document,
     _evidence_mentions_dimension,
@@ -57,7 +56,9 @@ def test_real_evidence_baseline_never_gated() -> None:
             kills.append(f"{c['file']}/{c['dimension']}: 锚定失败: {c['evidence'][:60]}")
         elif not _evidence_mentions_dimension(c["evidence"], c["dimension"]):
             kills.append(f"{c['file']}/{c['dimension']}: 维度误杀: {c['evidence'][:60]}")
-    assert not kills, (
+    assert (
+        not kills
+    ), (
         f"{len(kills)}/{len(cases)} 条真实证据被证据闸门误杀（词表或校验逻辑回退）：\n  "
         + "\n  ".join(kills)
     )
@@ -77,8 +78,8 @@ def test_curated_violation_evidence_never_dim_killed() -> None:
     # 历史误杀关键词必须全部在覆盖清单内（新增维度词时在此补充）
     for kw in ("生物识别", "敏感个人信息", "说明", "安全评估", "出境"):
         assert kw in covered, f"精选夹具缺少历史误杀关键词「{kw}」的覆盖样本"
-    assert not kills, (
-        f"{len(kills)}/{len(cases)} 条违规证据措辞被维度校验误杀：\n  " + "\n  ".join(kills)
+    assert not kills, f"{len(kills)}/{len(cases)} 条违规证据措辞被维度校验误杀：\n  " + "\n  ".join(
+        kills
     )
 
 
@@ -87,10 +88,30 @@ def test_curated_violation_evidence_never_dim_killed() -> None:
 # 传入的是编号（d2）→ 兜底**静默失效**、召回仍为 0（全量评估跑完才发现）。
 # 本测试直接以"编号维度"调用，确保归一化生效。
 _GATE_CASES = [
-    ("d1", "d1Collection", "为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。", "第五条"),
-    ("d2", "d2Notice", "我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。", "第十七条"),
-    ("d4", "d4ThirdParty", "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。", "第二十二条"),
-    ("d5", "d5CrossBorder", "为提升服务，我们会将您的个人信息跨境提供给境外的云服务商，您注册即视为同意该传输。", "第三十九条"),
+    (
+        "d1",
+        "d1Collection",
+        "为提供服务，我们会收集您的手机号、身份证号码、账号、位置信息等全部个人信息。",
+        "第五条",
+    ),
+    (
+        "d2",
+        "d2Notice",
+        "我们可能对您的个人信息进行必要处理，处理的具体种类、目的与保存期限不在本政策中说明。",
+        "第十七条",
+    ),
+    (
+        "d4",
+        "d4ThirdParty",
+        "我们会将您的信息共享给合作营销商以开展推广活动，无需另行取得您的同意。",
+        "第二十二条",
+    ),
+    (
+        "d5",
+        "d5CrossBorder",
+        "为提升服务，我们会将您的个人信息跨境提供给境外的云服务商，您注册即视为同意该传输。",
+        "第三十九条",
+    ),
 ]
 
 
@@ -111,9 +132,9 @@ def test_high_risk_rule_triggers_with_numeric_dimension(
             "evidence": {"text": "", "charRange": [0, 0]},
         }
         out = _apply_high_risk_rule(finding, doc, dim_code)  # ← 编号维度
-        assert out["verdict"] == "nonCompliant", (
-            f"{dim_code}/{weak_verdict} 规则兜底未触发（key 归一化失效？）"
-        )
+        assert (
+            out["verdict"] == "nonCompliant"
+        ), f"{dim_code}/{weak_verdict} 规则兜底未触发（key 归一化失效？）"
         assert out["level"] == "high"
         assert out["clauseRef"] == clause
         assert out["evidence"]["text"], "兜底必须注入原文证据句"

@@ -138,7 +138,6 @@ def test_task_token_usage_synced(db: Session, monkeypatch):
     事件 → 前端"已用 token"恒为 0。
     """
     from app.models.review_task import ReviewTask
-    from app.core.sse import publish_token_usage
 
     _seed_config(db)
     tid = uuid.uuid4()
@@ -146,9 +145,7 @@ def test_task_token_usage_synced(db: Session, monkeypatch):
     db.commit()
 
     published: list[dict] = []
-    monkeypatch.setattr(
-        factory, "publish_token_usage", lambda *a, **kw: published.append(kw)
-    )
+    monkeypatch.setattr(factory, "publish_token_usage", lambda *a, **kw: published.append(kw))
 
     def fake_openai(client, model, messages):
         return {"text": "ok", "input_tokens": 100, "output_tokens": 20, "latency_ms": 10}
@@ -188,9 +185,7 @@ def test_task_token_usage_skipped_without_task(db: Session, monkeypatch):
 
     monkeypatch.setattr(factory, "_openai_completion", fake_openai)
     called = []
-    monkeypatch.setattr(
-        factory, "publish_token_usage", lambda *a, **kw: called.append(kw)
-    )
+    monkeypatch.setattr(factory, "publish_token_usage", lambda *a, **kw: called.append(kw))
 
     factory.chat_completion(
         db=db,

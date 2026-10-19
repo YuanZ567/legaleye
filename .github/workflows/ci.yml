@@ -41,15 +41,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # setup-node 的 pnpm 缓存需要 pnpm 先可用，否则报 "Unable to locate executable file: pnpm"
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "22"
           cache: pnpm
           cache-dependency-path: frontend/pnpm-lock.yaml
-
-      - name: Enable pnpm (corepack)
-        run: corepack enable
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

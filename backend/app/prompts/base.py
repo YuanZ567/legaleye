@@ -62,8 +62,8 @@ COMMON_SYSTEM = (
     "（见下方各维度定义）中的每一个要件：\n"
     "1. 对每个要件给出状态：satisfied（原文存在对应合规措施）/ missing（原文缺失或与要求相反）"
     "/ unknown（原文未提及或无法确定）；\n"
-    "2. 在输出 JSON 中携带 requirementCheck 数组，每项为 {\"name\": 要件名, \"status\": "
-    "satisfied|missing|unknown, \"evidence\": 支持该状态的原文摘录或空字符串}；\n"
+    '2. 在输出 JSON 中携带 requirementCheck 数组，每项为 {"name": 要件名, "status": '
+    'satisfied|missing|unknown, "evidence": 支持该状态的原文摘录或空字符串}；\n'
     "3. 判定规则（必须遵守）：\n"
     "   - 要件**全部 satisfied** → 判 **compliant**，即使原文出现『跨境/共享/广告推送/权利』"
     "等敏感词（合规要件齐备即不违规）；\n"

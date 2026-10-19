@@ -88,7 +88,7 @@ def test_upload_unsupported_format_400(client: TestClient):
 
 def test_upload_markdown_text_ok(client: TestClient):
     """Markdown / 纯文本（M10+ 新增）→ 200 并正常解析。"""
-    content = "# 测试隐私政策\n\n我们会收集必要的个人信息。".encode("utf-8")
+    content = "# 测试隐私政策\n\n我们会收集必要的个人信息。".encode()
     for name, mime in [("policy.md", "text/markdown"), ("policy.txt", "text/plain")]:
         resp = client.post(
             "/documents",

@@ -60,7 +60,9 @@ def delete_task(db: Session, task_id: uuid.UUID) -> bool:
     if task.status in ("running", "queued"):
         from app.core.exceptions import ValidationError
 
-        raise ValidationError("任务正在运行中，不可删除；请等待完成或失败后再删除", code="task_running")
+        raise ValidationError(
+            "任务正在运行中，不可删除；请等待完成或失败后再删除", code="task_running"
+        )
     db.delete(task)
     db.commit()
     return True

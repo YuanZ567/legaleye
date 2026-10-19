@@ -41,9 +41,7 @@ class UserOut(APIModel):
 class UpdateProfileIn(APIModel):
     """PATCH /auth/me 请求：更新显示名/头像（均可选，至少一项）。"""
 
-    display_name: str | None = Field(
-        default=None, alias="displayName", min_length=1, max_length=64
-    )
+    display_name: str | None = Field(default=None, alias="displayName", min_length=1, max_length=64)
     avatar: str | None = Field(default=None, min_length=1, max_length=16)
 
 

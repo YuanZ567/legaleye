@@ -41,11 +41,13 @@ def _finding(verdict="nonCompliant", **overrides):
 
 def test_all_requirements_satisfied_downgrades_to_compliant():
     """模型报 nonCompliant 但要件全部 satisfied → 纠为 compliant（触发词误报）。"""
-    f = _finding(requirement_check=[
-        {"name": "单独同意", "status": "satisfied", "evidence": "单独获取您的授权同意"},
-        {"name": "告知接收方", "status": "satisfied", "evidence": ""},
-        {"name": "合法路径", "status": "satisfied", "evidence": "签署数据保护协议"},
-    ])
+    f = _finding(
+        requirement_check=[
+            {"name": "单独同意", "status": "satisfied", "evidence": "单独获取您的授权同意"},
+            {"name": "告知接收方", "status": "satisfied", "evidence": ""},
+            {"name": "合法路径", "status": "satisfied", "evidence": "签署数据保护协议"},
+        ]
+    )
     out = _apply_requirement_check(f)
     assert out["verdict"] == "compliant"
     assert out["needsHumanReview"] is False
@@ -54,10 +56,12 @@ def test_all_requirements_satisfied_downgrades_to_compliant():
 
 def test_missing_requirement_keeps_noncompliant():
     """模型报 nonCompliant 且存在 missing 要件 → 维持，description 注明缺失项。"""
-    f = _finding(requirement_check=[
-        {"name": "单独同意", "status": "missing", "evidence": "未提及"},
-        {"name": "合法路径", "status": "satisfied", "evidence": "标准合同"},
-    ])
+    f = _finding(
+        requirement_check=[
+            {"name": "单独同意", "status": "missing", "evidence": "未提及"},
+            {"name": "合法路径", "status": "satisfied", "evidence": "标准合同"},
+        ]
+    )
     out = _apply_requirement_check(f)
     assert out["verdict"] == "nonCompliant"
     assert "缺失要件：单独同意" in out["description"]
@@ -65,9 +69,11 @@ def test_missing_requirement_keeps_noncompliant():
 
 def test_unknown_requirement_goes_to_review():
     """模型报 nonCompliant 且要件状态含 unknown → 转 unclear + 人工复核。"""
-    f = _finding(requirement_check=[
-        {"name": "单独同意", "status": "unknown", "evidence": ""},
-    ])
+    f = _finding(
+        requirement_check=[
+            {"name": "单独同意", "status": "unknown", "evidence": ""},
+        ]
+    )
     out = _apply_requirement_check(f)
     assert out["verdict"] == "unclear"
     assert out["needsHumanReview"] is True
@@ -82,9 +88,12 @@ def test_no_requirement_check_untouched():
 
 def test_compliant_verdict_not_escalated():
     """模型报 compliant + 要件 missing → 不升级（只降级纠偏，不造漏报）。"""
-    f = _finding(verdict="compliant", requirement_check=[
-        {"name": "单独同意", "status": "missing", "evidence": ""},
-    ])
+    f = _finding(
+        verdict="compliant",
+        requirement_check=[
+            {"name": "单独同意", "status": "missing", "evidence": ""},
+        ],
+    )
     out = _apply_requirement_check(f)
     assert out["verdict"] == "compliant"
 
@@ -144,11 +153,18 @@ def test_extract_requirement_check_boundaries():
     assert _extract_requirement_check({}) is None
     assert _extract_requirement_check({"requirementCheck": "nope"}) is None
     assert _extract_requirement_check({"requirementCheck": []}) is None
-    assert _extract_requirement_check({"requirementCheck": [{"name": "", "status": "satisfied"}]}) is None
-    rc = _extract_requirement_check({"requirementCheck": [
-        {"name": "单独同意", "status": "SATISFIED", "evidence": "x"},
-        {"name": "坏项", "status": "bad"},
-    ]})
+    assert (
+        _extract_requirement_check({"requirementCheck": [{"name": "", "status": "satisfied"}]})
+        is None
+    )
+    rc = _extract_requirement_check(
+        {
+            "requirementCheck": [
+                {"name": "单独同意", "status": "SATISFIED", "evidence": "x"},
+                {"name": "坏项", "status": "bad"},
+            ]
+        }
+    )
     assert rc == [{"name": "单独同意", "status": "satisfied", "evidence": "x"}]
 
 
@@ -173,12 +189,17 @@ def test_node_corrects_false_positive_end_to_end():
     node = build_dimension_node("d5", llm)
 
     async def run():
-        return await node({
-            "task_id": "t",
-            "document_text": "如您使用跨境交易服务，我们会单独获取您的授权同意，并要求接收方按照双方签署的数据保护协议处理您的个人信息。",
-            "retrieval": "[第三十九条] 向境外提供个人信息应当取得单独同意",
-            "graph_summary": "",
-        })
+        return await node(
+            {
+                "task_id": "t",
+                "document_text": (
+                    "如您使用跨境交易服务，我们会单独获取您的授权同意，"
+                    "并要求接收方按照双方签署的数据保护协议处理您的个人信息。"
+                ),
+                "retrieval": "[第三十九条] 向境外提供个人信息应当取得单独同意",
+                "graph_summary": "",
+            }
+        )
 
     finding = asyncio.run(run())["findings"][0]
     assert finding["verdict"] == "compliant"
@@ -226,7 +247,7 @@ def test_compliance_exception_soft_signal_not_overbroad():
 
 
 def test_applicability_gate_crossborder_signal_downgrades_not_applicable():
-    """c08 漏检场景：Stripe DPA 含 Cross-border Data Transfers，d5 判 notApplicable → 转人工复核。"""
+    """c08 漏检场景：Stripe DPA 含 Cross-border 条款，d5 判 notApplicable → 转人工复核。"""
     f = _finding(verdict="notApplicable", dimension="d5CrossBorder", clauseRef="")
     doc = (
         "6. Data transfers. 6.1 Cross-border Data Transfers by User. "
@@ -275,10 +296,7 @@ def test_dpa_documented_instructions_d1_exception():
 def test_dpa_signal_not_overbroad_for_real_privacy_policy():
     """信号不放宽到隐私政策：真实隐私政策报 d1 违规不被豁免（DPA 短语不出现）。"""
     f = _finding(dimension="d1Collection", clauseRef="第五条")
-    doc = (
-        "我们会收集您的全部个人信息并永久保存，用于向第三方出售，"
-        "且不提供任何拒绝方式。"
-    )
+    doc = "我们会收集您的全部个人信息并永久保存，用于向第三方出售，" "且不提供任何拒绝方式。"
     out = _apply_compliance_exception(f, doc)
     assert out["verdict"] == "nonCompliant"
 

@@ -73,9 +73,7 @@ async def update_me(
     """账户管理：更新显示名/头像（至少传一项）。"""
     if payload.display_name is None and payload.avatar is None:
         raise ValidationError("至少提供 displayName 或 avatar", code="nothing_to_update")
-    updated = update_profile(
-        db, user, display_name=payload.display_name, avatar=payload.avatar
-    )
+    updated = update_profile(db, user, display_name=payload.display_name, avatar=payload.avatar)
     return {"data": UserOut.model_validate(updated, from_attributes=True).model_dump(by_alias=True)}
 
 
@@ -86,14 +84,15 @@ async def change_own_password(
     db: Session = Depends(get_db),  # noqa: B008
 ) -> dict:
     """账户管理：已登录改密（需旧密码）。"""
-    change_password(
-        db, user, old_password=payload.old_password, new_password=payload.new_password
-    )
+    change_password(db, user, old_password=payload.old_password, new_password=payload.new_password)
     return {"data": {"ok": True}}
 
 
 @router.post("/reset-password")
-async def reset_own_password(payload: ResetPasswordIn, db: Session = Depends(get_db)) -> dict:  # noqa: B008
+async def reset_own_password(
+    payload: ResetPasswordIn,
+    db: Session = Depends(get_db),  # noqa: B008 (FastAPI 注入)
+) -> dict:
     """忘记密码：按注册邮箱重置（无邮件服务的轻量实现）。"""
     reset_password(db, email=payload.email, new_password=payload.new_password)
     return {"data": {"ok": True}}

@@ -54,22 +54,26 @@ def _read_user_env(name: str) -> str:
     """
     import os
     import sys
+
     if sys.platform != "win32":
         return os.environ.get(name, "")
     try:
         import winreg
+
         with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Environment") as k:
             value, reg_type = winreg.QueryValueEx(k, name)
         if reg_type == 1:  # REG_SZ
             return value
         if reg_type == 2:  # REG_EXPAND_SZ
             import ctypes
+
             buf = ctypes.create_unicode_buffer(2048)
             ctypes.windll.kernel32.ExpandEnvironmentStringsW(value, buf, 2048)
             return buf.value
         return value
     except (FileNotFoundError, OSError):
         return os.environ.get(name, "")
+
 
 # 降级容错（ARCHITECTURE 6.4）：单次调用超时，失败重试 2 次（指数退避）
 # 420s：智谱免费层 4.5-flash 评估长 prompt 实测响应可超 60s（2026-09-02）；

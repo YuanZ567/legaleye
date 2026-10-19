@@ -58,7 +58,7 @@ def _rescue_json(text: str) -> Any:
         obj, _ = json.JSONDecoder().raw_decode(text.lstrip())
         return obj
     except (ValueError, json.JSONDecodeError):
-        raise ValueError(f"无法解析 LLM 输出 JSON: {text[:200]!r}")
+        raise ValueError(f"无法解析 LLM 输出 JSON: {text[:200]!r}") from None
 
 
 def _extract_json(text: str) -> dict:
@@ -100,7 +100,9 @@ def _is_rate_limited(exc: Exception) -> bool:
     return any(k in msg for k in ("429", "1302", "速率限制", "rate limit", "RateLimit"))
 
 
-async def _call_with_retry(llm_func: Callable[..., Awaitable[str]], call_kwargs: dict[str, Any]) -> tuple[str, dict]:
+async def _call_with_retry(
+    llm_func: Callable[..., Awaitable[str]], call_kwargs: dict[str, Any]
+) -> tuple[str, dict]:
     """调用 llm_func 并解析 JSON；失败重试（最多 _DIM_RETRY_MAX 次）。
 
     返回 (原始文本, 解析后 dict)。全部失败抛原始异常（交给外层降级）。
@@ -395,12 +397,33 @@ _DIM_EVIDENCE_KEYWORDS: dict[str, tuple[str, ...]] = {
     #   d1 缺"生物识别"（"处理您的生物识别信息…无需您单独同意" 6 条）
     # 补词后回归零误杀；锚定（第一道）仍要求 ≥8 连字原文匹配，幻觉照拦。
     "d1Collection": (
-        "收集", "采集", "获取", "录入", "填写", "要求提供", "注册时",
-        "生物识别", "人脸", "指纹", "行踪轨迹", "身份证", "敏感个人信息",
+        "收集",
+        "采集",
+        "获取",
+        "录入",
+        "填写",
+        "要求提供",
+        "注册时",
+        "生物识别",
+        "人脸",
+        "指纹",
+        "行踪轨迹",
+        "身份证",
+        "敏感个人信息",
     ),
     "d2Notice": (
-        "告知", "通知", "同意", "授权", "明示", "单独同意", "撤回同意", "知情",
-        "显著方式", "说明", "披露", "声明",
+        "告知",
+        "通知",
+        "同意",
+        "授权",
+        "明示",
+        "单独同意",
+        "撤回同意",
+        "知情",
+        "显著方式",
+        "说明",
+        "披露",
+        "声明",
     ),
     "d3Purpose": ("目的", "用于", "画像", "推荐", "营销", "调研", "超出", "用途", "变相"),
     "d4ThirdParty": ("第三方", "共享", "委托", "转让", "出售", "卖给", "合作伙伴", "供应商"),
@@ -447,7 +470,9 @@ def _fix_crossborder_clause(finding: dict) -> dict:
     if not ev_text.strip():
         ev_text = str(finding.get("description") or "")
     norm = _normalize_text(ev_text)
-    eval_signal = any(k in norm for k in ("安全评估", "申报", "重要数据", "关键信息基础设施", "存储境内"))
+    eval_signal = any(
+        k in norm for k in ("安全评估", "申报", "重要数据", "关键信息基础设施", "存储境内")
+    )
     consent_signal = any(k in norm for k in ("单独同意", "同意", "告知", "视为同意"))
     if eval_signal:
         finding["clauseRef"] = "第四十条"
@@ -464,18 +489,12 @@ def _fix_crossborder_clause(finding: dict) -> dict:
 # "注册即视为同意"违反第十四条（同意须自愿、明确）。模型漏报时由代码强制报出。
 # 注意：仅在模型未判违规时触发，不覆盖模型已有的 nonCompliant 判断。
 _HIGH_RISK_PATTERNS: dict[str, tuple[tuple[str, str], ...]] = {
-    "d1Collection": (
-        (r"等全部个人信息|全部个人信息|所有个人信息", "第五条"),
-    ),
+    "d1Collection": ((r"等全部个人信息|全部个人信息|所有个人信息", "第五条"),),
     "d2Notice": (
         (r"不在本政策中说明|不在本隐私政策中说明|未(?:向您)?说明处理|未告知", "第十七条"),
     ),
-    "d4ThirdParty": (
-        (r"(?:无需|无须|不必)(?:另行)?(?:取得)?(?:您的)?同意", "第二十二条"),
-    ),
-    "d5CrossBorder": (
-        (r"注册即视为同意|视为同意该传输", "第三十九条"),
-    ),
+    "d4ThirdParty": ((r"(?:无需|无须|不必)(?:另行)?(?:取得)?(?:您的)?同意", "第二十二条"),),
+    "d5CrossBorder": ((r"注册即视为同意|视为同意该传输", "第三十九条"),),
 }
 
 
@@ -487,43 +506,100 @@ _HIGH_RISK_PATTERNS: dict[str, tuple[tuple[str, str], ...]] = {
 # 定位：要件核查（第一道）依赖 LLM 填写质量，此为**代码层第二道保险**。
 _COMPLIANCE_SIGNALS: dict[str, tuple[str, ...]] = {
     "d1Collection": (
-        "明示同意", "单独同意", "授权同意", "征得同意",
+        "明示同意",
+        "单独同意",
+        "授权同意",
+        "征得同意",
         # M11（2026-09-19）：软性合规表述——支付宝 r07 误报根因（精确短语，避免过度豁免）
-        "如您不提供", "不影响您使用", "可拒绝提供",
+        "如您不提供",
+        "不影响您使用",
+        "可拒绝提供",
         # M13（2026-09-21）：DPA 专有特征——微软 c06 d1 误报根因。
         # DPA 的性质是"收集范围由控制者（客户）决定、数据类别见附录"，不是隐私政策，
         # 不应以"未明示收集范围"判违规。只用 DPA/SCC 最专有短语（恶意合同/隐私政策
         # 不会使用），避免过度豁免；⚠ 匹配走 _normalize_text（去空格），用归一化形态：
-        "documentedinstructions", "categoriesofpersonaldata",
+        "documentedinstructions",
+        "categoriesofpersonaldata",
     ),
     "d2Notice": (
-        "显著方式", "显著位置", "撤回同意", "明示同意", "单独同意", "弹窗",
-        "本隐私政策", "隐私政策", "告知您", "向您告知", "明确告知",
+        "显著方式",
+        "显著位置",
+        "撤回同意",
+        "明示同意",
+        "单独同意",
+        "弹窗",
+        "本隐私政策",
+        "隐私政策",
+        "告知您",
+        "向您告知",
+        "明确告知",
     ),
     "d3Purpose": (
-        "退订", "关闭", "拒绝", "推荐管理", "不针对其个人特征", "选择权",
-        "处理目的", "仅用于",
+        "退订",
+        "关闭",
+        "拒绝",
+        "推荐管理",
+        "不针对其个人特征",
+        "选择权",
+        "处理目的",
+        "仅用于",
     ),
     "d4ThirdParty": (
-        "单独同意", "授权同意", "事先获得", "明示同意", "数据保护协议", "同等保护", "除外",
+        "单独同意",
+        "授权同意",
+        "事先获得",
+        "明示同意",
+        "数据保护协议",
+        "同等保护",
+        "除外",
         # M11：软性合规——"为提供服务所必需/基于法定义务/信息授权服务"
-        "为向您提供服务所必需", "基于法定义务", "信息授权", "基于您的同意", "经您同意",
+        "为向您提供服务所必需",
+        "基于法定义务",
+        "信息授权",
+        "基于您的同意",
+        "经您同意",
     ),
     "d5CrossBorder": (
-        "单独同意", "授权同意", "数据保护协议", "安全评估", "标准合同", "认证", "跨境传输协议",
-        "取得您的授权", "境外接收方", "个人信息保护影响评估",
+        "单独同意",
+        "授权同意",
+        "数据保护协议",
+        "安全评估",
+        "标准合同",
+        "认证",
+        "跨境传输协议",
+        "取得您的授权",
+        "境外接收方",
+        "个人信息保护影响评估",
     ),
     "d6DataRights": (
-        "删除", "更正", "注销", "撤回同意", "查阅", "复制", "投诉", "15天", "15日内", "渠道", "途径",
-        "您有权", "您可以",
+        "删除",
+        "更正",
+        "注销",
+        "撤回同意",
+        "查阅",
+        "复制",
+        "投诉",
+        "15天",
+        "15日内",
+        "渠道",
+        "途径",
+        "您有权",
+        "您可以",
     ),
 }
 
 _GLOBAL_COMPLIANCE_SIGNALS = (
-    "单独同意", "授权同意", "数据保护协议", "安全评估", "标准合同",
+    "单独同意",
+    "授权同意",
+    "数据保护协议",
+    "安全评估",
+    "标准合同",
     # M11：软性合规全局信号（支付宝 d1/d4 误报根因，精确短语）
-    "为向您提供服务所必需", "基于法定义务", "信息授权",
-    "如您不提供", "不影响您使用",
+    "为向您提供服务所必需",
+    "基于法定义务",
+    "信息授权",
+    "如您不提供",
+    "不影响您使用",
 )
 
 # M12 适用性预筛信号（2026-09-20）：模型判 notApplicable 时，若文档命中本维度
@@ -534,29 +610,56 @@ _GLOBAL_COMPLIANCE_SIGNALS = (
 #   故信号词必须写成"归一化形态"（小写、无空格、无连字符）——"cross-border"→"crossborder"。
 _APPLICABILITY_SIGNALS: dict[str, tuple[str, ...]] = {
     "d1Collection": (
-        "categoriesofpersonaldata", "personaldataprocessed",
-        "收集", "处理个人信息",
+        "categoriesofpersonaldata",
+        "personaldataprocessed",
+        "收集",
+        "处理个人信息",
     ),
     "d3Purpose": (
-        "purposeoftheprocessing", "processingpurposes", "purposesoftheprocessing",
-        "处理目的", "仅用于", "为提供",
+        "purposeoftheprocessing",
+        "processingpurposes",
+        "purposesoftheprocessing",
+        "处理目的",
+        "仅用于",
+        "为提供",
     ),
     "d4ThirdParty": (
-        "subprocessor", "thirdpartyprocessor", "delegate",
-        "子处理者", "委托处理", "第三方",
+        "subprocessor",
+        "thirdpartyprocessor",
+        "delegate",
+        "子处理者",
+        "委托处理",
+        "第三方",
     ),
     "d5CrossBorder": (
-        "crossborder", "internationaldatatransfer",
-        "datatransfermechanism", "standardcontractualclauses",
-        "bindingcorporaterules", "adequacydecision",
-        "dataexporter", "dataimporter", "restrictedtransfer",
-        "跨境", "出境", "标准合同", "安全评估", "境外接收方",
+        "crossborder",
+        "internationaldatatransfer",
+        "datatransfermechanism",
+        "standardcontractualclauses",
+        "bindingcorporaterules",
+        "adequacydecision",
+        "dataexporter",
+        "dataimporter",
+        "restrictedtransfer",
+        "跨境",
+        "出境",
+        "标准合同",
+        "安全评估",
+        "境外接收方",
     ),
     "d6DataRights": (
-        "datasubjectrights", "datasubjectrequest", "righttoerasure",
-        "righttoaccess", "righttocorrection", "accessrequest",
-        "datasubjects", "数据主体权利",
-        "删除权", "查阅权", "更正", "撤回同意",
+        "datasubjectrights",
+        "datasubjectrequest",
+        "righttoerasure",
+        "righttoaccess",
+        "righttocorrection",
+        "accessrequest",
+        "datasubjects",
+        "数据主体权利",
+        "删除权",
+        "查阅权",
+        "更正",
+        "撤回同意",
     ),
 }
 
@@ -622,8 +725,7 @@ def _apply_compliance_exception(finding: dict, doc_text: str) -> dict:
         finding["needsHumanReview"] = True
         finding["description"] = (
             "【合规信号豁免】文档原文存在合规要素（同意/DPA/安全评估/退订/权利路径等），"
-            "原判定 nonCompliant 降级待人工复核："
-            + str(finding.get("description") or "")
+            "原判定 nonCompliant 降级待人工复核：" + str(finding.get("description") or "")
         ).strip()
     return finding
 
@@ -670,16 +772,12 @@ def _apply_high_risk_rule(finding: dict, doc_text: str, dimension: str) -> dict:
         finding["clauseRef"] = clause
         finding["needsHumanReview"] = False
         finding["confidence"] = 0.8
-        finding["statuteVersion"] = (
-            finding.get("statuteVersion") or "个人信息保护法(2021-11-01)"
-        )
+        finding["statuteVersion"] = finding.get("statuteVersion") or "个人信息保护法(2021-11-01)"
         finding["description"] = (
             f"【确定性规则兜底】文档存在明确违规表述「{m.group(0)}」（{clause}），"
             "模型未识别，由规则强制判定为不合规。"
         )
-        finding["remediation"] = (
-            finding.get("remediation") or "整改该违规表述并依法取得授权"
-        )
+        finding["remediation"] = finding.get("remediation") or "整改该违规表述并依法取得授权"
         finding["evidence"] = {"text": evidence, "charRange": [0, 0]}
         return finding
     return finding
@@ -717,7 +815,9 @@ def _apply_evidence_anchor(finding: dict, doc_text: str) -> dict:
     else:
         return finding
     finding["clauseRef"] = ""
-    finding["needsHumanReview"] = False  # 确定性"不适用"，无需人工；原模型输出已保留在 description 供审计
+    finding["needsHumanReview"] = (
+        False  # 确定性"不适用"，无需人工；原模型输出已保留在 description 供审计
+    )
     original_desc = str(finding.get("description") or "").strip() or ev_text
     finding["description"] = (
         "【证据无法在文档原文中找到，或与维度不符，原判定 nonCompliant 不成立，降级为不适用】"
@@ -794,20 +894,14 @@ def build_dimension_node(
             finding = _apply_evidence_anchor(finding, state.get("document_text", ""))
             # M12 适用性预筛（2026-09-20）：notApplicable 但文档含维度强信号 → 转人工复核
             # 防"该查没查"漏检（英文 DPA/SCC 跨境条款被误判 notApplicable）
-            finding = _apply_applicability_gate(
-                finding, state.get("document_text", ""), dimension
-            )
+            finding = _apply_applicability_gate(finding, state.get("document_text", ""), dimension)
             # M10.2 要件核查纠偏（第一道防线，2026-09-15）：要件全满足 → 纠为 compliant
             finding = _apply_requirement_check(finding)
             # M10.2 合规信号豁免门（第二道防线，2026-09-15）：强合规信号 → 转人工复核
-            finding = _apply_compliance_exception(
-                finding, state.get("document_text", "")
-            )
+            finding = _apply_compliance_exception(finding, state.get("document_text", ""))
             # 高危规则兜底（2026-09-10 / M10.2 改线索）：模型漏报的"法律上明确违规"表述
             # 强制报出；文档含合规信号时不触发（避免模板句规则误伤真实文本）
-            finding = _apply_high_risk_rule(
-                finding, state.get("document_text", ""), dimension
-            )
+            finding = _apply_high_risk_rule(finding, state.get("document_text", ""), dimension)
             # M10 d5 条款确定性映射（2026-09-05）：安全评估→40条 / 单独同意→39条
             finding = _fix_crossborder_clause(finding)
             # M10 d2 告知条款确定性映射（2026-09-11）：未告知 → 第十七条
