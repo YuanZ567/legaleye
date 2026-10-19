@@ -58,9 +58,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
       - name: Lint (eslint)
         run: pnpm lint
 
